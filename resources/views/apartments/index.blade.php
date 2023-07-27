@@ -9,57 +9,60 @@
     <table class="table table-report -mt-2">
     <thead>
     <tr class="intro-x searchs">
-        <td class="text-center">
-            <div><input onchange="handle(this)" id="regular-form-1" name="number" type="text" class="form-control"
+        <td class="text-center w-20" style="padding: 10px!important">
+            <div><input onkeyup="handle(this)" id="regular-form-1" name="number" type="text" class="form-control"
                         placeholder="№"></div>
         </td>
-        <td class="text-center">
-            <div><input onchange="handle(this)" id="regular-form-1" name="rooms" type="number" class="form-control"
+        <td class="text-center" style="padding: 10px!important">
+            <div><input onkeyup="handle(this)" id="regular-form-1" name="rooms" type="number" class="form-control"
                         placeholder="Rooms"></div>
         </td>
-        <td class="text-center">
-            <div><input onchange="handle(this)" id="regular-form-1" name="floor" type="number" class="form-control"
+        <td class="text-center" style="padding: 10px!important">
+            <div><input onkeyup="handle(this)" id="regular-form-1" name="floor" type="number" class="form-control"
                         placeholder="Floor"></div>
         </td>
-        <td class="text-center">
-            <div><input onchange="handle(this)" id="regular-form-1" name="square" step="0.01" type="number"
+        <td class="text-center" style="padding: 10px!important">
+            <div><input onkeyup="handle(this)" id="regular-form-1" name="square" step="0.01" type="number"
                         class="form-control" placeholder="SQ"></div>
         </td>
-        <td class="text-center">
-            <div><input onchange="handle(this)" id="regular-form-1" name="terace" step="0.01" type="number"
+        <td class="text-center" style="padding: 10px!important">
+            <div><input onkeyup="handle(this)" id="regular-form-1" name="terace" step="0.01" type="number"
                         class="form-control" placeholder="Terace"></div>
         </td>
-        <td class="text-center">
-            <div><input onchange="handle(this)" id="regular-form-1" name="price" step="0.01" type="number"
+        <td class="text-center" style="padding: 10px!important">
+            <div><input onkeyup="handle(this)" id="regular-form-1" name="price" step="0.01" type="number"
                         class="form-control" placeholder="Price/M²"></div>
         </td>
-        <td class="text-center">
-            <div><input onchange="handle(this)" id="regular-form-1" name="total" step="0.01" type="number"
+        <td class="text-center" style="padding: 10px!important">
+            <div><input onkeyup="handle(this)" id="regular-form-1" name="total" step="0.01" type="number"
                         class="form-control" placeholder="Total"></div>
         </td>
-        <td class="text-center">
-            <div><input onchange="handle(this)" id="regular-form-1" name="status" type="number" class="form-control"
+        <td class="text-center" style="padding: 10px!important">
+            <div><input onkeyup="handle(this)" id="regular-form-1" name="status" type="number" class="form-control"
                         placeholder="Status"></div>
         </td>
-        <td class="table-report__action text-center w-56">
-
+        <td class="table-report__action text-center">
             <button class="btn btn-primary">Search</button>
         </td>
     </tr>
-    <tr>
-            <th class="text-center whitespace-nowrap  w-20">№</th>
-            <th class="text-center whitespace-nowrap  w-32">Rooms</th>
-            <th class="text-center whitespace-nowrap  w-40">Floor</th>
-            <th class="text-center whitespace-nowrap  w-40">SQ</th>
-            <th class="text-center whitespace-nowrap  w-40">Terace</th>
-            <th class="text-center whitespace-nowrap  w-40">Price/M²</th>
-            <th class="text-center whitespace-nowrap  w-56">Total</th>
-            <th class="text-center whitespace-nowrap  w-20">Status</th>
-            <th class="text-center whitespace-nowrap  w-56">ACTIONS</th>
-        </tr>
         </thead>
         <tbody>
         </tbody>
+    </table>
+    <table class="table table-report -mt-2">
+    <thead>
+    <tr>
+        <th class="text-center whitespace-nowrap  w-20">№</th>
+        <th class="text-center whitespace-nowrap  w-32">Rooms</th>
+        <th class="text-center whitespace-nowrap  w-40">Floor</th>
+        <th class="text-center whitespace-nowrap  w-40">SQ</th>
+        <th class="text-center whitespace-nowrap  w-40">Terace</th>
+        <th class="text-center whitespace-nowrap  w-40">Price/M²</th>
+        <th class="text-center whitespace-nowrap  w-56">Total</th>
+        <th class="text-center whitespace-nowrap  w-20">Status</th>
+        <th class="text-center whitespace-nowrap  w-56">ACTIONS</th>
+    </tr>
+    </thead>
     </table>
     <div id="accordtable">
         @include('apartments.table')

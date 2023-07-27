@@ -53,7 +53,7 @@
                            placeholder="ID/AN XXXXXX"
                            aria-label="default input inline 1">
                     <label for="pin" class="form-label my-auto mx-auto">ИНН</label>
-                    <input id="pin" name="pin" type="text"
+                    <input id="pin" name="pin" type="number"
                            class="form-control col-span-5"
                            placeholder="XXXXXXXXXXXXXX"
                            aria-label="default input inline 2">

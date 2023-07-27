@@ -17,13 +17,27 @@ class ClientController extends Controller
     }
 
     public function store(Request $request) {
-        dd($request->all());
-        return redirect()->route('clients.index');
+        $data = $request->all();
+        $data['birth'] = date("Y-m-d", strtotime($data['birth']));
+        $data['givendate'] = date("Y-m-d", strtotime($data['givendate']));
+        Client::create($data);
+        return redirect()->route('clients');
     }
 
     public function search(Request $request) {
         $data = $request->all()['data'];
         $clients = Client::where($data)->get();
         return view('contracts.apartments.client-tooltip', compact('clients'));
+    }
+
+    public function show($id) {
+        $client = Client::find($id);
+        return view('clients.show', compact('client'));
+    }
+
+    public function destroy($id)
+    {
+        Client::destroy($id);
+        return redirect()->route('clients');
     }
 }

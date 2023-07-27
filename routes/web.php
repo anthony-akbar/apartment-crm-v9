@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApartmentsController;
 use App\Http\Controllers\AptContractController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DairyController;
 use App\Http\Controllers\ParkingController;
@@ -28,10 +29,12 @@ Route::group(['prefix'=>'parkings'], function () {
 
 // CLIENTS
 Route::group(['prefix'=>'clients'], function (){
-    Route::get('/', [\App\Http\Controllers\ClientController::class, 'index'])->name('clients');
-    Route::get('/create', [\App\Http\Controllers\ClientController::class, 'create'])->name('clients.create');
-    Route::post('/store', [\App\Http\Controllers\ClientController::class, 'store'])->name('clients.store');
-    Route::get('/search', [\App\Http\Controllers\ClientController::class, 'search'])->name('clients.search');
+    Route::get('/', [ClientController::class, 'index'])->name('clients');
+    Route::get('/create', [ClientController::class, 'create'])->name('clients.create');
+    Route::post('/store', [ClientController::class, 'store'])->name('clients.store');
+    Route::get('/search', [ClientController::class, 'search'])->name('clients.search');
+    Route::get('/{id}', [ClientController::class, 'show'])->name('clients.show');
+    Route::delete('/delete/{id}', [ClientController::class, 'destroy'])->name('clients.delete');
 });
 
 // DAIRY
