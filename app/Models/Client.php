@@ -24,4 +24,8 @@ class Client extends Model
         'pin',
         'email',
     ];
+
+    public function contracts() {
+        return $this->hasMany(AptContract::class, 'client_id', 'id');
+    }
 }

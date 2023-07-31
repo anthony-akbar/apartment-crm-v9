@@ -26,8 +26,8 @@ class ClientController extends Controller
 
     public function search(Request $request) {
         $data = $request->all()['data'];
-        $clients = Client::where($data)->get();
-        return view('contracts.apartments.client-tooltip', compact('clients'));
+        $client = Client::find((int)$data);
+        return $client->toArray();
     }
 
     public function show($id) {

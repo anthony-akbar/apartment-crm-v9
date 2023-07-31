@@ -17,7 +17,9 @@ class CreateSchedulesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('apartment_id');
-
+            $table->string('status');
+            $table->date('date_to_pay')->nullable();
+            $table->date('date_of_payment')->nullable();
             $table->timestamps();
         });
     }

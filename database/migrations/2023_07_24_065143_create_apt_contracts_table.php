@@ -15,7 +15,18 @@ class CreateAptContractsTable extends Migration
     {
         Schema::create('apt_contracts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('apt_id');
+            $table->unsignedBigInteger('client_id');
+            $table->unsignedBigInteger('price');
+            $table->unsignedBigInteger('amount');
+            $table->unsignedBigInteger('paid');
+            $table->unsignedBigInteger('debt');
+            $table->unsignedBigInteger('days_missed');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('client_id', 'apt_client_idx');
+            $table->foreign('client_id', 'apt_client_fk')->on('clients')->references('id');
         });
     }
 

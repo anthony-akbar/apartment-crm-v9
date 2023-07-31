@@ -12,12 +12,12 @@
         </thead>
         <tbody>
 
-        @foreach($clients as $key => $client)
+        @foreach($aptContracts as $key => $contract)
             <tr class="intro-x">
-                <td class="w-40 !py-4"><a class="whitespace-nowrap">{{ $client->id }}</a></td>
+                <td class="w-40 !py-4"><a class="whitespace-nowrap">{{ $contract->id }}</a></td>
                 <td class="w-40">
-                    <a href="{{ route('clients.show', $client->id) }}" class="underline decoration-dotted font-medium whitespace-nowrap">{{ $client->firstname }} {{ $client->name }} {{ $client->fathersname ?? '' }}</a>
-                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $client->passportId }}</div>
+                    <a href="{{ route('clients.show', $contract->id) }}" class="underline decoration-dotted font-medium whitespace-nowrap">{{ $contract->client->firstname }} {{ $contract->client->name }} {{ $contract->client->fathersname ?? '' }}</a>
+                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $contract->client->passportId }}</div>
                 </td>
                 <td class="text-center">
                     <div class="flex items-center justify-center whitespace-nowrap text-success">
@@ -28,12 +28,12 @@
                             <polyline points="9 11 12 14 22 4"></polyline>
                             <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
                         </svg>
-                        {{ $client->status }}
+                        {{ $contract->status }}
                     </div>
                 </td>
                 <td>
-                    <div class="whitespace-nowrap">{{ $client->address }}</div>
-                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $client->phone }}</div>
+                    <div class="whitespace-nowrap">{{ $contract }}</div>
+                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $contract }}</div>
                 </td>
                 <td class="table-report__action">
                     <div class="flex justify-center items-center">
@@ -47,7 +47,7 @@
                             </svg>
                             Детали </a>
                         <a class="flex items-center text-primary whitespace-nowrap" href="javascript:;"
-                           data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal-{{ $client->id }}">
+                           data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal-{{ $contract->id }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" icon-name="arrow-left-right" data-lucide="arrow-left-right"
@@ -62,7 +62,7 @@
                 </td>
             </tr>
             <!-- BEGIN: Delete Confirmation Modal -->
-            <div id="delete-confirmation-modal-{{ $client->id }}" class="modal" tabindex="-1" aria-hidden="true" style="">
+            <div id="delete-confirmation-modal-{{ $contract->id }}" class="modal" tabindex="-1" aria-hidden="true" style="">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body p-0">
@@ -76,7 +76,7 @@
                                 </div>
                             </div>
                             <div class="px-5 pb-8 text-center">
-                                <form method="post" action="{{ route('clients.delete', $client->id) }}">
+                                <form method="post" action="{{ route('clients.delete', $contract->id) }}">
                                     @method('delete')
                                     @csrf
                                     <a type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
@@ -99,7 +99,7 @@
 
     <div class="grid grid-cols-2">
         <div class="mt-10 grid-cols-1 text-center">
-            {{$clients->links()}}
+            {{--{{$aptContracts->links()}}--}}
         </div>
     </div>
 

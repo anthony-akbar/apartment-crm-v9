@@ -29,6 +29,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pin');
             $table->string('email')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

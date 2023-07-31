@@ -35,7 +35,7 @@
     </svg>
     Цена:
     <div class="my-auto ml-auto pr-10 text-right">
-        <input id="aptprice" onkeyup="count()" value="{{ $apt->price ?? '' }}" type="number" class="form-control" placeholder="Цена">
+        <input name="price" id="aptprice" onkeyup="count()" value="{{ $apt->price ?? '' }}" type="number" class="form-control" placeholder="Цена">
     </div>
 </div>
 <div class="flex items-center mt-3">
@@ -48,6 +48,6 @@
     </svg>
     Стоимость:
     <div class="my-auto ml-auto pr-10 text-right">
-        <input id="apttotal" value="{{ $apt->total ?? ''}}" type="number" class="form-control" placeholder="Стоимость">
+        <input name="amount" id="apttotal" value="{{ $apt->total ?? ''}}" type="number" class="form-control" placeholder="Стоимость">
     </div>
 </div>
