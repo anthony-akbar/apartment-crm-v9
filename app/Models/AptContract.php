@@ -24,4 +24,8 @@ class AptContract extends Model
     public function client() {
         return $this->belongsTo(Client::class, 'client_id', 'id');
     }
+
+    public function apartment() {
+        return $this->belongsTo(Appartment::class, 'apt_id', 'id');
+    }
 }

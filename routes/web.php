@@ -7,7 +7,10 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DairyController;
 use App\Http\Controllers\ParkingController;
 use App\Models\Client;
+use http\Client\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -51,6 +54,7 @@ Route::group(['prefix' => 'contracts'], function () {
     // APARTMENTS
     Route::group(['prefix' => 'apartments'], function () {
         Route::get('/', [AptContractController::class, 'index'])->name('contracts.apartments');
+        Route::get('/download/{id}', [AptContractController::class, 'download'])->name('contracts.apartments.download');
         Route::get('/create', [AptContractController::class, 'create'])->name('contracts.apartments.create');
         Route::get('/search', [AptContractController::class, 'search'])->name('contracts.apartments.search');
         Route::get('/store', [AptContractController::class, 'store'])->name('contracts.apartments.store');
@@ -63,27 +67,59 @@ Route::group(['prefix' => 'contracts'], function () {
 
 Route::group(['prefix' => 'test'], function () {
     Route::get('/', function () {
+
+        setlocale(LC_ALL, 'ru_RU', 'ru_RU.UTF-8', 'ru', 'russian');
+        dd(date('d.M.Y H:i'));
+
+        $num = 324252353;
+        $numstr = \nikserg\Num2Str\Num2Str::convert($num);
+        $array = explode( " ",$numstr);
+        $numstr = '';
+        for ($i=0; $i<count($array)-3; $i++) {
+            $numstr .= $array[$i] . ' ';
+        };
+        dd($numstr);
+
         $client = Client::find(5);
         foreach ($client->contracts() as $contract) {
             dump($contract->toArray());
         }
-        dd('Finish');
 
         // Load the template .docx file
         $templateFilePath = 'sample.docx';
         $templateProcessor = new TemplateProcessor($templateFilePath);
 
 // Edit certain data in the template
-        $firstname = 'Фамилия';
-        $name = 'Имя';
-        $fathersname = 'Отчество';
 
-        $templateProcessor->setValue('cridentals', $firstname . ' ' . $name . ' ' . $fathersname);
+        $client = Client::find(5);
+        $apt = \App\Models\Appartment::find(25);
+
+        $templateProcessor->setValue('firstname', $client->firstname . ' ');
+        $templateProcessor->setValue('name', $client->name . ' ');
+        $templateProcessor->setValue('fathersname', $client->fathersname);
+        $templateProcessor->setValue('phone', $client->phone);
+        $templateProcessor->setValue('given', $client->given);
+        $templateProcessor->setValue('givendate', $client->givendate);
+        $templateProcessor->setValue('birth', $client->birth);
+        $templateProcessor->setValue('passportId', $client->passportId);
+        $templateProcessor->setValue('address', $client->address);
+        $templateProcessor->setValue('pin', $client->pin);
+
+        $templateProcessor->setValue('number', $apt->number);
+        $templateProcessor->setValue('sq', $apt->square);
+        $templateProcessor->setValue('floor', $apt->floor);
+        $templateProcessor->setValue('price', $apt->price);
+        $templateProcessor->setValue('pricestr', str_replace(" рубля 00 копеек", "", \nikserg\Num2Str\Num2Str::convert($apt->price)));
+        $templateProcessor->setValue('amountstr', str_replace(" рубля 00 копеек", "", \nikserg\Num2Str\Num2Str::convert($apt->total)));
+        $templateProcessor->setValue('amount', $apt->total);
+        $templateProcessor->setValue('rooms', $apt->rooms);
 
 // Save to a new file with a specific name
-        $newFilePath = 'new_file.docx';
-        $templateProcessor->saveAs($newFilePath);
-
+        $newFilePath = $apt->id . '.docx';
+        $templateProcessor->saveAs( 'storage/contracts/' . $apt->id . '.docx', $newFilePath);
+        //$templateProcessor->saveAs(storage_path('contracts/' . $newFilePath));
+        //dd(request()->root() . 'storage/contracts/' . $newFilePath);
+        return redirect()->away(request()->root() . '/storage/contracts/' . $newFilePath);
 
         /*return view('test');
         $clients = \App\Models\Client::all();
@@ -95,11 +131,11 @@ Route::group(['prefix' => 'test'], function () {
     });
 
 });
-Route::group(['prefix' => '{block}'], function () {
+/*Route::group(['prefix' => '{block}'], function () {
     Route::group(['prefix' => '{kv}'], function () {
         Route::get('/', function ($block, $kv) {
             dump($block);
             dd($kv);
         });
     });
-});
+});*/

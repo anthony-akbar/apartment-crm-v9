@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f5f3e3035ee02efc4742832c447992ed",
+    "content-hash": "10fd361c39816554f497cc52d2dc6fc0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2363,6 +2363,43 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.16.0"
             },
             "time": "2023-06-25T14:52:30+00:00"
+        },
+        {
+            "name": "nikserg/num2str",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikserg/num2str.git",
+                "reference": "09e50c6f98ff72ddd972aa76c86d153d65da05dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikserg/num2str/zipball/09e50c6f98ff72ddd972aa76c86d153d65da05dc",
+                "reference": "09e50c6f98ff72ddd972aa76c86d153d65da05dc",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "nikserg\\Num2Str\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "runcore",
+                    "homepage": "https://habr.com/ru/post/53210/"
+                }
+            ],
+            "description": "Сумма прописью",
+            "keywords": [
+                "string"
+            ],
+            "support": {
+                "issues": "https://github.com/nikserg/num2str/issues",
+                "source": "https://github.com/nikserg/num2str/tree/master"
+            },
+            "time": "2019-07-11T14:30:24+00:00"
         },
         {
             "name": "nunomaduro/termwind",

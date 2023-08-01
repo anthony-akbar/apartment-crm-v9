@@ -10,4 +10,6 @@ class Appartment extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+
 }

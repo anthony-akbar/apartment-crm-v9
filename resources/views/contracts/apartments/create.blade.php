@@ -207,7 +207,7 @@
                 },
                 type: 'GET',
                 success: function (data) {
-                    $('#apt-details').html(data);
+                    document.getElementById('apt-details').innerHTML = data
                 }
             })
         })

@@ -6,7 +6,7 @@
             <th class="whitespace-nowrap">№</th>
             <th class="whitespace-nowrap">Ф.И.О.</th>
             <th class="text-center whitespace-nowrap">Статус</th>
-            <th class="whitespace-nowrap">Контакты</th>
+            <th class="whitespace-nowrap">Квартира</th>
             <th class="text-center whitespace-nowrap">Действия</th>
         </tr>
         </thead>
@@ -32,12 +32,12 @@
                     </div>
                 </td>
                 <td>
-                    <div class="whitespace-nowrap">{{ $contract }}</div>
-                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $contract }}</div>
+                    <div class="whitespace-nowrap">№{{ $contract->apartment->id }}</div>
+                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $contract->apartment->square }} м²</div>
                 </td>
                 <td class="table-report__action">
                     <div class="flex justify-center items-center">
-                        <a class="flex items-center text-primary whitespace-nowrap mr-5" href="javascript:;">
+                        <a class="flex items-center text-primary whitespace-nowrap mr-5" href="{{ route('contracts.apartments.download', $contract->id)}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" icon-name="check-square" data-lucide="check-square"
