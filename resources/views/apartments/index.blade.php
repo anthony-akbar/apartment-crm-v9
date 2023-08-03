@@ -15,31 +15,31 @@
         </td>
         <td class="text-center" style="padding: 10px!important">
             <div><input onkeyup="handle(this)" id="regular-form-1" name="rooms" type="number" class="form-control"
-                        placeholder="Rooms"></div>
+                        placeholder="Комнаты"></div>
         </td>
         <td class="text-center" style="padding: 10px!important">
             <div><input onkeyup="handle(this)" id="regular-form-1" name="floor" type="number" class="form-control"
-                        placeholder="Floor"></div>
+                        placeholder="Этаж"></div>
         </td>
         <td class="text-center" style="padding: 10px!important">
             <div><input onkeyup="handle(this)" id="regular-form-1" name="square" step="0.01" type="number"
-                        class="form-control" placeholder="SQ"></div>
+                        class="form-control" placeholder="Площадь"></div>
         </td>
         <td class="text-center" style="padding: 10px!important">
             <div><input onkeyup="handle(this)" id="regular-form-1" name="terace" step="0.01" type="number"
-                        class="form-control" placeholder="Terace"></div>
+                        class="form-control" placeholder="Блок"></div>
         </td>
         <td class="text-center" style="padding: 10px!important">
             <div><input onkeyup="handle(this)" id="regular-form-1" name="price" step="0.01" type="number"
-                        class="form-control" placeholder="Price/M²"></div>
+                        class="form-control" placeholder="Цена/M²"></div>
         </td>
         <td class="text-center" style="padding: 10px!important">
             <div><input onkeyup="handle(this)" id="regular-form-1" name="total" step="0.01" type="number"
-                        class="form-control" placeholder="Total"></div>
+                        class="form-control" placeholder="Стоимость"></div>
         </td>
         <td class="text-center" style="padding: 10px!important">
-            <div><input onkeyup="handle(this)" id="regular-form-1" name="status" type="number" class="form-control"
-                        placeholder="Status"></div>
+            <div><input onkeyup="handle(this)" id="regular-form-1" name="status" type="text" class="form-control"
+                        placeholder="Статус"></div>
         </td>
         <td class="table-report__action text-center">
             <button class="btn btn-primary">Search</button>
@@ -53,14 +53,13 @@
     <thead>
     <tr>
         <th class="text-center whitespace-nowrap  w-20">№</th>
-        <th class="text-center whitespace-nowrap  w-32">Rooms</th>
-        <th class="text-center whitespace-nowrap  w-40">Floor</th>
-        <th class="text-center whitespace-nowrap  w-40">SQ</th>
-        <th class="text-center whitespace-nowrap  w-40">Terace</th>
-        <th class="text-center whitespace-nowrap  w-40">Price/M²</th>
-        <th class="text-center whitespace-nowrap  w-56">Total</th>
-        <th class="text-center whitespace-nowrap  w-20">Status</th>
-        <th class="text-center whitespace-nowrap  w-56">ACTIONS</th>
+        <th class="text-center whitespace-nowrap  w-32">Комнаты</th>
+        <th class="text-center whitespace-nowrap  w-40">Этаж</th>
+        <th class="text-center whitespace-nowrap  w-40">Площадь</th>
+        <th class="text-center whitespace-nowrap  w-40">Блок</th>
+        <th class="text-center whitespace-nowrap  w-40">Цена/M²</th>
+        <th class="text-center whitespace-nowrap  w-56">Стоимость</th>
+        <th class="text-center whitespace-nowrap  w-20">Статус</th>
     </tr>
     </thead>
     </table>
@@ -93,6 +92,13 @@
                     table.innerHTML = data
                 }
             })
+        }
+
+        function redirect() {
+            console.log(123)
+            if($('#status-selector').val() === '3') {
+                $(location).attr('href',{{ route('contracts.apartments.create') }})
+            }
         }
 
     </script>

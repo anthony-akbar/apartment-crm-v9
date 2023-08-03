@@ -16,12 +16,14 @@ return new class extends Migration
         Schema::create('appartments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('number');
+            $table->string('image');
             $table->unsignedBigInteger('rooms');
             $table->unsignedBigInteger('floor');
             $table->float('square', 10, 2);
-            $table->float('terace', 10, 2);
+            $table->float('block', 10, 2);
             $table->float('price', 10, 2);
             $table->float('total', 10, 2);
+            $table->string('currency')->default('USD');
             $table->string('status');
             $table->timestamps();
         });

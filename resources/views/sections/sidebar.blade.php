@@ -159,7 +159,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('safe.index') }}"
+            <a {{--href="{{ route('safe.index') }}"--}}
                class="side-menu side-menu{{ request()->is("safe") ? "--active" : "" }}">
                 <div class="side-menu__icon"><i data-lucide="inbox"></i></div>
                 <div class="side-menu__title">Сейф</div>

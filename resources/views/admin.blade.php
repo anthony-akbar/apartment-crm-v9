@@ -22,6 +22,18 @@
     <!-- Load the Icon Picker's Stylesheet -->
     <link href="{{ asset('dist/css/bootstrapicons-iconpicker.css') }}" rel="stylesheet">
     @yield('styles')
+    <style type="text/css">
+        .backgroundimage{
+            position: fixed;
+            width: 60%;
+            top: 50%;
+            left: 55%;
+            transform: translate(-50%, -50%);
+            opacity:0.3;
+            align-items: center;
+            height: 70vh;
+        }
+        </style>
 </head>
 <!-- END: Head -->
 <body class="py-5 md:py-0">
@@ -31,6 +43,7 @@
     @include('sections.sidebar')
     <!-- BEGIN: Content -->
     <div class="content">
+        {{--<img class="backgroundimage" src="{{ asset('logo.png') }}">--}}
         @yield('content')
     </div>
     <!-- END: Content -->

@@ -28,4 +28,8 @@ class AptContract extends Model
     public function apartment() {
         return $this->belongsTo(Appartment::class, 'apt_id', 'id');
     }
+
+    public function schedule() {
+        return $this->hasMany(Schedule::class,'contract_id', 'id');
+    }
 }

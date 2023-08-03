@@ -16,47 +16,75 @@
                         <table class="table table-report my-auto">
                             @foreach($appartments->where('floor', $floor) as $appartment)
                                 <tr class="intro-x box">
-                                    <td class="text-center   w-20">{{ $appartment->number }}</td>
+                                    <td class="text-center   w-20">
+                                        <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#apartment-{{ $appartment->id }}">{{ $appartment->number }}
+                                        </a>
+                                    </td>
                                     <td class="text-center   w-32">{{ $appartment->rooms }}</td>
                                     <td class="text-center   w-40">{{ $appartment->floor  }}</td>
                                     <td class="text-center   w-40">{{ $appartment->square }}</td>
-                                    <td class="text-center   w-40">{{ $appartment->terace }}</td>
+                                    <td class="text-center   w-40">{{ $appartment->block }}</td>
                                     <td class="text-center   w-40">{{ $appartment->price }}</td>
                                     <td class="text-center   w-56">{{ $appartment->total }}</td>
                                     <td class="text-center   w-20">{{ $appartment->status }}</td>
-                                    <td class="table-report__action w-56">
-                                        <div class="flex justify-center items-center">
-                                            <a class="flex items-center mr-3" href="javascript:;">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                     viewBox="0 0 24 24" fill="none"
-                                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                     stroke-linejoin="round"
-                                                     icon-name="check-square" data-lucide="check-square"
-                                                     class="lucide lucide-check-square w-4 h-4 mr-1">
-                                                    <polyline points="9 11 12 14 22 4"></polyline>
-                                                    <path
-                                                        d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
-                                                </svg>
-                                                Edit </a>
-                                            <a class="flex items-center text-danger" href="javascript:;"
-                                               data-tw-toggle="modal"
-                                               data-tw-target="#delete-confirmation-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                     viewBox="0 0 24 24" fill="none"
-                                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                     stroke-linejoin="round"
-                                                     icon-name="trash-2" data-lucide="trash-2"
-                                                     class="lucide lucide-trash-2 w-4 h-4 mr-1">
-                                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                                    <path
-                                                        d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
-                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
-                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
-                                                </svg>
-                                                Delete </a>
-                                        </div>
-                                    </td>
                                 </tr>
+                                <!-- BEGIN: Modal Content -->
+                                <div id="apartment-{{ $appartment->id }}" class="modal" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-body p-5 text-center">
+                                                <div class="intro-y px-3 pt-5 mt-5">
+                                                    <div class="flex flex-col lg:flex-row pb-5 -mx-5">
+                                                        <div class="flex flex-1 px-5 items-center justify-center lg:justify-start">
+                                                            <img src="{{ asset($appartment->image) }}" data-action="zoom" data-tw-toggle="modal" data-tw-target="#apartment-{{ $appartment->id }}">
+                                                        </div>
+                                                        <div
+                                                            class="mt-6 lg:mt-0 flex-1 px-3 border-l border-slate-200/60 dark:border-darkmode-400 pt-5 lg:pt-0">
+                                                            <div class="font-medium text-3xl text-center lg:text-left lg:mt-3">Квартира
+                                                                №{{ $appartment->number }}</div>
+                                                            <div class="px-5 py-3 flex flex-col justify-center flex-1">
+                                                                <div class="grid grid-cols-2 w-72 pt-3">
+                                                                    <div class="grid-cols-1">
+                                                                        <div class="text-left text-slate-500 text-xs">ПЛОЩАДЬ</div>
+                                                                        <div class="mt-1.5 flex items-center">
+                                                                            <div class="text-base">{{ $appartment->square }} м²</div>
+                                                                        </div>
+                                                                        <div class="text-left text-slate-500 text-xs mt-5">ЭТАЖ</div>
+                                                                        <div class="mt-1.5 flex items-center">
+                                                                            <div class="text-base">{{ $appartment->floor }}</div>
+                                                                        </div>
+                                                                        <div class="text-left text-slate-500 text-xs mt-5">ЦЕНА ЗА м²</div>
+                                                                        <div class="mt-1.5 flex items-center">
+                                                                            <div class="text-base">{{ $appartment->price }}</div>
+                                                                        </div>
+
+                                                                    <div class="grid-cols-1">
+                                                                        <div class="text-left text-slate-500 text-xs">ПЛАНИРОВКА КВАРТИРЫ</div>
+                                                                        <div class="mt-1.5 flex items-center">
+                                                                            <div class="text-base">{{ $appartment->rooms }}
+                                                                                комнат{{ $appartment->rooms === 1 ? 'а' : '' }}</div>
+                                                                        </div>
+                                                                        <div class="text-left text-slate-500 text-xs mt-5">БЛОК</div>
+                                                                        <div class="mt-1.5 flex items-center">
+                                                                            <div class="text-base">{{ $appartment->block ?? '1' }}</div>
+                                                                        </div>
+                                                                        <div class="text-left text-slate-500 text-xs mt-5">СТОИМОСТЬ</div>
+                                                                        <div class="mt-1.5 flex items-center">
+                                                                            <div class="text-left text-base">{{ $appartment->total ?? '0' }}</div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END: Modal Content -->
                             @endforeach
                         </table>
                     </div>

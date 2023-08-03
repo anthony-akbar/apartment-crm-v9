@@ -65,7 +65,71 @@
                     </div>
                 </div>
                 <div id="apt-details">
-                    @include('apartments.apt-details')
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             icon-name="clipboard" data-lucide="clipboard"
+                             class="lucide lucide-clipboard w-4 h-4 text-slate-500 mr-2">
+                            <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"></path>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                        </svg>
+                        Полщадь:
+                        <div id="square" class="ml-auto pr-10 text-right">
+                            --
+                        </div>
+                    </div>
+                    <div class="flex items-center mt-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             icon-name="credit-card" data-lucide="credit-card"
+                             class="lucide lucide-credit-card w-4 h-4 text-slate-500 mr-2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                        Комнаты:
+                        <div id="rooms" class="ml-auto pr-10 text-right">
+                            --
+                        </div>
+                    </div>
+                    <div class="flex items-center mt-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             icon-name="credit-card" data-lucide="credit-card"
+                             class="lucide lucide-credit-card w-4 h-4 text-slate-500 mr-2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                        Этаж:
+                        <div id="floor" class="ml-auto pr-10 text-right">
+                            --
+                        </div>
+                    </div>
+                    <div class="flex items-center mt-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             icon-name="credit-card" data-lucide="credit-card"
+                             class="lucide lucide-credit-card w-4 h-4 text-slate-500 mr-2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                        Цена:
+                        <div class="my-auto ml-auto pr-10 text-right">
+                            <input name="price" id="aptprice" onkeyup="count()" type="number" class="form-control" placeholder="Цена">
+                        </div>
+                    </div>
+                    <div class="flex items-center mt-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             icon-name="credit-card" data-lucide="credit-card"
+                             class="lucide lucide-credit-card w-4 h-4 text-slate-500 mr-2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                        Стоимость:
+                        <div class="my-auto ml-auto pr-10 text-right">
+                            <input name="amount" id="apttotal" type="number" class="form-control" placeholder="Стоимость">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -94,7 +158,7 @@
                     <div class="box mx-3 p-5 grid-cols-1">
                         <div class="form-inline">
                             <label for="horizontal-form-1" class="form-label">Период</label>
-                            <select name="schedule_status" class="tom-select mx-auto form-control">
+                            <select id="schedule_status" onchange="scheduleCount()" name="schedule_status" class="tom-select mx-auto form-control">
                                 <option value="6">6 месяцев</option>
                                 <option value="12">12 месяцев</option>
                                 <option value="18">18 месяцев</option>
@@ -105,17 +169,21 @@
 
                         <div class="mt-3 form-inline">
                             <label for="horizontal-form-1" class="form-label">Дата начала</label>
-                            <input name="schedule_start_date" id="date" type="text" class="datepicker form-control w-56 block mx-auto"
+                            <input name="schedule_start_date" onchange="scheduleCount()" id="date" type="text" class="datepicker form-control w-56 block mx-auto"
                                    data-single-mode="true">
                         </div>
 
                         <div class="mt-3 form-inline">
-                            <label for="horizontal-form-1" class="form-label sm:w-20">Ежемесячно</label>
-                            <input name="schedule_amount" id="horizontal-form-1" type="text" class="form-control" placeholder="example@gmail.com">
+                            <label for="first_payment" class="form-label sm:w-20">Первоначальный взнос</label>
+                            <input name="first_payment" onchange="scheduleCount()" id="first_payment" type="text" class="form-control" >
                         </div>
                         <div class="mt-3 form-inline">
-                            <label for="horizontal-form-1" class="form-label sm:w-20">Последний месяц</label>
-                            <input name="schedule_last_month" id="horizontal-form-1" type="text" class="form-control" placeholder="example@gmail.com">
+                            <label for="schedule_amount" class="form-label sm:w-20">Ежемесячно</label>
+                            <input name="schedule_amount" onchange="scheduleCount()" id="schedule_amount" type="text" class="form-control">
+                        </div>
+                        <div class="mt-3 form-inline">
+                            <label for="schedule_last_month" class="form-label sm:w-20">Последний месяц</label>
+                            <input name="schedule_last_month" onchange="scheduleCount()" id="schedule_last_month" type="text" class="form-control">
                         </div>
 
                         <div class="w-full border-t border-slate-200/60 dark:border-darkmode-400 mt-5"></div>
@@ -129,7 +197,7 @@
                                 <line x1="1" y1="10" x2="23" y2="10"></line>
                             </svg>
                             Итого:
-                            <div class="ml-auto pr-10 text-right"></div>
+                            <div id="total_schedule" class="ml-auto pr-10 text-right"></div>
                         </div>
                     </div>
 
@@ -198,6 +266,24 @@
 @section('script')
 
     <script>
+
+        function scheduleCount() {
+
+            if($('#schedule_amount').val() === '') {
+                let debt = parseInt($('#total_schedule').text()) - $('#first_payment').val()
+                let amount = debt / $('#schedule_status').val()
+
+                $('#schedule_amount').val(amount)
+                $('#schedule_last_month').val(amount)
+            }else{
+                let debt = parseInt($('#total_schedule').text()) - $('#first_payment').val() - (($('#schedule_status').val()-1) * $('#schedule_amount').val())
+                $('#schedule_last_month').val(debt < 0 ? "NaN" : debt)
+
+            }
+
+            let debt = parseInt($('#total_schedule').text()) - $('#schedule_last_month').val() - $('#schedule_amount').val()
+        }
+
         $('#aptnum').keyup(function () {
             let id = $(this).val();
             $.ajax({
@@ -207,7 +293,13 @@
                 },
                 type: 'GET',
                 success: function (data) {
-                    document.getElementById('apt-details').innerHTML = data
+                 console.log(data);
+                    $('#square').text(data['square'])
+                    $('#rooms').text(data['rooms'])
+                    $('#aptprice').val(data['price'])
+                    $('#apttotal').val(data['total'])
+                    $('#floor').text(data['floor'])
+                    $('#total_schedule').text(data['total'])
                 }
             })
         })

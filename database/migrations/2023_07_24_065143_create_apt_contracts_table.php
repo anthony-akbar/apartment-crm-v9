@@ -21,7 +21,7 @@ class CreateAptContractsTable extends Migration
             $table->unsignedBigInteger('amount');
             $table->unsignedBigInteger('paid');
             $table->unsignedBigInteger('debt');
-            $table->unsignedBigInteger('days_missed');
+            $table->unsignedBigInteger('days_missed')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -8475,7 +8475,7 @@ img[data-action="zoom"] {
 .zoom-img,
 .zoom-img-wrap {
   position: relative;
-  z-index: 666;
+  z-index: 10000;
   transition: all 300ms;
 }
 img.zoom-img {
