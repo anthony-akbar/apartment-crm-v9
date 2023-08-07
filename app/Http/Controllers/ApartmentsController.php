@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appartment;
+use App\Models\Apartment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -10,14 +10,14 @@ class ApartmentsController extends Controller
 {
     public function index()
     {
-        $appartments = Appartment::all();
-        return view('apartments.index', compact('appartments'));
+        $apartments = Apartment::all();
+        return view('apartments.index', compact('apartments'));
     }
 
     public function search() {
         $request = request()->all()['data'];
-        $appartments = $request ? Appartment::where($request)->get() : Appartment::all();
-        return view('apartments.table', compact('appartments'));
+        $apartments = $request ? Apartment::where($request)->get() : Apartment::all();
+        return view('apartments.table', compact('apartments'));
 
     }
 }

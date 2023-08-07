@@ -11,11 +11,15 @@
         <nav aria-label="breadcrumb" class="-intro-x h-[45px] mr-auto">
             <ol class="breadcrumb breadcrumb-light">
                 <?php
-                $path = explode("/",request()->path());
+                $path = array_filter(explode("/",request()->path()));
                 ?>
+                @if(count($path) !== 0)
                 @foreach($path as $item)
-                    <li class="breadcrumb-item {{ $item == end($path) ? 'active' : ''}}" aria-current="page">{{ ucwords($item) }}</li>
+                        <li class="breadcrumb-item {{ $item == end($path) ? 'active' : ''}}" aria-current="page">{{ ucwords(__($item)) }}</li>
                 @endforeach
+                @else
+                    <li class="breadcrumb-item" aria-current="page">{{ __('home') }}</li>
+                @endif
             </ol>
         </nav>
         <!-- END: Breadcrumb -->

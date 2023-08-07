@@ -85,6 +85,68 @@
         </li>
         <li>
             <a href="javascript:;.html"
+               class="side-menu {{ request()->is("booking") || request()->is('booking/*') ? "side-menu--active" : "" }}">
+                <div class="side-menu__icon">
+                    <i data-lucide="tag"></i>
+                </div>
+                <div class="side-menu__title">
+                    Брони
+                    <div class="side-menu__sub-icon {{ request()->is("booking") || request()->is('booking/*') ? "transform rotate-180" : "" }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             icon-name="chevron-down" data-lucide="chevron-down" class="lucide lucide-chevron-down">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            <ul class="{{ request()->is("booking") || request()->is('booking/*') ? "side-menu__sub-open" : "" }}">
+                <li>
+                    <a href="{{ route('bookings.apartments') }}"
+                       class="side-menu side-menu{{ request()->is("booking/apartments") || request()->is('booking/apartments/*') ? "--active" : "" }}">
+                        <div class="side-menu__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" icon-name="activity" data-lucide="activity"
+                                 class="lucide lucide-activity">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="side-menu__title"> Квартиры</div>
+                    </a>
+                </li>
+                <li>
+                    <a href=""
+                       class="side-menu side-menu{{ request()->is("booking/parking") || request()->is('booking/parking/*') ? "--active" : "" }}">
+                        <div class="side-menu__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" icon-name="activity" data-lucide="activity"
+                                 class="lucide lucide-activity">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="side-menu__title">Парковка</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="side-menu-light-dashboard-overview-3.html"
+                       class="side-menu side-menu{{ request()->is("booking/commercial") || request()->is('booking/commercial/*') ? "--active" : "" }}">
+                        <div class="side-menu__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" icon-name="activity" data-lucide="activity"
+                                 class="lucide lucide-activity">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="side-menu__title">Коммерческий</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;.html"
                class="side-menu {{ request()->is("contracts") || request()->is('contracts/*')  ? "side-menu--active" : "" }}">
                 <div class="side-menu__icon">
                     <i data-lucide="clipboard"></i>

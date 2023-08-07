@@ -59,6 +59,7 @@
 <!-- BEGIN: JS Assets-->
 <script
     src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 {{--<script src="https://maps.googleapis.com/maps/api/js?key=["your-google-map-api"]&libraries=places"></script>--}}
 <script src="{{ asset('dist/js/app.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -68,67 +69,12 @@
         crossorigin="anonymous"></script>
 <!-- END: JS Assets-->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <!-- Load the Latest Bootstrap 5 Framework -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Load the Icon Picker's JavaScript -->
-<script src="{{ asset('dist/js/bootstrapicon-iconpicker.js') }}"></script>
-<script>
-    // initialize the icon picker and done
-    $('.iconpicker').iconpicker({
-        // customize the icon picker with the following options
-        // THANKS FOR WATCHING!
-        title: 'My Icon Picker',
-        selected: false,
-        defaultValue: false,
-        placement: "bottom",
-        collision: "none",
-        animation: true,
-        hideOnSelect: true,
-        showFooter: true,
-        searchInFooter: false,
-        mustAccept: false,
-        selectedCustomClass: "bg-primary",
-        fullClassFormatter: function (e) {
-            return e;
-        },
-        input: "input,.iconpicker-input",
-        inputSearch: false,
-        container: false,
-        component: ".input-group-addon,.iconpicker-component",
-        templates: {
-            popover: '<div class="iconpicker-popover popover" role="tooltip"><div class="arrow"></div>' + '<div class="popover-title"></div><div class="popover-content"></div></div>',
-            footer: '<div class="popover-footer"></div>',
-            buttons: '<button class="iconpicker-btn iconpicker-btn-cancel btn btn-default btn-sm">Cancel</button>' + ' <button class="iconpicker-btn iconpicker-btn-accept btn btn-primary btn-sm">Accept</button>',
-            search: '<input type="search" class="form-control iconpicker-search" placeholder="Type to filter" />',
-            iconpicker: '<div class="iconpicker"><div class="iconpicker-items"></div></div>',
-            iconpickerItem: '<a role="button" href="javascript:;" class="iconpicker-item"><i></i></a>'
-        }
-    });
-</script>
+{{--<script src="{{ asset('dist/js/bootstrapicon-iconpicker.js') }}"></script>--}}
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1VDDWMRSTH"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-
-    gtag('js', new Date());
-    gtag('config', 'G-1VDDWMRSTH');
-
-    $(".one, .two, .three, .four, .five, .six, .seven, .eight, .nine, .ten, .eleven").hover(
-        function () {
-            console.log($(this).attr('class'))
-            let clas = $(this).attr('class')
-            $('.' + clas).addClass('hover');
-        }, function () {
-            let clas = $(this).attr('class')
-            console.log($('.' + clas))
-            $('.' + clas.substring(0, clas.indexOf(' '))).removeClass('hover');
-        }
-    );
-</script>
 @yield('script')
 
 </body>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApartmentsController;
+use App\Http\Controllers\AptBookController;
 use App\Http\Controllers\AptContractController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContractController;
@@ -17,6 +18,13 @@ use PhpOffice\PhpWord\TemplateProcessor;
 Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index']);
 
 
+// APARTMENTS
+Route::group(['prefix' => 'apartments'], function () {
+    Route::get('/', [ApartmentsController::class, 'index'])->name('apartments');
+    Route::get('/search', [ApartmentsController::class, 'search'])->name('apartments.search');
+});
+
+
 // DAIRY
 Route::controller(DairyController::class)->group(function () {
     Route::get('dairies-export', 'export')->name('dairies.export');
@@ -28,11 +36,7 @@ Route::group(['prefix' => 'dairy'], function () {
     Route::post('/delete/{id}', [DairyController::class, 'delete'])->name('dairy.delete');
 });
 
-// APARTMENTS
-Route::group(['prefix' => 'apartments'], function () {
-    Route::get('/', [ApartmentsController::class, 'index'])->name('apartments');
-    Route::get('/search', [ApartmentsController::class, 'search'])->name('apartments.search');
-});
+
 
 // PARKING
 Route::group(['prefix' => 'parkings'], function () {
@@ -61,6 +65,15 @@ Route::group(['prefix' => 'contracts'], function () {
         Route::get('/{id}', [AptContractController::class, 'show'])->name('contracts.apartments.show');
     });
 
+});
+
+// BOOKINGS
+Route::group(['prefix'=>'booking'], function () {
+
+    Route::group(['prefix'=>'apartments'], function () {
+        Route::get('/', [AptBookController::class, 'index'])->name('bookings.apartments');
+       Route::get('/create', [AptBookController::class, 'create'])->name('booking.apartments.create');
+    });
 });
 
 

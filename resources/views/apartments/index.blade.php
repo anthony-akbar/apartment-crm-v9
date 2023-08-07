@@ -26,7 +26,7 @@
                         class="form-control" placeholder="Площадь"></div>
         </td>
         <td class="text-center" style="padding: 10px!important">
-            <div><input onkeyup="handle(this)" id="regular-form-1" name="terace" step="0.01" type="number"
+            <div><input onkeyup="handle(this)" id="regular-form-1" name="block" step="0.01" type="number"
                         class="form-control" placeholder="Блок"></div>
         </td>
         <td class="text-center" style="padding: 10px!important">
@@ -38,8 +38,17 @@
                         class="form-control" placeholder="Стоимость"></div>
         </td>
         <td class="text-center" style="padding: 10px!important">
-            <div><input onkeyup="handle(this)" id="regular-form-1" name="status" type="text" class="form-control"
-                        placeholder="Статус"></div>
+            <div>
+                {{--<input onkeyup="handle(this)" id="regular-form-1" name="status" type="text" class="form-control"
+                        placeholder="Статус">--}}
+
+                <select name="status" id="status-select" onfocus="handle(this)" class="tom-select w-full">
+                    <option value="1">СВОБОДНО</option>
+                    <option value="2">БРОНЬ</option>
+                    <option value="3">ПРОДАНО</option>
+                </select>
+
+            </div>
         </td>
         <td class="table-report__action text-center">
             <button class="btn btn-primary">Search</button>
@@ -53,13 +62,13 @@
     <thead>
     <tr>
         <th class="text-center whitespace-nowrap  w-20">№</th>
-        <th class="text-center whitespace-nowrap  w-32">Комнаты</th>
-        <th class="text-center whitespace-nowrap  w-40">Этаж</th>
+        <th class="text-center whitespace-nowrap  w-40">Комнаты</th>
+        <th class="text-center whitespace-nowrap  w-32">Этаж</th>
         <th class="text-center whitespace-nowrap  w-40">Площадь</th>
-        <th class="text-center whitespace-nowrap  w-40">Блок</th>
+        <th class="text-center whitespace-nowrap  w-32">Блок</th>
         <th class="text-center whitespace-nowrap  w-40">Цена/M²</th>
-        <th class="text-center whitespace-nowrap  w-56">Стоимость</th>
-        <th class="text-center whitespace-nowrap  w-20">Статус</th>
+        <th class="text-center whitespace-nowrap  w-40">Стоимость</th>
+        <th class="text-center whitespace-nowrap w-56">Статус</th>
     </tr>
     </thead>
     </table>
@@ -94,12 +103,13 @@
             })
         }
 
-        function redirect() {
-            console.log(123)
-            if($('#status-selector').val() === '3') {
-                $(location).attr('href',{{ route('contracts.apartments.create') }})
+            function redirect(element) {
+                let selectedValue = $(element).val();
+                console.log(selectedValue);
+                if (selectedValue === '3') {
+                    window.location.replace("{{ URL::to('contracts/apartment/create') }}");
+                }
             }
-        }
 
     </script>
 

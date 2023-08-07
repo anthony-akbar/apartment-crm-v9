@@ -116,7 +116,7 @@
                     <div class="report-box-2 intro-y">
                         <div class="box sm:flex">
                             <div class="px-8 py-12 flex flex-col justify-center flex-1">
-                            <IMG src="{{ asset("plan.jpg") }}">
+                            <img src="{{ asset($contract->apartment->image) }}" data-action="zoom">
                             </div>
                             <div class="px-8 py-12 flex flex-col justify-center flex-1 border-t sm:border-t-0 sm:border-l border-slate-200 dark:border-darkmode-300 border-dashed">
                                 <div class="relative text-3xl font-medium mb-3">№{{ $contract->apartment->number }}</div>
@@ -142,59 +142,47 @@
                     </div>
                 </div>
 
-                <div class="grid-cols-1 mx-3">
+                <div class="grid-cols-1 mx-3" style="max-height: 272px;">
                     <div class="intro-y box col-span-12 lg:col-span-6">
-                        <div class="flex items-center px-5 py-5 sm:py-0 border-b border-slate-200/60 dark:border-darkmode-400">
-                            <h2 class="font-medium text-base mr-auto">
+                        <div class="flex items-center px-5 py-5 border-b border-slate-200/60 dark:border-darkmode-400">
+                            <h2 class="mx-10 font-medium text-base mr-auto">
                                 Рассрочка
                             </h2>
-                            <div class="dropdown ml-auto sm:hidden">
-                                <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false" data-tw-toggle="dropdown"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" icon-name="more-horizontal" data-lucide="more-horizontal" class="lucide lucide-more-horizontal w-5 h-5 text-slate-500"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg> </a>
-                                <div class="nav nav-tabs dropdown-menu w-40" role="tablist">
-                                    <ul class="dropdown-content">
-                                        <li> <a id="latest-tasks-mobile-new-tab" href="javascript:;" data-tw-toggle="tab" data-tw-target="#latest-tasks-new" class="dropdown-item" role="tab" aria-controls="latest-tasks-new" aria-selected="true">New</a> </li>
-                                        <li> <a id="latest-tasks-mobile-last-week-tab" href="javascript:;" data-tw-toggle="tab" data-tw-target="#latest-tasks-last-week" class="dropdown-item" role="tab" aria-selected="false">Last Week</a> </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <ul class="nav nav-link-tabs w-auto ml-auto hidden sm:flex" role="tablist">
-                                <li id="latest-tasks-new-tab" class="nav-item" role="presentation"> <a href="javascript:;" class="nav-link py-5 active" data-tw-target="#latest-tasks-new" aria-controls="latest-tasks-new" aria-selected="true" role="tab"> New </a> </li>
-                                <li id="latest-tasks-last-week-tab" class="nav-item" role="presentation"> <a href="javascript:;" class="nav-link py-5" data-tw-target="#latest-tasks-last-week" aria-selected="false" role="tab"> Last Week </a> </li>
-                            </ul>
                         </div>
+
                         <div class="p-5">
-                            <div class="tab-content">
-                                <div id="latest-tasks-new" class="tab-pane active" role="tabpanel" aria-labelledby="latest-tasks-new-tab">
-                                    <div class="flex items-center">
-                                        <div class="border-l-2 border-primary dark:border-primary pl-4">
-                                            <a href="" class="font-medium">Create New Campaign</a>
-                                            <div class="text-slate-500">10:00 AM</div>
-                                        </div>
-                                        <div class="form-check form-switch ml-auto">
-                                            <input class="form-check-input" type="checkbox">
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center mt-5">
-                                        <div class="border-l-2 border-primary dark:border-primary pl-4">
-                                            <a href="" class="font-medium">Meeting With Client</a>
-                                            <div class="text-slate-500">02:00 PM</div>
-                                        </div>
-                                        <div class="form-check form-switch ml-auto">
-                                            <input class="form-check-input" type="checkbox">
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center mt-5">
-                                        <div class="border-l-2 border-primary dark:border-primary pl-4">
-                                            <a href="" class="font-medium">Create New Repository</a>
-                                            <div class="text-slate-500">04:00 PM</div>
-                                        </div>
-                                        <div class="form-check form-switch ml-auto">
-                                            <input class="form-check-input" type="checkbox">
-                                        </div>
-                                    </div>
+                            <div class="flex items-center">
+                                <div class="border-l-2 border-primary dark:border-primary pl-4">
+                                    <a href="" class="font-medium">Create New Campaign</a>
+                                    <div class="text-slate-500">10:00 AM</div>
+                                </div>
+                                <div class="text-success form-check form-switch ml-auto">
+                                    ОПЛАЧЕНО <i class="px-1" data-lucide="edit"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center mt-5">
+                                <div class="border-l-2 border-primary dark:border-primary pl-4">
+                                    <a href="" class="font-medium">Meeting With Client</a>
+                                    <div class="text-slate-500">02:00 PM</div>
+                                </div>
+                                <div class="text-success form-check form-switch ml-auto">
+                                    ОПЛАЧЕНО <i class="px-1" data-lucide="edit"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center mt-5">
+                                <div class="border-l-2 border-primary dark:border-primary pl-4">
+                                    <a href="" class="font-medium">Create New Repository</a>
+                                    <div class="text-slate-500">04:00 PM</div>
+                                </div>
+                                <div class="text-success form-check form-switch ml-auto">
+                                    <i class="px-1" data-lucide="check-square"></i> ОПЛАЧЕНО
                                 </div>
                             </div>
                         </div>
+
+
+
+
                     </div>
                 </div>
             </div>

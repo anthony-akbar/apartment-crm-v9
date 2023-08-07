@@ -11,5 +11,7 @@ class Appartment extends Model
 
     protected $guarded = [];
 
-
+    public function client() {
+        return $this->belongsTo(Client::class, 'client_id', 'id');
+    }
 }

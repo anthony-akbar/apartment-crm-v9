@@ -11,7 +11,7 @@
     <div class="intro-y box px-5 pt-5 mt-5">
         <div class="flex flex-col lg:flex-row border-b border-slate-200/60 dark:border-darkmode-400 pb-5 -mx-5">
             <div class="flex flex-1 px-5 items-center justify-center lg:justify-start">
-                <img src="{{ asset('plan.jpg') }}">
+                <img src="{{ asset($contract->apartment->image) }}" data-action="zoom">
             </div>
             <div
                 class="mt-6 lg:mt-0 flex-1 px-5 border-l border-r border-slate-200/60 dark:border-darkmode-400 border-t lg:border-t-0 pt-5 lg:pt-0">
@@ -123,8 +123,8 @@
     </div>
     @if($contract->schedule->count() !== 0)
 
-        <div class="intro-y flex items-center mt-8">
-            <h2 class="text-lg font-medium mr-auto">
+        <div class="intro-y flex items-center my-10 pr-3">
+            <h2 class="text-lg font-medium">
                 Рассрочка
             </h2>
         </div>
@@ -136,13 +136,13 @@
                     <tr class="intro-x">
                         <td class="w-40 !py-4">{{ $schedule->status !== 'Перв.взнос' ? $key : ' ' }}</td>
                         <td class="w-40">
-                            {{ $schedule->date_of_payment ?? '' }}
+                            {{date("d.m.Y", strtotime($schedule->date_of_payment))  ?? '' }}
                         </td>
                         <td class="text-center">
                             {{ $schedule->status }}
                         </td>
-                        <td>
-                            {{ $schedule->amount }}
+                        <td class="text-center">
+                            {{ number_format($schedule->amount, 0, '.', ' ')  }}
                         </td>
                         <td class="table-report__action">
                             <div class="flex justify-center items-center">

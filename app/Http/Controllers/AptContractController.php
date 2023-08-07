@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Apartment;
 use App\Models\Appartment;
 use App\Models\AptContract;
 use App\Models\Client;
@@ -39,11 +40,11 @@ class AptContractController extends Controller
     {
         $data = $request->all();
 
-        $apartment = Appartment::find($data['apt_id']);
+        $apartment = Apartment::find($data['apt_id']);
         $apartment->update([
             'price' => $data['price'],
             'total' => $data['amount'],
-            'status' => 'Sold'
+            'status' => 3
         ]);
 
         $contract = AptContract::create([
@@ -98,7 +99,7 @@ class AptContractController extends Controller
     public function search(Request $request)
     {
         $data = $request->all()['data'];
-        $apt = Appartment::find($data);
+        $apt = Apartment::find($data);
         return $apt->toArray();
     }
 
