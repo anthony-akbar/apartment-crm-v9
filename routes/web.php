@@ -129,3 +129,7 @@ Route::group(['prefix' => 'test'], function () {
     });
 });*/
 
+
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
