@@ -19,4 +19,9 @@ class AptBookController extends Controller
         $clients = Client::all();
         return view('booking.apartments.create', compact('clients'));
     }
+
+    public function store(Request $request) {
+        $data = $request->all();
+        dd($data);
+    }
 }
