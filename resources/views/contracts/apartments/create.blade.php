@@ -163,7 +163,7 @@
                                 <option value="12">12 месяцев</option>
                                 <option value="18">18 месяцев</option>
                                 <option value="24">24 месяцев</option>
-                                <option value="30" disabled>30 месяцев</option>
+                                <option value="30">30 месяцев</option>
                             </select>
                         </div>
 
@@ -311,22 +311,32 @@
 
         }
 
-       $('#client_id').change(function () {
-           let id = $(this).val();
-           $.ajax({
-               url: '{{ route('clients.search') }}',
-               data: {
-                   'data': id
-               },
-               type: 'GET',
-               success: function (data) {
-                   $('#passportId_show').text(data['passportId'])
-                   $('#pin_show').text(data['pin'])
-                   $('#address_show').text(data['address'])
-                   $('#email_show').text(data['email'] !== null ? data['email'] : '- - - - - - - -')
-                   $('#phone_show').text(data['phone'])
-               }
-           })
-       })
+        function onClientChange() {
+            let id = $('#client_id').val();
+            $.ajax({
+                url: '{{ route('clients.search') }}',
+                data: {
+                    'data': id
+                },
+                type: 'GET',
+                success: function (data) {
+                    $('#passportId_show').text(data['passportId'])
+                    $('#pin_show').text(data['pin'])
+                    $('#address_show').text(data['address'])
+                    $('#email_show').text(data['email'] !== null ? data['email'] : '- - - - - - - -')
+                    $('#phone_show').text(data['phone'])
+                }
+            })
+        }
+
+        $('#apttotal').change(function () {
+            $('#total_schedule').text($('#apttotal').val())
+        })
+        $('#aptprice').change(function () {
+            $('#total_schedule').text($('#apttotal').val())
+        })
+
+       $('#client_id').change(onClientChange)
+        $(document).ready(onClientChange)
     </script>
 @endsection

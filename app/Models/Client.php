@@ -28,4 +28,8 @@ class Client extends Model
     public function contracts() {
         return $this->hasMany(AptContract::class, 'client_id', 'id');
     }
+
+    public function payments() {
+        return $this->hasMany(Payment::class, 'client_id', 'id');
+    }
 }

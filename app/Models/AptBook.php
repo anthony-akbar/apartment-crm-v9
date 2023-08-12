@@ -11,11 +11,23 @@ class AptBook extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function apartment() {
+
+    protected $fillable = [
+        'apt_id',
+        'client_id',
+        'status',
+        'until',
+        'paid'
+    ];
+
+    public function apartment()
+    {
 
         return $this->hasOne(Apartment::class, 'id', 'apt_id');
     }
-    public function client() {
+
+    public function client()
+    {
 
         return $this->hasOne(Client::class, 'id', 'client_id');
     }

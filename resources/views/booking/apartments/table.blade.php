@@ -6,7 +6,9 @@
             <th class="whitespace-nowrap">№</th>
             <th class="whitespace-nowrap">Ф.И.О.</th>
             <th class="text-center whitespace-nowrap">Статус</th>
+            <th class="text-center whitespace-nowrap">Дата окончания</th>
             <th class="whitespace-nowrap">Квартира</th>
+            <th class="whitespace-nowrap">Аванс</th>
             <th class="text-center whitespace-nowrap">Действия</th>
         </tr>
         </thead>
@@ -14,60 +16,42 @@
 
         @foreach($bookings as $key => $booking)
             <tr class="intro-x">
-                <td class="w-40 !py-4"><a class="whitespace-nowrap"></a></td>
-                <td class="w-40">
-                    <a href="" class="underline decoration-dotted font-medium whitespace-nowrap"></a>
-                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5"></div>
+                <td class="w-20 !py-4">{{ $key + 1 }}<a class="whitespace-nowrap"></a></td>
+                <td class="w-56">
+                    <a href="" class="underline decoration-dotted font-medium whitespace-nowrap">{{ $booking->client->firstname }} {{ $booking->client->name }}</a>
+                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $booking->client->passportId }}</div>
                 </td>
                 <td class="text-center">
                     <div class="flex items-center justify-center whitespace-nowrap text-success">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             icon-name="check-square" data-lucide="check-square"
-                             class="lucide lucide-check-square w-4 h-4 mr-2">
-                            <polyline points="9 11 12 14 22 4"></polyline>
-                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
-                        </svg>
-
+                        <i class="px-1" data-lucide="check-square"></i>
+                        {{ $booking->status }}
                     </div>
                 </td>
+                <td class="w-40 !py-4 whitespace-nowrap">{{ date("d.m.Y", strtotime($booking->until)) }}</td>
                 <td>
-                    <div class="whitespace-nowrap"></div>
-                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5"></div>
+                    <div class="whitespace-nowrap">№ {{ $booking->apartment->id }}</div>
+                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $booking->apartment->square }} м², {{ $booking->apartment->floor }} этаж, {{ $booking->apartment->block }} блок, {{ $booking->apartment->rooms }} {{ $booking->apartment->rooms === 1 ? 'комната' : 'комнат' }}</div>
+                </td>
+                <td class="text-center">
+                    {{ number_format($booking->paid, 0, '.', ' ') ?? '- - - -' }}
                 </td>
                 <td class="table-report__action">
                     <div class="flex justify-center items-center">
                         <a class="flex items-center text-primary whitespace-nowrap mr-5" href="">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                 stroke-linejoin="round" icon-name="check-square" data-lucide="check-square"
-                                 class="lucide lucide-check-square w-4 h-4 mr-1">
-                                <polyline points="9 11 12 14 22 4"></polyline>
-                                <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
-                            </svg>
-                            Детали </a>
-                        <a class="flex items-center text-primary whitespace-nowrap" href="javascript:;"
-                           data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal-">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                 stroke-linejoin="round" icon-name="arrow-left-right" data-lucide="arrow-left-right"
-                                 class="lucide lucide-arrow-left-right w-4 h-4 mr-1">
-                                <polyline points="17 11 21 7 17 3"></polyline>
-                                <line x1="21" y1="7" x2="9" y2="7"></line>
-                                <polyline points="7 21 3 17 7 13"></polyline>
-                                <line x1="15" y1="17" x2="3" y2="17"></line>
-                            </svg>
-                            Удалить </a>
+                            <i class="px-1" data-lucide="arrow-left-right"></i> Детали </a>
+                        <a class="flex items-center text-danger whitespace-nowrap" href="javascript:;"
+                           data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal-{{$booking->id}}">
+                            <i class="px-1" data-lucide="trash"></i>  Удалить </a>
                     </div>
                 </td>
             </tr>
             <!-- BEGIN: Delete Confirmation Modal -->
-            <div id="delete-confirmation-modal-" class="modal" tabindex="-1" aria-hidden="true" style="">
+            <div id="delete-confirmation-modal-{{$booking->id}}" class="modal" tabindex="-1" aria-hidden="true" style="">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body p-0">
                             <div class="p-5 text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" icon-name="x-circle" data-lucide="x-circle" class="lucide lucide-x-circle w-16 h-16 text-danger mx-auto mt-3"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                <i data-lucide="x-circle" class="w-16 h-16 text-danger mx-auto mt-3"></i>
                                 <div class="text-3xl mt-5">Are you sure?</div>
                                 <div class="text-slate-500 mt-2">
                                     Do you really want to delete these records?

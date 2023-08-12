@@ -1,0 +1,11 @@
+{
+    "name": "Safe",
+    "alias": "safe",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Safe\\Providers\\SafeServiceProvider"
+    ],
+    "files": []
+}

@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DairyController;
 use App\Http\Controllers\ParkingController;
+use App\Http\Controllers\PaymentsController;
 use App\Models\Client;
 use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -15,7 +16,8 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 
 // MAIN
-Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('home');
+Route::get('/search', [\App\Http\Controllers\DashboardController::class, 'search'])->name('main.search');
 
 
 // APARTMENTS
@@ -26,14 +28,16 @@ Route::group(['prefix' => 'apartments'], function () {
 
 
 // DAIRY
-Route::controller(DairyController::class)->group(function () {
-    Route::get('dairies-export', 'export')->name('dairies.export');
-    Route::get('/search', [DairyController::class, 'search'])->name('dairy.search');
-});
+
 Route::group(['prefix' => 'dairy'], function () {
     Route::get('/', [DairyController::class, 'index'])->name('dairy');
     Route::post('/store', [DairyController::class, 'store'])->name('dairy.store');
     Route::post('/delete/{id}', [DairyController::class, 'delete'])->name('dairy.delete');
+
+    Route::controller(DairyController::class)->group(function () {
+        Route::get('dairies-export', 'export')->name('dairies.export');
+        Route::get('/search', [DairyController::class, 'search'])->name('dairy.search');
+    });
 });
 
 
@@ -73,9 +77,27 @@ Route::group(['prefix'=>'booking'], function () {
     Route::group(['prefix'=>'apartments'], function () {
         Route::get('/', [AptBookController::class, 'index'])->name('bookings.apartments');
        Route::get('/create', [AptBookController::class, 'create'])->name('booking.apartments.create');
+       Route::post('/store', [AptBookController::class, 'store'])->name('booking.apartments.store');
     });
 });
 
+//ARTICLES
+
+Route::group(['prefix'=>'articles'], function (){
+
+    Route::get('/', [\App\Http\Controllers\PaymentArticlesController::class, 'index'])->name('articles');
+
+});
+
+// PAYMENTS
+Route::group(['prefix'=>'payments'], function (){
+
+    Route::get('/', [PaymentsController::class, 'index'])->name('payments');
+    Route::get('/create', [PaymentsController::class, 'create'])->name('payments.create');
+    Route::group(['prefix'=>'search'], function () {
+        Route::get('/contracts', [PaymentsController::class, 'searchContracts'])->name('payments.search.contracts');
+    });
+});
 
 
 
@@ -85,6 +107,25 @@ Route::group(['prefix'=>'booking'], function () {
 Route::group(['prefix' => 'test'], function () {
     Route::get('/', function () {
 
+        $articles = [
+            'Оплата за квартиру',
+            'Первоначальный взнос за квартиру' ,
+            'Полная оплата за квартиру' ,
+            'Оплата за нежилое помещение' ,
+            'Первоначальный взнос за нежилое помещение' ,
+            'Полная оплата за нежилое помещение' ,
+            'Аванс за бронирование квартиры',
+            'Аванс за бронирование парковочного места',
+            'Аванс за бронирование нежилого помещение'
+        ];
+        foreach ($articles as $article) {
+            \App\Models\PaymentArticle::create([
+               'title'=>$article,
+               'table'=>'apt_contract'
+            ]);
+        }
+
+        dd('Finish');
         $contract = \App\Models\AptContract::find(3);
         dump($contract);
         dump($contract->schedule->pluck('amount', 'date_of_payment' )->toArray());

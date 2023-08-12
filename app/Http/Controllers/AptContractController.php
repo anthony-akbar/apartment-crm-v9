@@ -14,6 +14,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\Writer\Word2007;
+use function Illuminate\Events\queueable;
 
 class AptContractController extends Controller
 {
@@ -28,8 +29,15 @@ class AptContractController extends Controller
         return view('contracts.apartments.show', compact('contract'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
+
+        if ($request->all()){
+            $apt_id = $request->all()['apt_id'] ?? null;
+            $client_id = $request->all()['client_id'] ?? null;
+            $clients = Client::all();
+            return view('contracts.apartments.create', compact('clients', 'client_id', 'apt_id'));
+        }
         $clients = Client::all();
         return view('contracts.apartments.create', compact('clients'));
     }

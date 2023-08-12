@@ -20,7 +20,7 @@
                                         <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#apartment-{{ $apartment->id }}">{{ $apartment->number }}
                                         </a>
                                     </td>
-                                    <td class="text-center text-center w-40">{{ $apartment->rooms }} {{ $apartment->rooms === 1 ? 'комната' : 'комнат' }}</td>
+                                    <td class="text-center text-center w-40">{{ $apartment->rooms }}</td>
                                     <td class="text-center w-40">{{ $apartment->floor  }} этаж</td>
                                     <td class="text-center w-40">{{ $apartment->square }} м²</td>
                                     <td class="text-center w-40">{{ $apartment->block }} блок</td>
@@ -28,7 +28,7 @@
                                     <td class="text-center w-40">{{ number_format($apartment->total, 0, '.', ' ') }} {{ $apartment->currency }}</td>
                                     <td class="w-56 @if($apartment->staus === 4) text-success @elseif($apartment->status === 2) text-warning
                                     @elseif($apartment->status === 1) text-success @elseif($apartment->status === 3) text-danger
-                                       @endif text-left">
+                                       @endif text-center">
                                         @if($apartment->staus === 4)
                                             Свободно
                                         @elseif($apartment->status === 2)
@@ -73,7 +73,7 @@
 
                                                                         <div class="text-left text-slate-500 text-xs mt-5 pr-3">СТАТУС</div>
                                                                         <div class="mt-2">
-                                                                            <select id="status-select" onchange="redirect(this)" class="tom-select w-full">
+                                                                            <select id="status-select" onchange="redirect(this, {{ $apartment->id }})" class="tom-select w-full">
                                                                                 <option value="1" {{ $apartment->status === 1 ? 'selected="true"' : '' }}>СВОБОДНО</option>
                                                                                 <option value="2" {{ $apartment->status === 2 ? 'selected="true"' : '' }}>БРОНЬ</option>
                                                                                 <option value="3" {{ $apartment->status === 3 ? 'selected="true"' : '' }}>ПРОДАНО</option>

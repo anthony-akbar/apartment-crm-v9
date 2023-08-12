@@ -3,7 +3,7 @@
     <ul>
         <li class="side-nav__devider my-6"></li>
         <li>
-            <a href="" class="side-menu side-menu{{ request()->is("/") ? "--active" : "" }}">
+            <a href="{{ route('home') }}" class="side-menu side-menu{{ request()->is("/") ? "--active" : "" }}">
                 <div class="side-menu__icon">
                     <i data-lucide="home"></i>
                 </div>
@@ -221,10 +221,24 @@
             </a>
         </li>
         <li>
-            <a {{--href="{{ route('safe.index') }}"--}}
+            <a href="{{ route('safe.index') }}"
                class="side-menu side-menu{{ request()->is("safe") ? "--active" : "" }}">
                 <div class="side-menu__icon"><i data-lucide="inbox"></i></div>
                 <div class="side-menu__title">Сейф</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('articles') }}"
+               class="side-menu side-menu{{ request()->is("articles") || request()->is("articles/*") ? "--active" : "" }}">
+                <div class="side-menu__icon"><i data-lucide=""></i></div>
+                <div class="side-menu__title">Статьи</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('payments') }}"
+               class="side-menu side-menu{{ request()->is("payments") || request()->is("payments/*") ? "--active" : "" }}">
+                <div class="side-menu__icon"><i data-lucide="dollar-sign"></i></div>
+                <div class="side-menu__title">Оплаты</div>
             </a>
         </li>
         {{--<li>
