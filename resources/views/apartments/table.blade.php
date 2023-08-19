@@ -95,7 +95,6 @@
                                                                             <div class="text-left text-base">{{ number_format($apartment->total ?? 0, 0, '.', ' ') }} {{ $apartment->currency }}</div>
                                                                         </div>
                                                                         @if($apartment->client !== null)
-
                                                                         <div class="text-left text-slate-500 text-xs mt-5">КЛИЕНТ</div>
                                                                         <div class="mt-1.5 flex items-center">
                                                                             <div class="text-left text-base">{{ $apartment->client->firstname . ' ' . $apartment->client->name ?? '- - - -' }}</div>

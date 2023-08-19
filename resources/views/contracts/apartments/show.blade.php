@@ -30,15 +30,15 @@
                             </div>
                             <div class="text-slate-500 text-xs mt-5">ЦЕНА ЗА м²</div>
                             <div class="mt-1.5 flex items-center">
-                                <div class="text-base">{{ $contract->apartment->price }}</div>
+                                <div class="text-base">{{ number_format($contract->price, 0, '.', ' ') }} {{ $contract->currency }}</div>
                             </div>
                             <div class="text-slate-500 text-xs mt-5">ОПЛАЧЕНО</div>
                             <div class="mt-1.5 flex items-center">
-                                <div class="text-base">{{ $contract->apartment->paid ?? '0' }}</div>
+                                <div class="text-base">{{ $contract->paid }} {{ $contract->currency }}</div>
                             </div>
                             <div class="text-slate-500 text-xs mt-5">ПРОСРОЧЕНО ДНЕЙ</div>
                             <div class="mt-1.5 flex items-center">
-                                <div class="text-base">{{ $contract->apartment->days_missed ?? '0' }}</div>
+                                <div class="text-base">{{ $contract->days_missed }}</div>
                             </div>
 
                         </div>
@@ -55,11 +55,11 @@
                             </div>
                             <div class="text-slate-500 text-xs mt-5">СТОИМОСТЬ</div>
                             <div class="mt-1.5 flex items-center">
-                                <div class="text-base">{{ $contract->apartment->total ?? '0' }}</div>
+                                <div class="text-base">{{ number_format($contract->amount, 0, '.', ' ') ?? '0' }} {{ $contract->currency }}</div>
                             </div>
                             <div class="text-slate-500 text-xs mt-5">ОСТАТОК</div>
                             <div class="mt-1.5 flex items-center">
-                                <div class="text-base">{{ $contract->apartment->debt ?? '0' }}</div>
+                                <div class="text-base">{{ number_format($contract->debt, 0, '.', ' ') }} {{ $contract->currency }}</div>
                             </div>
                         </div>
 
@@ -130,6 +130,16 @@
         </div>
         <div class="intro-y col-span-12 overflow-auto 2xl:overflow-visible">
             <table class="table table-report -mt-2">
+                <thead>
+                <tr>
+                    <th class="whitespace-nowrap">№</th>
+                    <th class="whitespace-nowrap">Дата оплаты</th>
+                    <th class="whitespace-nowrap text-center">Статус</th>
+                    <th class="whitespace-nowrap text-center">Сумма</th>
+                    <th class="whitespace-nowrap text-center">Остаток</th>
+                    <th class="whitespace-nowrap text-center">Действия</th>
+                </tr>
+                </thead>
                 <tbody>
 
                 @foreach($contract->schedule as $key => $schedule)
@@ -138,8 +148,11 @@
                         <td class="w-40">
                             {{date("d.m.Y", strtotime($schedule->date_of_payment))  ?? '' }}
                         </td>
+                        <td class="text-center {{ $schedule->amount === $schedule->paid ? 'text-success' : ''}}">
+                            {{ $schedule->amount === $schedule->paid ? 'Оплачено' : $schedule->amount - $schedule->paid }}
+                        </td>
                         <td class="text-center">
-                            {{ $schedule->status }}
+                            {{ number_format($schedule->amount, 0, '.', ' ')  }}
                         </td>
                         <td class="text-center">
                             {{ number_format($schedule->amount, 0, '.', ' ')  }}

@@ -13,34 +13,30 @@ use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 
-
-
 // MAIN
-Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('home');
-Route::get('/search', [\App\Http\Controllers\DashboardController::class, 'search'])->name('main.search');
-
+Route::group(['prefix' => '/'], function () {
+    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('home');
+    Route::get('/search', [\App\Http\Controllers\DashboardController::class, 'search'])->name('main.search');
+});
 
 // APARTMENTS
 Route::group(['prefix' => 'apartments'], function () {
     Route::get('/', [ApartmentsController::class, 'index'])->name('apartments');
     Route::get('/search', [ApartmentsController::class, 'search'])->name('apartments.search');
+    Route::get('/searchone', [ApartmentsController::class, 'searchOne'])->name('apartments.search.one');
+
 });
 
-
 // DAIRY
-
 Route::group(['prefix' => 'dairy'], function () {
     Route::get('/', [DairyController::class, 'index'])->name('dairy');
     Route::post('/store', [DairyController::class, 'store'])->name('dairy.store');
     Route::post('/delete/{id}', [DairyController::class, 'delete'])->name('dairy.delete');
-
     Route::controller(DairyController::class)->group(function () {
         Route::get('dairies-export', 'export')->name('dairies.export');
         Route::get('/search', [DairyController::class, 'search'])->name('dairy.search');
     });
 });
-
-
 
 // PARKING
 Route::group(['prefix' => 'parkings'], function () {
@@ -72,35 +68,39 @@ Route::group(['prefix' => 'contracts'], function () {
 });
 
 // BOOKINGS
-Route::group(['prefix'=>'booking'], function () {
-
-    Route::group(['prefix'=>'apartments'], function () {
+Route::group(['prefix' => 'booking'], function () {
+    // APARTMENTS
+    Route::group(['prefix' => 'apartments'], function () {
         Route::get('/', [AptBookController::class, 'index'])->name('bookings.apartments');
-       Route::get('/create', [AptBookController::class, 'create'])->name('booking.apartments.create');
-       Route::post('/store', [AptBookController::class, 'store'])->name('booking.apartments.store');
+        Route::get('/create', [AptBookController::class, 'create'])->name('booking.apartments.create');
+        Route::post('/store', [AptBookController::class, 'store'])->name('booking.apartments.store');
     });
 });
 
 //ARTICLES
-
-Route::group(['prefix'=>'articles'], function (){
-
+Route::group(['prefix' => 'articles'], function () {
     Route::get('/', [\App\Http\Controllers\PaymentArticlesController::class, 'index'])->name('articles');
-
 });
 
 // PAYMENTS
-Route::group(['prefix'=>'payments'], function (){
-
+Route::group(['prefix' => 'payments'], function () {
     Route::get('/', [PaymentsController::class, 'index'])->name('payments');
     Route::get('/create', [PaymentsController::class, 'create'])->name('payments.create');
-    Route::group(['prefix'=>'search'], function () {
+    Route::post('/store', [PaymentsController::class, 'store'])->name('payments.store');
+    Route::group(['prefix' => 'search'], function () {
         Route::get('/contracts', [PaymentsController::class, 'searchContracts'])->name('payments.search.contracts');
     });
 });
 
+// SETTINGS
+Route::group(['prefix' => 'settings'], function () {
+   Route::get('/', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
 
-
+   // FILES
+    Route::group(['prefix' => 'files'], function () {
+       Route::get('/', [\App\Http\Controllers\SettingsFilesController::class, 'index'])->name('settings.files');
+    });
+});
 
 
 
@@ -109,26 +109,26 @@ Route::group(['prefix' => 'test'], function () {
 
         $articles = [
             'Оплата за квартиру',
-            'Первоначальный взнос за квартиру' ,
-            'Полная оплата за квартиру' ,
-            'Оплата за нежилое помещение' ,
-            'Первоначальный взнос за нежилое помещение' ,
-            'Полная оплата за нежилое помещение' ,
+            'Первоначальный взнос за квартиру',
+            'Полная оплата за квартиру',
+            'Оплата за нежилое помещение',
+            'Первоначальный взнос за нежилое помещение',
+            'Полная оплата за нежилое помещение',
             'Аванс за бронирование квартиры',
             'Аванс за бронирование парковочного места',
             'Аванс за бронирование нежилого помещение'
         ];
         foreach ($articles as $article) {
             \App\Models\PaymentArticle::create([
-               'title'=>$article,
-               'table'=>'apt_contract'
+                'title' => $article,
+                'table' => 'apt_contract'
             ]);
         }
 
         dd('Finish');
         $contract = \App\Models\AptContract::find(3);
         dump($contract);
-        dump($contract->schedule->pluck('amount', 'date_of_payment' )->toArray());
+        dump($contract->schedule->pluck('amount', 'date_of_payment')->toArray());
 
         dd(date('d.M.Y H:i'));
 
@@ -139,9 +139,9 @@ Route::group(['prefix' => 'test'], function () {
 
         $num = 324252353;
         $numstr = \nikserg\Num2Str\Num2Str::convert($num);
-        $array = explode( " ",$numstr);
+        $array = explode(" ", $numstr);
         $numstr = '';
-        for ($i=0; $i<count($array)-3; $i++) {
+        for ($i = 0; $i < count($array) - 3; $i++) {
             $numstr .= $array[$i] . ' ';
         };
         dd($numstr);

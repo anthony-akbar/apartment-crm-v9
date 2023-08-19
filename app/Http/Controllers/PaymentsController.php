@@ -36,4 +36,8 @@ class PaymentsController extends Controller
         dd($contracts);*/
         return view('payments.contract-selector', compact('contracts'));
     }
+
+    public function store(Request $request) {
+        dd($request->all());
+    }
 }

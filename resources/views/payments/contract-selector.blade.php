@@ -1,6 +1,6 @@
 <label class="form-label">Договор</label>
 <div class="mt-2 w-full">
-    <select name="client_id" id="client_id" class="form-control tom-select">
+    <select name="contract_id" id="contract_id" onchange="onContractChange()" class="form-control tom-select">
         @foreach($contracts as $contract)
             <option value="{{ $contract->id }}">
                 <a href="" class="underline decoration-dotted font-medium whitespace-nowrap">№{{ $contract->id }} {{ $contract->client->firstname }} {{ $contract->client->name }}</a>

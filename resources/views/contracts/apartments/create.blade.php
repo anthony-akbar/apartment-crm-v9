@@ -2,7 +2,23 @@
 
 @section('content')
 
-    <h2 class="intro-y text-lg font-medium mx-5 my-10">Новый договор</h2>
+    <div class="intro-y flex flex-col sm:flex-row items-center my-5 p-5">
+        <h2 class="text-lg font-medium mr-auto pl-5">
+            Новый договор
+        </h2>
+        <div class="box w-auto ml-auto sm:ml-0">
+            <div class="mx-3">
+                <div class="py-2">
+                    <div class="form-check form-switch mb-3">
+                        <input id="checkbox-switch-7" class="form-check-input" type="checkbox">
+                        <label class="form-check-label" for="checkbox-switch-7">Сомовый</label>
+                    </div>
+                    <input id="currency-value" type="number" step="0.1" class="form-control" placeholder="Курс $">
+                </div>
+            </div>
+        </div>
+
+    </div>
     <form class="" action="{{ route('contracts.apartments.store') }}">
         @csrf
         @method('post')
@@ -127,7 +143,7 @@
                         </svg>
                         Стоимость:
                         <div class="my-auto ml-auto pr-10 text-right">
-                            <input name="amount" id="apttotal" type="number" class="form-control" placeholder="Стоимость">
+                            <input name="amount" id="apttotal" onkeyup="count()" type="number" class="form-control" placeholder="Стоимость">
                         </div>
                     </div>
                 </div>
@@ -197,6 +213,7 @@
                                 <line x1="1" y1="10" x2="23" y2="10"></line>
                             </svg>
                             Итого:
+                            <input id="total_schedule_hidden" class="hidden">
                             <div id="total_schedule" class="ml-auto pr-10 text-right"></div>
                         </div>
                     </div>
@@ -254,6 +271,8 @@
             </div>
         </div>
     </div>
+        <input type="hidden" name="currency" id="currency-hidden" value="USD">
+        <input type="hidden" name="currency-value" id="currency-value-hidden">
 
         <div class="flex intro-x justify-end flex-col md:flex-row gap-2 mt-5">
             <a type="button" class="btn py-3 border-slate-300 dark:border-darkmode-400 text-slate-500 w-full md:w-52">Cancel</a>
@@ -261,56 +280,15 @@
         </div>
 
     </form>
+
+
 @endsection
 
 @section('script')
 
     <script>
 
-        function scheduleCount() {
-
-            if($('#schedule_amount').val() === '') {
-                let debt = parseInt($('#total_schedule').text()) - $('#first_payment').val()
-                let amount = debt / $('#schedule_status').val()
-
-                $('#schedule_amount').val(amount)
-                $('#schedule_last_month').val(amount)
-            }else{
-                let debt = parseInt($('#total_schedule').text()) - $('#first_payment').val() - (($('#schedule_status').val()-1) * $('#schedule_amount').val())
-                $('#schedule_last_month').val(debt < 0 ? "NaN" : debt)
-
-            }
-
-            let debt = parseInt($('#total_schedule').text()) - $('#schedule_last_month').val() - $('#schedule_amount').val()
-        }
-
-        $('#aptnum').keyup(function () {
-            let id = $(this).val();
-            $.ajax({
-                url: '{{ route('contracts.apartments.search') }}',
-                data: {
-                    'data': id
-                },
-                type: 'GET',
-                success: function (data) {
-                 console.log(data);
-                    $('#square').text(data['square'])
-                    $('#rooms').text(data['rooms'])
-                    $('#aptprice').val(data['price'])
-                    $('#apttotal').val(data['total'])
-                    $('#floor').text(data['floor'])
-                    $('#total_schedule').text(data['total'])
-                }
-            })
-        })
-
-        function count() {
-            let price = $("#aptprice").val();
-            let square = $("#square").text();
-            $("#apttotal").val(price * square)
-
-        }
-
+        // Clients logics JS
         function onClientChange() {
             let id = $('#client_id').val();
             $.ajax({
@@ -329,14 +307,76 @@
             })
         }
 
-        $('#apttotal').change(function () {
-            $('#total_schedule').text($('#apttotal').val())
-        })
-        $('#aptprice').change(function () {
-            $('#total_schedule').text($('#apttotal').val())
-        })
-
-       $('#client_id').change(onClientChange)
+        $('#client_id').change(onClientChange)
         $(document).ready(onClientChange)
+
+        // Apartments logics
+        function onApartmentChange() {
+            let id = $('#aptnum').val();
+            $.ajax({
+                url: '{{ route('apartments.search.one') }}',
+                data: {
+                    'data': id
+                },
+                type: 'GET',
+                success: function (data) {
+                    $('#square').text(data['square'])
+                    $('#rooms').text(data['rooms'])
+                    $('#aptprice').val(data['price'])
+                    $('#apttotal').val(data['total'])
+                    $('#floor').text(data['floor'])
+                    onPriceChange()
+                }
+            })
+        }
+
+        $('#aptnum').keyup(onApartmentChange)
+
+        // Price logics
+
+        function onPriceChange() {
+            console.log($('#apttotal').val())
+            let price = $("#aptprice").val();
+            let square = $("#square").text();
+            if($("#apttotal").val() === '') {
+                console.log(true)
+                $("#apttotal").val(price * square)
+            }
+            scheduleCount()
+        }
+
+        // Schedule logics
+
+        function scheduleCount() {
+
+            console.log($('#currency-value').val())
+
+            if($('#schedule_amount').val() === '') {
+                let debt = $('#total_schedule_hidden').val() - $('#first_payment').val()
+                let amount = debt / $('#schedule_status').val()
+                $('#schedule_amount').val(amount)
+                $('#schedule_last_month').val(amount)
+            }else{
+                let debt = $('#total_schedule_hidden').val() - $('#first_payment').val() - (($('#schedule_status').val()-1) * $('#schedule_amount').val())
+                $('#schedule_last_month').val(debt < 0 ? "NaN" : debt)
+            }
+            if($('#checkbox-switch-7').is(":checked")){
+                $('#currency-hidden').val("KGS")
+                $('#total_schedule').text(($('#apttotal').val() * $('#currency-value').val()).toLocaleString('fr-FR'));
+                $('#total_schedule_hidden').val(($('#apttotal').val() * $('#currency-value').val()));
+                $('#currency-value-hidden').val($('#currency-value').val())
+            }else{
+                $('#currency-hidden').val("USD")
+                $('#total_schedule').text($('#apttotal').val())
+                $('#total_schedule_hidden').val($('#apttotal').val())
+            }
+        }
+
+
+        $('#apttotal').keyup(onPriceChange)
+        $('#currency').keyup(onPriceChange)
+        $('#aptprice').keyup(onPriceChange)
+        $('#currency-value').keyup(onPriceChange)
+        $('#checkbox-switch-7').change(onPriceChange)
     </script>
 @endsection

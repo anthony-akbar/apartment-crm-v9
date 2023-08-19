@@ -17,6 +17,7 @@ class CreateAptContractsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('apt_id');
             $table->unsignedBigInteger('client_id');
+            $table->string('currency')->default('USD');
             $table->unsignedBigInteger('price');
             $table->unsignedBigInteger('amount');
             $table->unsignedBigInteger('paid');
