@@ -174,3 +174,13 @@ Route::group(['prefix' => 'test'], function () {
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/tozala', function () {
+   $schdeules = \App\Models\Schedule::all();
+   foreach ($schdeules as $schdeule) {
+       $schdeule->update([
+           'status' => 'Не оплачено',
+           'paid' => 0
+       ]);
+   }
+});

@@ -15,9 +15,11 @@
                     <div class="accordion-body text-slate-600 dark:text-slate-500 leading-relaxed">
                         <table class="table table-report my-auto">
                             @foreach($apartments->where('floor', $floor) as $apartment)
-                                <tr class="intro-x box cursor-pointer" data-tw-toggle="modal" data-tw-target="#apartment-{{ $apartment->id }}">
+                                <tr class="intro-x box cursor-pointer" data-tw-toggle="modal"
+                                    data-tw-target="#apartment-{{ $apartment->id }}">
                                     <td class="text-center   w-20">
-                                        <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#apartment-{{ $apartment->id }}">{{ $apartment->number }}
+                                        <a href="javascript:;" data-tw-toggle="modal"
+                                           data-tw-target="#apartment-{{ $apartment->id }}">{{ $apartment->number }}
                                         </a>
                                     </td>
                                     <td class="text-center text-center w-40">{{ $apartment->rooms }}</td>
@@ -34,9 +36,24 @@
                                         @elseif($apartment->status === 2)
                                             <i class="inline-block px-1" data-lucide="tag"></i>Забронировано
                                         @elseif($apartment->status === 1)
-                                            <i class="inline-block px-1" data-lucide="check-square"></i>Свободно
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round" icon-name="check-square"
+                                                 class="lucide lucide-check-square inline-block px-1"
+                                                 data-lucide="check-square">
+                                                <polyline points="9 11 12 14 22 4"></polyline>
+                                                <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                                            </svg>Свободно
                                         @elseif($apartment->status === 3)
-                                            <i class="inline-block px-1" data-lucide="x-square"></i>Продано
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round" icon-name="x-square"
+                                                 class="lucide lucide-x-square inline-block px-1"
+                                                 data-lucide="x-square">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                            </svg>Продано
                                         @endif
                                     </td>
 
@@ -48,57 +65,104 @@
                                             <div class="modal-body p-5 text-center">
                                                 <div class="intro-y px-3 pt-5 mt-5">
                                                     <div class="flex flex-col lg:flex-row pb-5 -mx-5">
-                                                        <div class="flex flex-1 px-5 items-center justify-center lg:justify-start">
-                                                            <img src="{{ asset($apartment->image) }}" data-action="zoom" data-tw-toggle="modal" data-tw-target="#apartment-{{ $apartment->id }}">
+                                                        <div
+                                                            class="flex flex-1 px-5 items-center justify-center lg:justify-start">
+                                                            <img src="{{ asset($apartment->image) }}" data-action="zoom"
+                                                                 data-tw-toggle="modal"
+                                                                 data-tw-target="#apartment-{{ $apartment->id }}">
                                                         </div>
                                                         <div
                                                             class="mt-6 lg:mt-0 flex-1 px-3 border-l border-slate-200/60 dark:border-darkmode-400 pt-5 lg:pt-0">
-                                                            <div class="font-medium text-3xl text-center lg:text-left lg:mt-3">Квартира
+                                                            <div
+                                                                class="font-medium text-3xl text-center lg:text-left lg:mt-3">
+                                                                Квартира
                                                                 №{{ $apartment->number }}</div>
                                                             <div class="px-5 py-3 flex flex-col justify-center flex-1">
                                                                 <div class="grid grid-cols-2 pt-3">
                                                                     <div class="grid-cols-1 px-3">
-                                                                        <div class="text-left text-slate-500 text-xs">ПЛОЩАДЬ</div>
-                                                                        <div class="mt-1.5 flex items-center">
-                                                                            <div class="text-base">{{ $apartment->square }} м²</div>
+                                                                        <div class="text-left text-slate-500 text-xs">
+                                                                            ПЛОЩАДЬ
                                                                         </div>
-                                                                        <div class="text-left text-slate-500 text-xs mt-5">ЭТАЖ</div>
                                                                         <div class="mt-1.5 flex items-center">
-                                                                            <div class="text-base">{{ $apartment->floor }}</div>
+                                                                            <div
+                                                                                class="text-base">{{ $apartment->square }}
+                                                                                м²
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="text-left text-slate-500 text-xs mt-5">ЦЕНА ЗА м²</div>
+                                                                        <div
+                                                                            class="text-left text-slate-500 text-xs mt-5">
+                                                                            ЭТАЖ
+                                                                        </div>
                                                                         <div class="mt-1.5 flex items-center">
-                                                                            <div class="text-base">{{ number_format($apartment->price, 0, '.', ' ') }} {{ $apartment->currency }}</div>
+                                                                            <div
+                                                                                class="text-base">{{ $apartment->floor }}</div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="text-left text-slate-500 text-xs mt-5">
+                                                                            ЦЕНА ЗА м²
+                                                                        </div>
+                                                                        <div class="mt-1.5 flex items-center">
+                                                                            <div
+                                                                                class="text-base">{{ number_format($apartment->price, 0, '.', ' ') }} {{ $apartment->currency }}</div>
                                                                         </div>
 
-                                                                        <div class="text-left text-slate-500 text-xs mt-5 pr-3">СТАТУС</div>
+                                                                        <div
+                                                                            class="text-left text-slate-500 text-xs mt-5 pr-3">
+                                                                            СТАТУС
+                                                                        </div>
                                                                         <div class="mt-2">
-                                                                            <select id="status-select" onchange="redirect(this, {{ $apartment->id }})" class="tom-select w-full">
-                                                                                <option value="1" {{ $apartment->status === 1 ? 'selected="true"' : '' }}>СВОБОДНО</option>
-                                                                                <option value="2" {{ $apartment->status === 2 ? 'selected="true"' : '' }}>БРОНЬ</option>
-                                                                                <option value="3" {{ $apartment->status === 3 ? 'selected="true"' : '' }}>ПРОДАНО</option>
+                                                                            <select id="status-select"
+                                                                                    onchange="redirect(this, {{ $apartment->id }})"
+                                                                                    class="tom-select w-full">
+                                                                                <option
+                                                                                    value="1" {{ $apartment->status === 1 ? 'selected="true"' : '' }}>
+                                                                                    СВОБОДНО
+                                                                                </option>
+                                                                                <option
+                                                                                    value="2" {{ $apartment->status === 2 ? 'selected="true"' : '' }}>
+                                                                                    БРОНЬ
+                                                                                </option>
+                                                                                <option
+                                                                                    value="3" {{ $apartment->status === 3 ? 'selected="true"' : '' }}>
+                                                                                    ПРОДАНО
+                                                                                </option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
                                                                     <div class="grid-cols-1 px-3">
-                                                                        <div class="text-left text-slate-500 text-xs">ПЛАНИРОВКА КВАРТИРЫ</div>
+                                                                        <div class="text-left text-slate-500 text-xs">
+                                                                            ПЛАНИРОВКА КВАРТИРЫ
+                                                                        </div>
                                                                         <div class="mt-1.5 flex items-center">
-                                                                            <div class="text-base">{{ $apartment->rooms }}
+                                                                            <div
+                                                                                class="text-base">{{ $apartment->rooms }}
                                                                                 комнат{{ $apartment->rooms === 1 ? 'а' : '' }}</div>
                                                                         </div>
-                                                                        <div class="text-left text-slate-500 text-xs mt-5">БЛОК</div>
-                                                                        <div class="mt-1.5 flex items-center">
-                                                                            <div class="text-base">{{ $apartment->block ?? '1' }}</div>
+                                                                        <div
+                                                                            class="text-left text-slate-500 text-xs mt-5">
+                                                                            БЛОК
                                                                         </div>
-                                                                        <div class="text-left text-slate-500 text-xs mt-5">СТОИМОСТЬ</div>
                                                                         <div class="mt-1.5 flex items-center">
-                                                                            <div class="text-left text-base">{{ number_format($apartment->total ?? 0, 0, '.', ' ') }} {{ $apartment->currency }}</div>
+                                                                            <div
+                                                                                class="text-base">{{ $apartment->block ?? '1' }}</div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="text-left text-slate-500 text-xs mt-5">
+                                                                            СТОИМОСТЬ
+                                                                        </div>
+                                                                        <div class="mt-1.5 flex items-center">
+                                                                            <div
+                                                                                class="text-left text-base">{{ number_format($apartment->total ?? 0, 0, '.', ' ') }} {{ $apartment->currency }}</div>
                                                                         </div>
                                                                         @if($apartment->client !== null)
-                                                                        <div class="text-left text-slate-500 text-xs mt-5">КЛИЕНТ</div>
-                                                                        <div class="mt-1.5 flex items-center">
-                                                                            <div class="text-left text-base">{{ $apartment->client->firstname . ' ' . $apartment->client->name ?? '- - - -' }}</div>
-                                                                        </div>
+                                                                            <div
+                                                                                class="text-left text-slate-500 text-xs mt-5">
+                                                                                КЛИЕНТ
+                                                                            </div>
+                                                                            <div class="mt-1.5 flex items-center">
+                                                                                <div
+                                                                                    class="text-left text-base">{{ $apartment->client->firstname . ' ' . $apartment->client->name ?? '- - - -' }}</div>
+                                                                            </div>
                                                                         @endif
                                                                     </div>
 

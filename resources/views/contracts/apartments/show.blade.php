@@ -30,7 +30,8 @@
                             </div>
                             <div class="text-slate-500 text-xs mt-5">ЦЕНА ЗА м²</div>
                             <div class="mt-1.5 flex items-center">
-                                <div class="text-base">{{ number_format($contract->price, 0, '.', ' ') }} {{ $contract->currency }}</div>
+                                <div
+                                    class="text-base">{{ number_format($contract->price, 0, '.', ' ') }} {{ $contract->currency }}</div>
                             </div>
                             <div class="text-slate-500 text-xs mt-5">ОПЛАЧЕНО</div>
                             <div class="mt-1.5 flex items-center">
@@ -55,11 +56,13 @@
                             </div>
                             <div class="text-slate-500 text-xs mt-5">СТОИМОСТЬ</div>
                             <div class="mt-1.5 flex items-center">
-                                <div class="text-base">{{ number_format($contract->amount, 0, '.', ' ') ?? '0' }} {{ $contract->currency }}</div>
+                                <div
+                                    class="text-base">{{ number_format($contract->amount, 0, '.', ' ') ?? '0' }} {{ $contract->currency }}</div>
                             </div>
                             <div class="text-slate-500 text-xs mt-5">ОСТАТОК</div>
                             <div class="mt-1.5 flex items-center">
-                                <div class="text-base">{{ number_format($contract->debt, 0, '.', ' ') }} {{ $contract->currency }}</div>
+                                <div
+                                    class="text-base">{{ number_format($contract->debt, 0, '.', ' ') }} {{ $contract->currency }}</div>
                             </div>
                         </div>
 
@@ -137,7 +140,6 @@
                     <th class="whitespace-nowrap text-center">Статус</th>
                     <th class="whitespace-nowrap text-center">Сумма</th>
                     <th class="whitespace-nowrap text-center">Остаток</th>
-                    <th class="whitespace-nowrap text-center">Действия</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -148,27 +150,28 @@
                         <td class="w-40">
                             {{date("d.m.Y", strtotime($schedule->date_of_payment))  ?? '' }}
                         </td>
-                        <td class="text-center {{ $schedule->amount === $schedule->paid ? 'text-success' : ''}}">
-                            {{ $schedule->amount === $schedule->paid ? 'Оплачено' : $schedule->amount - $schedule->paid }}
+                        <td class="text-center
+                        @if($schedule->amount === $schedule->paid)
+                        text-success
+                        @elseif($schedule->paid == 0)
+                        text-danger
+                        @elseif($schedule->paid > 0)
+                        text-warning
+                        @endif">
+                            <i class="px-1 inline-block" data-lucide="check-square"></i>
+                            @if($schedule->amount === $schedule->paid)
+                                Оплачено
+                            @elseif($schedule->paid == 0)
+                                Не оплачено
+                            @elseif($schedule->paid > 0)
+                                Частичная оплата
+                            @endif
                         </td>
                         <td class="text-center">
                             {{ number_format($schedule->amount, 0, '.', ' ')  }}
                         </td>
                         <td class="text-center">
-                            {{ number_format($schedule->amount, 0, '.', ' ')  }}
-                        </td>
-                        <td class="table-report__action">
-                            <div class="flex justify-center items-center">
-                                <a class="flex items-center text-primary whitespace-nowrap mr-5" href="javascript:;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" icon-name="check-square" data-lucide="check-square"
-                                         class="lucide lucide-check-square w-4 h-4 mr-1">
-                                        <polyline points="9 11 12 14 22 4"></polyline>
-                                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
-                                    </svg>
-                                    Изменить </a>
-                            </div>
+                            {{ number_format($schedule->amount - $schedule->paid, 0, '.', ' ')  }}
                         </td>
                     </tr>
 

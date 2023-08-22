@@ -221,7 +221,7 @@
 
             let currency_value = 0
 
-            if($('#currency-value').val() === ''){
+            if($('#currency-value').val() !== ''){
                 currency_value = $('#currency-value').val()
             }else {
                 return;
