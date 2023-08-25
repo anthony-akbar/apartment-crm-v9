@@ -9,6 +9,7 @@
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
         "joedixon/laravel-translation": "^2.2",
+        "joggapp/laravel-google-translate": "^9.0",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
@@ -16,7 +17,9 @@
         "nesbot/carbon": "^2.68",
         "nikserg/num2str": "^1.0",
         "nwidart/laravel-modules": "9",
-        "phpoffice/phpword": "^1.1"
+        "phpoffice/phpspreadsheet": "^1.29",
+        "phpoffice/phpword": "^1.1",
+        "stichoza/google-translate-php": "^5.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

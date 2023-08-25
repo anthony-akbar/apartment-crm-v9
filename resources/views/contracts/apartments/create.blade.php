@@ -13,7 +13,7 @@
                         <input id="checkbox-switch-7" class="form-check-input" type="checkbox">
                         <label class="form-check-label" for="checkbox-switch-7">Сомовый</label>
                     </div>
-                    <input id="currency-value" type="number" step="0.1" class="form-control" placeholder="Курс $">
+                    <input id="currency-value" type="number" step="0.1" value="88" class="form-control" placeholder="Курс $">
                 </div>
             </div>
         </div>
@@ -271,8 +271,8 @@
             </div>
         </div>
     </div>
-        <input type="hidden" name="currency" id="currency-hidden" value="USD">
-        <input type="hidden" name="currency-value" id="currency-value-hidden">
+        <input type="hidden" name="currency" id="currency-hidden">
+        <input type="hidden" name="currency-value" id="currency-value-hidden" value="88">
 
         <div class="flex intro-x justify-end flex-col md:flex-row gap-2 mt-5">
             <a type="button" class="btn py-3 border-slate-300 dark:border-darkmode-400 text-slate-500 w-full md:w-52">Cancel</a>
@@ -339,7 +339,6 @@
             let price = $("#aptprice").val();
             let square = $("#square").text();
             if($("#apttotal").val() === '') {
-                console.log(true)
                 $("#apttotal").val(price * square)
             }
             scheduleCount()
@@ -348,9 +347,6 @@
         // Schedule logics
 
         function scheduleCount() {
-
-            console.log($('#currency-value').val())
-
             if($('#schedule_amount').val() === '') {
                 let debt = $('#total_schedule_hidden').val() - $('#first_payment').val()
                 let amount = debt / $('#schedule_status').val()
@@ -362,12 +358,12 @@
             }
             if($('#checkbox-switch-7').is(":checked")){
                 $('#currency-hidden').val("KGS")
-                $('#total_schedule').text(($('#apttotal').val() * $('#currency-value').val()).toLocaleString('fr-FR'));
+                $('#total_schedule').text(($('#apttotal').val() * $('#currency-value').val()).toLocaleString('fr-FR') + ' сом');
                 $('#total_schedule_hidden').val(($('#apttotal').val() * $('#currency-value').val()));
                 $('#currency-value-hidden').val($('#currency-value').val())
             }else{
                 $('#currency-hidden').val("USD")
-                $('#total_schedule').text($('#apttotal').val())
+                $('#total_schedule').text($('#apttotal').val().toLocaleString() + ' $')
                 $('#total_schedule_hidden').val($('#apttotal').val())
             }
         }

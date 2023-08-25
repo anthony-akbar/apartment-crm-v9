@@ -27,7 +27,7 @@
                         {{ $booking->status }}
                     </div>
                 </td>
-                <td class="w-40 !py-4 whitespace-nowrap">{{ date("d.m.Y", strtotime($booking->until)) }}</td>
+                <td class="w-40 !py-4 whitespace-nowrap">{{ $booking->until !== null ? date("d.m.Y", strtotime($booking->until )) : '' }}</td>
                 <td>
                     <div class="whitespace-nowrap">№ {{ $booking->apartment->id }}</div>
                     <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $booking->apartment->square }} м², {{ $booking->apartment->floor }} этаж, {{ $booking->apartment->block }} блок, {{ $booking->apartment->rooms }} {{ $booking->apartment->rooms === 1 ? 'комната' : 'комнат' }}</div>

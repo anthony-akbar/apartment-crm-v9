@@ -10,6 +10,8 @@ use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\PaymentsController;
 use App\Models\Client;
 use Illuminate\Support\Facades\Route;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 
@@ -102,10 +104,26 @@ Route::group(['prefix' => 'settings'], function () {
     });
 });
 
+Route::group(['prefix' => 'export'], function () {
+   Route::get('/', [\App\Http\Controllers\ExportController::class, 'index'])->name('export');
+   Route::get('/query', [\App\Http\Controllers\ExportController::class, 'query'])->name('export.query');
+   Route::get('/export', [\App\Http\Controllers\ExportController::class, 'exportXls'])->name('export.export');
+});
+
 
 
 Route::group(['prefix' => 'test'], function () {
     Route::get('/', function () {
+
+        $spreadsheet = new Spreadsheet();
+        $activeWorksheet = $spreadsheet->getActiveSheet();
+        $activeWorksheet->setCellValue('A1', 'Hello World !');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('hello world.xlsx');
+
+        dd('Finish');
+
 
         $articles = [
             'Оплата за квартиру',
@@ -180,7 +198,8 @@ Route::get('/tozala', function () {
    foreach ($schdeules as $schdeule) {
        $schdeule->update([
            'status' => 'Не оплачено',
-           'paid' => 0
+           'paid' => 0,
+           'date_to_pay' =>null
        ]);
    }
 });

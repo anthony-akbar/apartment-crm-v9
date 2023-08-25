@@ -87,7 +87,7 @@
                             </div>
                             <div class="text-slate-500 text-xs mt-5">ДЕНЬ РОЖДЕНИЯ</div>
                             <div class="mt-1.5 flex items-center">
-                                <div class="text-base">{{ date("d.m.Y", strtotime($contract->client->birth)) }}</div>
+                                <div class="text-base">{{ $contract->client->birth !== null ? date("d.m.Y", strtotime($contract->client->birth )) : '' }}</div>
                             </div>
                             <div class="text-slate-500 text-xs mt-5">АДРЕС</div>
                             <div class="mt-1.5 flex items-center">
@@ -140,6 +140,7 @@
                     <th class="whitespace-nowrap text-center">Статус</th>
                     <th class="whitespace-nowrap text-center">Сумма</th>
                     <th class="whitespace-nowrap text-center">Остаток</th>
+                    <th class="whitespace-nowrap text-center">Оплачено</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -159,13 +160,7 @@
                         text-warning
                         @endif">
                             <i class="px-1 inline-block" data-lucide="check-square"></i>
-                            @if($schedule->amount === $schedule->paid)
-                                Оплачено
-                            @elseif($schedule->paid == 0)
-                                Не оплачено
-                            @elseif($schedule->paid > 0)
-                                Частичная оплата
-                            @endif
+                            {{ $schedule->status }}
                         </td>
                         <td class="text-center">
                             {{ number_format($schedule->amount, 0, '.', ' ')  }}
@@ -173,8 +168,10 @@
                         <td class="text-center">
                             {{ number_format($schedule->amount - $schedule->paid, 0, '.', ' ')  }}
                         </td>
+                        <td class="text-center">
+                            {{$schedule->date_to_pay !== null ? date("d.m.Y", strtotime($schedule->date_to_pay )) : '' }}
+                        </td>
                     </tr>
-
                 @endforeach
 
                 </tbody>

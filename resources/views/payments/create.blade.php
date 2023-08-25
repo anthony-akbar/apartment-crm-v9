@@ -180,6 +180,7 @@
                     $('#contract-selector').html(data)
                 }
             })
+            onContractChange()
         }
 
         $('#client_id').change(onClientChange)

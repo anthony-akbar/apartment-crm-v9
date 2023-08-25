@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use nikserg\Num2Str\Num2Str;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
+use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class AptContractController extends Controller
@@ -48,9 +49,9 @@ class AptContractController extends Controller
             'price' => $data['price'],
             'total' => $data['amount'],
             'status' => 3,
-            'client_id' => $data['client_id']
+            'client_id' => $data['client_id'],
+            'currency'=>$data['currency'],
         ]);
-        dump($data);
         if($data['currency'] === 'KGS') {
             $contract = AptContract::create([
                 'apt_id' => $data['apt_id'],
@@ -76,17 +77,17 @@ class AptContractController extends Controller
         }
 
         if (array_key_exists('schedule', $data)) {
-            if ($data['first_payment'] !== null) {
                 Schedule::create([
+                    'date_to_pay' => Carbon::now()->format('d.m.Y'),
+                    'date_of_payment' => Carbon::now()->format('d.m.Y'),
                     'client_id' => $data['client_id'],
                     'contract_id' => $contract->id,
-                    'amount' => $data['first_payment'],
-                    'paid' => $data['first_payment'],
+                    'amount' => $data['first_payment'] === null ? 0 : $data['first_payment'],
+                    'paid' => 0,
                     'status' => 'Перв.взнос'
                 ]);
-            }
 
-            for ($i = 0; $i < (int)$data['schedule_status']; $i++) {
+            for ($i = 0; $i < (int)$data['schedule_status']-1; $i++) {
                 Schedule::create([
                     'client_id' => $data['client_id'],
                     'contract_id' => $contract->id,
@@ -107,7 +108,6 @@ class AptContractController extends Controller
             ]);
 
         }
-
         return redirect()->route('contracts.apartments.show', $contract->id);
     }
 
@@ -139,16 +139,17 @@ class AptContractController extends Controller
         $templateProcessor->setValue('fathersname', $client->fathersname);
         $templateProcessor->setValue('phone', $client->phone);
         $templateProcessor->setValue('given', $client->given);
-        $templateProcessor->setValue('givendate', date("d.m.Y", strtotime($client->givendate)));
-        $templateProcessor->setValue('birth', date("d.m.Y", strtotime($client->birth)));
+        $templateProcessor->setValue('givendate',$client->givendate !== null ? date("d.m.Y", strtotime($client->givendate )) : null);
+        $templateProcessor->setValue('birth', $client->birth !== null ? date("d.m.Y", strtotime($client->birth )) : '');
         $templateProcessor->setValue('passportId', $client->passportId);
         $templateProcessor->setValue('address', $client->address);
         $templateProcessor->setValue('pin', $client->pin);
         $templateProcessor->setValue('number', $apt->number);
         $templateProcessor->setValue('sq', $apt->square);
         $templateProcessor->setValue('floor', $apt->floor);
-        $templateProcessor->setValue('price', $apt->price);
-        $templateProcessor->setValue('amount', number_format($apt->total, 0, '.', ' '));
+        $templateProcessor->setValue('block', $apt->block);
+        $templateProcessor->setValue('price', number_format($contract->price, 0, '.', ' '));
+        $templateProcessor->setValue('amount', number_format($contract->amount, 0, '.', ' '));
         $templateProcessor->setValue('rooms', $apt->rooms);
         $templateProcessor->setValue('email', $apt->client->email ?? '');
 
@@ -156,7 +157,7 @@ class AptContractController extends Controller
         if ($apt->rooms === 1) {$roomsstr = 'одно';} else if ($apt->rooms === 2) {$roomsstr = 'двух';} else if ($apt->rooms === 3) {$roomsstr = 'трех';} else if ($apt->rooms === 4) {$roomsstr = 'четырех';}
         $templateProcessor->setValue('roomsstr', $roomsstr);
 
-        $numstr = Num2Str::convert($apt->price);
+        $numstr = Num2Str::convert($contract->price);
         $array = explode(" ", $numstr);
         $numstr = '';
         for ($i = 0; $i < count($array) - 3; $i++) {
@@ -164,13 +165,26 @@ class AptContractController extends Controller
         }
         $templateProcessor->setValue('pricestr', $numstr);
 
-        $numstr = Num2Str::convert($apt->total);
+        $numstr = Num2Str::convert($contract->amount);
         $array = explode(" ", $numstr);
         $numstr = '';
         for ($i = 0; $i < count($array) - 3; $i++) {
             $numstr .= $array[$i] . ' ';
         }
         $templateProcessor->setValue('amountstr', $numstr);
+
+        // TABLE
+
+        $schedule = $contract->schedule()->get();
+        $currency = $contract->currency;
+        $value = view('templates.schedule-table', compact('schedule', 'currency'));
+        $wordTable = new \PhpOffice\PhpWord\Element\Table();
+        $wordTable->addRow();
+        $cell = $wordTable->addCell();
+        Html::addHtml($cell,$value, false);
+
+        $templateProcessor->setComplexBlock('schedule_table', $wordTable);
+
 
         $newFilePath = $contract->id . '.docx';
         $templateProcessor->saveAs('storage/contracts/' . $contract->id . '.docx');
