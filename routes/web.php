@@ -4,125 +4,136 @@ use App\Http\Controllers\ApartmentsController;
 use App\Http\Controllers\AptBookController;
 use App\Http\Controllers\AptContractController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DairyController;
 use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\PaymentsController;
 use App\Models\Client;
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpWord\TemplateProcessor;
-
 
 // MAIN
-Route::group(['prefix' => '/'], function () {
+Route::group(['prefix' => '/', 'middleware'=> 'auth'], function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('home');
     Route::get('/search', [\App\Http\Controllers\DashboardController::class, 'search'])->name('main.search');
-});
 
 // APARTMENTS
-Route::group(['prefix' => 'apartments'], function () {
-    Route::get('/', [ApartmentsController::class, 'index'])->name('apartments');
-    Route::get('/search', [ApartmentsController::class, 'search'])->name('apartments.search');
-    Route::get('/searchone', [ApartmentsController::class, 'searchOne'])->name('apartments.search.one');
+    Route::group(['prefix' => 'apartments'], function () {
+        Route::get('/', [ApartmentsController::class, 'index'])->name('apartments');
+        Route::get('/search', [ApartmentsController::class, 'search'])->name('apartments.search');
+        Route::get('/searchone', [ApartmentsController::class, 'searchOne'])->name('apartments.search.one');
 
-});
+    });
 
 // DAIRY
-Route::group(['prefix' => 'dairy'], function () {
-    Route::get('/', [DairyController::class, 'index'])->name('dairy');
-    Route::post('/store', [DairyController::class, 'store'])->name('dairy.store');
-    Route::post('/delete/{id}', [DairyController::class, 'delete'])->name('dairy.delete');
-    Route::controller(DairyController::class)->group(function () {
-        Route::get('dairies-export', 'export')->name('dairies.export');
-        Route::get('/search', [DairyController::class, 'search'])->name('dairy.search');
+    Route::group(['prefix' => 'dairy'], function () {
+        Route::get('/', [DairyController::class, 'index'])->name('dairy');
+        Route::post('/store', [DairyController::class, 'store'])->name('dairy.store');
+        Route::post('/delete/{id}', [DairyController::class, 'delete'])->name('dairy.delete');
+        Route::controller(DairyController::class)->group(function () {
+            Route::get('dairies-export', 'export')->name('dairies.export');
+            Route::get('/search', [DairyController::class, 'search'])->name('dairy.search');
+        });
     });
-});
 
 // PARKING
-Route::group(['prefix' => 'parkings'], function () {
-    Route::get('/', [ParkingController::class, 'index'])->name('parking');
-});
+    Route::group(['prefix' => 'parkings'], function () {
+        Route::get('/', [ParkingController::class, 'index'])->name('parking');
+    });
 
 // CLIENTS
-Route::group(['prefix' => 'clients'], function () {
-    Route::get('/', [ClientController::class, 'index'])->name('clients');
-    Route::get('/create', [ClientController::class, 'create'])->name('clients.create');
-    Route::post('/store', [ClientController::class, 'store'])->name('clients.store');
-    Route::get('/search', [ClientController::class, 'search'])->name('clients.search');
-    Route::get('/{id}', [ClientController::class, 'show'])->name('clients.show');
-    Route::delete('/{id}/delete', [ClientController::class, 'destroy'])->name('clients.delete');
-});
+    Route::group(['prefix' => 'clients'], function () {
+        Route::get('/', [ClientController::class, 'index'])->name('clients');
+        Route::get('/create', [ClientController::class, 'create'])->name('clients.create');
+        Route::post('/store', [ClientController::class, 'store'])->name('clients.store');
+        Route::get('/search', [ClientController::class, 'search'])->name('clients.search');
+        Route::get('/{id}', [ClientController::class, 'show'])->name('clients.show');
+        Route::delete('/{id}/delete', [ClientController::class, 'destroy'])->name('clients.delete');
+    });
 
 // CONTRACTS
-Route::group(['prefix' => 'contracts'], function () {
-    // APARTMENTS
-    Route::group(['prefix' => 'apartment'], function () {
-        Route::get('/', [AptContractController::class, 'index'])->name('contracts.apartments');
-        Route::get('/create', [AptContractController::class, 'create'])->name('contracts.apartments.create');
-        Route::get('/download/{id}', [AptContractController::class, 'download'])->name('contracts.apartments.download');
-        Route::get('/search', [AptContractController::class, 'search'])->name('contracts.apartments.search');
-        Route::get('/store', [AptContractController::class, 'store'])->name('contracts.apartments.store');
-        Route::get('/{id}', [AptContractController::class, 'show'])->name('contracts.apartments.show');
-    });
+    Route::group(['prefix' => 'contracts'], function () {
+        // APARTMENTS
+        Route::group(['prefix' => 'apartment'], function () {
+            Route::get('/', [AptContractController::class, 'index'])->name('contracts.apartments');
+            Route::get('/create', [AptContractController::class, 'create'])->name('contracts.apartments.create');
+            Route::get('/download/{id}', [AptContractController::class, 'download'])->name('contracts.apartments.download');
+            Route::get('/search', [AptContractController::class, 'search'])->name('contracts.apartments.search');
+            Route::get('/store', [AptContractController::class, 'store'])->name('contracts.apartments.store');
+            Route::get('/{id}', [AptContractController::class, 'show'])->name('contracts.apartments.show');
+        });
 
-});
+    });
 
 // BOOKINGS
-Route::group(['prefix' => 'booking'], function () {
-    // APARTMENTS
-    Route::group(['prefix' => 'apartments'], function () {
-        Route::get('/', [AptBookController::class, 'index'])->name('bookings.apartments');
-        Route::get('/create', [AptBookController::class, 'create'])->name('booking.apartments.create');
-        Route::post('/store', [AptBookController::class, 'store'])->name('booking.apartments.store');
+    Route::group(['prefix' => 'booking'], function () {
+        // APARTMENTS
+        Route::group(['prefix' => 'apartments'], function () {
+            Route::get('/', [AptBookController::class, 'index'])->name('bookings.apartments');
+            Route::get('/create', [AptBookController::class, 'create'])->name('booking.apartments.create');
+            Route::post('/store', [AptBookController::class, 'store'])->name('booking.apartments.store');
+        });
     });
-});
 
 //ARTICLES
-Route::group(['prefix' => 'articles'], function () {
-    Route::get('/', [\App\Http\Controllers\PaymentArticlesController::class, 'index'])->name('articles');
-});
+    Route::group(['prefix' => 'articles'], function () {
+        Route::get('/', [\App\Http\Controllers\PaymentArticlesController::class, 'index'])->name('articles');
+    });
 
 // PAYMENTS
-Route::group(['prefix' => 'payments'], function () {
-    Route::get('/', [PaymentsController::class, 'index'])->name('payments');
-    Route::get('/create', [PaymentsController::class, 'create'])->name('payments.create');
-    Route::post('/store', [PaymentsController::class, 'store'])->name('payments.store');
-    Route::group(['prefix' => 'search'], function () {
-        Route::get('/contracts', [PaymentsController::class, 'searchContracts'])->name('payments.search.contracts');
+    Route::group(['prefix' => 'payments'], function () {
+        Route::get('/', [PaymentsController::class, 'index'])->name('payments');
+        Route::get('/create', [PaymentsController::class, 'create'])->name('payments.create');
+        Route::post('/store', [PaymentsController::class, 'store'])->name('payments.store');
+        Route::get('/download/{id}', [PaymentsController::class, 'download'])->name('payments.download');
+        Route::group(['prefix' => 'search'], function () {
+            Route::get('/contracts', [PaymentsController::class, 'searchContracts'])->name('payments.search.contracts');
+        });
     });
-});
 
 // SETTINGS
-Route::group(['prefix' => 'settings'], function () {
-   Route::get('/', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
+    Route::group(['prefix' => 'settings'], function () {
+        Route::get('/', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
 
-   // FILES
-    Route::group(['prefix' => 'files'], function () {
-       Route::get('/', [\App\Http\Controllers\SettingsFilesController::class, 'index'])->name('settings.files');
+        // FILES
+        Route::group(['prefix' => 'files'], function () {
+            Route::get('/', [\App\Http\Controllers\SettingsFilesController::class, 'index'])->name('settings.files');
+        });
+
+        // APARTMENTS
+        Route::group(['prefix' => 'apartments'], function () {
+            Route::get('/create', [\App\Http\Controllers\SettingsApartmentController::class, 'create'])->name('settings.apartments.create');
+        });
+
+        // INFO
+        Route::group(['prefix' => 'info'], function () {
+            Route::get('/', [\App\Http\Controllers\SettingsInfoController::class, 'index'])->name('settings.info');
+        });
     });
-});
 
-Route::group(['prefix' => 'export'], function () {
-   Route::get('/', [\App\Http\Controllers\ExportController::class, 'index'])->name('export');
-   Route::get('/query', [\App\Http\Controllers\ExportController::class, 'query'])->name('export.query');
-   Route::get('/export', [\App\Http\Controllers\ExportController::class, 'exportXls'])->name('export.export');
-});
+    Route::group(['prefix' => 'export'], function () {
+        Route::get('/', [\App\Http\Controllers\ExportController::class, 'index'])->name('export');
+        Route::get('/query', [\App\Http\Controllers\ExportController::class, 'query'])->name('export.query');
+        Route::get('/export', [\App\Http\Controllers\ExportController::class, 'exportXls'])->name('export.export');
+    });
 
+})->middleware(Authenticate::class);
 
 
 Route::group(['prefix' => 'test'], function () {
+    Route::post('/store', function (Request $request) {
+        dd($request->all());
+    })->name('test.store');
     Route::get('/', function () {
 
-        $spreadsheet = new Spreadsheet();
+        /*$spreadsheet = new Spreadsheet();
         $activeWorksheet = $spreadsheet->getActiveSheet();
         $activeWorksheet->setCellValue('A1', 'Hello World !');
 
         $writer = new Xlsx($spreadsheet);
         $writer->save('hello world.xlsx');
 
-        dd('Finish');
+        dd('Finish');*/
 
 
         $articles = [
@@ -194,12 +205,12 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/tozala', function () {
-   $schdeules = \App\Models\Schedule::all();
-   foreach ($schdeules as $schdeule) {
-       $schdeule->update([
-           'status' => 'Не оплачено',
-           'paid' => 0,
-           'date_to_pay' =>null
-       ]);
-   }
+    $schdeules = \App\Models\Schedule::all();
+    foreach ($schdeules as $schdeule) {
+        $schdeule->update([
+            'status' => 'Не оплачено',
+            'paid' => 0,
+            'date_to_pay' => null
+        ]);
+    }
 });

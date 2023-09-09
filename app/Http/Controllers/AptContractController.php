@@ -84,7 +84,7 @@ class AptContractController extends Controller
                     'contract_id' => $contract->id,
                     'amount' => $data['first_payment'] === null ? 0 : $data['first_payment'],
                     'paid' => 0,
-                    'status' => 'Перв.взнос'
+                    'status' => 'Не оплачено'
                 ]);
 
             for ($i = 0; $i < (int)$data['schedule_status']-1; $i++) {

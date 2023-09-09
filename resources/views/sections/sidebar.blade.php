@@ -258,9 +258,9 @@
                     </div>
                 </div>
             </a>
-            <ul class="{{ request()->is("contracts") || request()->is('settings/*')  ? "side-menu__sub-open" : "" }}">
+            <ul class="{{ request()->is("settings") || request()->is('settings/*')  ? "side-menu__sub-open" : "" }}">
                 <li>
-                    <a href="{{ route('contracts.apartments') }}"
+                    <a href="{{ route('settings.apartments.create') }}"
                        class="side-menu side-menu{{ request()->is("settings/apartments") || request()->is('settings/apartments/*') ? "--active" : "" }}">
                         <div class="side-menu__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -327,6 +327,20 @@
                             </svg>
                         </div>
                         <div class="side-menu__title">Пользователь</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('settings.info') }}"
+                       class="side-menu side-menu{{ request()->is("settings") || request()->is('/settings/info') ? "--active" : "" }}">
+                        <div class="side-menu__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" icon-name="activity" data-lucide="activity"
+                                 class="lucide lucide-activity">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="side-menu__title">О компании</div>
                     </a>
                 </li>
             </ul>

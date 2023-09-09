@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('contract_id');
             $table->unsignedBigInteger('article_id');
+            $table->float('amount_kgs', 10, 2);
+            $table->float('amount_usd', 10, 2);
             $table->float('amount', 10, 2);
             $table->timestamps();
             $table->softDeletes();

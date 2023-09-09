@@ -56,30 +56,37 @@
                 <tr class="intro-x">
                     <td class="w-20 !py-4">{{ $key + 1 }}<a class="whitespace-nowrap"></a></td>
                     <td class="w-32">
-                        <a href="" class="underline decoration-dotted font-medium whitespace-nowrap">{{ $payment->client->firstname }} {{ $payment->client->name }} {{ $payment->client->fathersname ?? '' }}</a>
-                        <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $payment->client->passportId }}</div>
+                        <a href=""
+                           class="underline decoration-dotted font-medium whitespace-nowrap">{{ $payment->client->firstname }} {{ $payment->client->name }} {{ $payment->client->fathersname ?? '' }}</a>
+                        <div
+                            class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $payment->client->passportId }}</div>
                     </td>
                     <td class="w-64 text-center">
                         {{ $payment->article->title }}
                     </td>
                     <td class="w-40 text-center">
                         {{ $payment->amount }}
+                        <i class="inline-block tooltip bg-black" style="height: 20px" title="{{ number_format($payment->amount_kgs, 0, '.', ' ') }} KGS,
+                        {{ number_format($payment->amount_usd, 0, '.', ' ')  }} USD"
+                           data-lucide="alert-circle"></i>
                     </td>
                     <td class="w-44 text-center">
                         {{ date("d.m.Y", strtotime($payment->created_at)) }}
                     </td>
                     <td class="w-24 table-report__action">
                         <div class="flex justify-center items-center">
-                            <a class="flex items-center text-primary whitespace-nowrap mr-5" href="">
+                            <a class="flex items-center text-primary whitespace-nowrap mr-5" href="{{ route('payments.download', $payment->id) }}">
                                 <i class="px-1" data-lucide="arrow-left-right"></i> Детали </a>
                             <a class="flex items-center text-danger whitespace-nowrap" href="javascript:;"
-                               data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal-{{--{{$booking->id}}--}}">
-                                <i class="px-1" data-lucide="trash"></i>  Удалить </a>
+                               data-tw-toggle="modal"
+                               data-tw-target="#delete-confirmation-modal-{{--{{$booking->id}}--}}">
+                                <i class="px-1" data-lucide="trash"></i> Удалить </a>
                         </div>
                     </td>
                 </tr>
                 <!-- BEGIN: Delete Confirmation Modal -->
-                <div id="delete-confirmation-modal-{{--{{$booking->id}}--}}" class="modal" tabindex="-1" aria-hidden="true" style="">
+                <div id="delete-confirmation-modal-{{--{{$booking->id}}--}}" class="modal" tabindex="-1"
+                     aria-hidden="true" style="">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-body p-0">
@@ -96,7 +103,8 @@
                                     <form method="post" action="">
                                         @method('delete')
                                         @csrf
-                                        <a type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
+                                        <a type="button" data-tw-dismiss="modal"
+                                           class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
                                         <button type="submit" class="btn btn-danger w-24">Delete</button>
                                     </form>
                                 </div>

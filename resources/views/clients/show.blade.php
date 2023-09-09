@@ -84,27 +84,6 @@
                     </li>
                 @endforeach
                     @endif
-                {{--
-                <li id="dashboard-tab" class="nav-item" role="presentation"><a href="javascript:;"
-                                                                               class="nav-link py-4 active"
-                                                                               data-tw-target="#dashboard"
-                                                                               aria-controls="dashboard"
-                                                                               aria-selected="true" role="tab">
-                        Dashboard </a></li>
-                <li id="account-and-profile-tab" class="nav-item" role="presentation"><a href="javascript:;"
-                                                                                         class="nav-link py-4"
-                                                                                         data-tw-target="#account-and-profile"
-                                                                                         aria-selected="false"
-                                                                                         role="tab">
-                        Account &amp; Profile </a></li>
-                <li id="activities-tab" class="nav-item" role="presentation"><a href="javascript:;"
-                                                                                class="nav-link py-4"
-                                                                                data-tw-target="#activities"
-                                                                                aria-selected="false" role="tab">
-                        Activities </a></li>
-                <li id="tasks-tab" class="nav-item" role="presentation"><a href="javascript:;" class="nav-link py-4"
-                                                                           data-tw-target="#tasks" aria-selected="false"
-                                                                           role="tab"> Tasks </a></li>--}}
             </ul>
     </div>
     <div class="intro-y tab-content mt-5">
@@ -115,69 +94,86 @@
                 <div class="grid-cols-1 mx-3">
                     <div class="report-box-2 intro-y">
                         <div class="box sm:flex">
-                            <div class="px-8 py-12 flex flex-col justify-center flex-1">
+                            <div class="px-3 py-5 flex flex-col justify-center flex-1">
                             <img src="{{ asset($contract->apartment->image) }}" data-action="zoom">
                             </div>
-                            <div class="px-8 py-12 flex flex-col justify-center flex-1 border-t sm:border-t-0 sm:border-l border-slate-200 dark:border-darkmode-300 border-dashed">
-                                <div class="relative text-3xl font-medium mb-3">№{{ $contract->apartment->number }}</div>
+                            <div class="px-3 flex flex-col justify-center p-5 flex-1 border-t border-slate-200 dark:border-darkmode-300 border-dashed">
+                                <div class="relative text-3xl font-medium mt-5 mb-8">№{{ $contract->apartment->number }}</div>
 
-                                <div class="text-slate-500 text-xs">ПЛОЩАДЬ</div>
-                                <div class="mt-1.5 flex items-center">
-                                    <div class="text-base">{{ $contract->apartment->square }} м²</div>
+                                <div class="grid grid-cols-2">
+
+                                    <div class="grid-cols-1">
+                                        <div class="text-slate-500 text-xs">ПЛОЩАДЬ</div>
+                                        <div class="mt-1.5 flex items-center">
+                                            <div class="text-base">{{ $contract->apartment->square }} м²</div>
+                                        </div>
+                                        <div class="text-slate-500 text-xs mt-5">ПЛАНИРОВКА КВАРТИРЫ</div>
+                                        <div class="mt-1.5 flex items-center">
+                                            <div class="text-base">{{ $contract->apartment->rooms }} комнат{{ $contract->apartment->rooms === 1 ? 'а' : '' }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid-cols-1">
+                                        <div class="text-slate-500 text-xs">ЭТАЖ</div>
+                                        <div class="mt-1.5 flex items-center">
+                                            <div class="text-base">{{ $contract->apartment->floor }}</div>
+                                        </div>
+                                        <div class="text-slate-500 text-xs mt-5">БЛОК</div>
+                                        <div class="mt-1.5 flex items-center">
+                                            <div class="text-base">{{ $contract->apartment->block ?? '' }}</div>
+                                        </div>
+                                    </div>
+
                                 </div>
-                                <div class="text-slate-500 text-xs mt-5">ПЛАНИРОВКА КВАРТИРЫ</div>
-                                <div class="mt-1.5 flex items-center">
-                                    <div class="text-base">{{ $contract->apartment->rooms }} комнат{{ $contract->apartment->rooms === 1 ? 'а' : '' }}</div>
-                                </div>
-                                <div class="text-slate-500 text-xs mt-5">ЭТАЖ</div>
-                                <div class="mt-1.5 flex items-center">
-                                    <div class="text-base">{{ $contract->apartment->floor }}</div>
-                                </div>
-                                <div class="text-slate-500 text-xs mt-5">БЛОК</div>
-                                <div class="mt-1.5 flex items-center">
-                                    <div class="text-base">{{ $contract->apartment->block ?? '' }}</div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="grid-cols-1 mx-3" style="max-height: 272px;">
-                    <div class="intro-y box col-span-12 lg:col-span-6">
-                        <div class="flex items-center px-5 py-5 border-b border-slate-200/60 dark:border-darkmode-400">
-                            <h2 class="mx-10 font-medium text-base mr-auto">
+                    <div class="intro-y box col-span-12">
+                        <div class="flex items-center px-8 py-3 border-b border-slate-200/60 dark:border-darkmode-400">
+                            <h2 class="relative text-3xl font-medium ">
                                 Рассрочка
                             </h2>
                         </div>
 
-                        <div class="p-5">
-                            <div class="flex items-center">
-                                <div class="border-l-2 border-primary dark:border-primary pl-4">
-                                    <a href="" class="font-medium">Create New Campaign</a>
-                                    <div class="text-slate-500">10:00 AM</div>
+                        <div class="px-5 py-3">
+                            <div class="grid grid-cols-2">
+
+                                <div class="grid-cols-1">
+                                    <div class="text-slate-500 text-xs mt-5">ЦЕНА ЗА м²</div>
+                                    <div class="mt-1.5 flex items-center">
+                                        <div
+                                            class="text-base">{{ number_format($contract->price, 0, '.', ' ') }} {{ $contract->currency }}</div>
+                                    </div>
+                                    <div class="text-slate-500 text-xs mt-5">ОПЛАЧЕНО</div>
+                                    <div class="mt-1.5 flex items-center">
+                                        <div class="text-base">{{ $contract->paid }} {{ $contract->currency }}</div>
+                                    </div>
+                                    <div class="text-slate-500 text-xs mt-5">ПРОСРОЧЕНО ДНЕЙ</div>
+                                    <div class="mt-1.5 flex items-center">
+                                        <div class="text-base">{{ $contract->days_missed }}</div>
+                                    </div>
                                 </div>
-                                <div class="text-success form-check form-switch ml-auto">
-                                    ОПЛАЧЕНО <i class="px-1" data-lucide="edit"></i>
+
+                                <div class="grid-cols-1">
+                                    <div class="text-slate-500 text-xs mt-5">СТОИМОСТЬ</div>
+                                    <div class="mt-1.5 flex items-center">
+                                        <div
+                                            class="text-base">{{ number_format($contract->amount, 0, '.', ' ') ?? '0' }} {{ $contract->currency }}</div>
+                                    </div>
+                                    <div class="text-slate-500 text-xs mt-5">ОСТАТОК</div>
+                                    <div class="mt-1.5 flex items-center">
+                                        <div
+                                            class="text-base">{{ number_format($contract->debt, 0, '.', ' ') }} {{ $contract->currency }}</div>
+                                    </div>
                                 </div>
+
                             </div>
-                            <div class="flex items-center mt-5">
-                                <div class="border-l-2 border-primary dark:border-primary pl-4">
-                                    <a href="" class="font-medium">Meeting With Client</a>
-                                    <div class="text-slate-500">02:00 PM</div>
-                                </div>
-                                <div class="text-success form-check form-switch ml-auto">
-                                    ОПЛАЧЕНО <i class="px-1" data-lucide="edit"></i>
-                                </div>
-                            </div>
-                            <div class="flex items-center mt-5">
-                                <div class="border-l-2 border-primary dark:border-primary pl-4">
-                                    <a href="" class="font-medium">Create New Repository</a>
-                                    <div class="text-slate-500">04:00 PM</div>
-                                </div>
-                                <div class="text-success form-check form-switch ml-auto">
-                                    <i class="px-1" data-lucide="check-square"></i> ОПЛАЧЕНО
-                                </div>
-                            </div>
+
+
                         </div>
 
 

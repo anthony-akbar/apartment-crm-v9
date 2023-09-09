@@ -26,7 +26,7 @@
                 <div class="form-inline text-center">
                     <label class="form-label"> Клиент</label>
                     <div class="mt-2">
-                        <select name="client_id" id="client_id" class="form-control tom-select w-full">
+                        <select name="client_id" id="client_id" class="form-control tom-select" style="width: 100%;">
                             @foreach($clients as $client)
                                 <option value="{{ $client->id }}">{{ $client->firstname }} {{ $client->name }} <span class="text-opacity-70">{{ $client->passportId }}</span> </option>
                             @endforeach
@@ -180,7 +180,10 @@
                     $('#contract-selector').html(data)
                 }
             })
-            onContractChange()
+            setTimeout(function () {
+                onContractChange()
+            }, 1000)
+
         }
 
         $('#client_id').change(onClientChange)
