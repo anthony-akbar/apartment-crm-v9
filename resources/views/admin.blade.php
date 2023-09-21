@@ -3,7 +3,7 @@
 <!-- BEGIN: Head -->
 <head>
     <meta charset="utf-8">
-    <link href="{{ asset('black-cut.png') }}" rel="shortcut icon">
+    <link href="{{ asset('individual/main-black-cut.png') }}" rel="shortcut icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Business House | Admin</title>
     <link rel="stylesheet" href="{{ asset('dist/css/app.css') }}"/>

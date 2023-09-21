@@ -5,12 +5,12 @@
             <!-- BEGIN: Login Info -->
             <div class="hidden xl:flex flex-col min-h-screen">
                 <a href="" class="-intro-x flex items-center pt-5">
-                    <img alt="Midone - HTML Admin Template" class="w-12" src="{{asset('white-cut.png')}}">
+                    <img alt="Midone - HTML Admin Template" class="w-12" src="{{asset('individual/main-white-cut.png')}}">
                     <span class="text-white text-3xl ml-3">  Business House KG </span>
                 </a>
                 <div class="my-auto">
                     <img alt="Midone - HTML Admin Template" class="-intro-x w-1/2 -mt-16"
-                         src="{{asset('green-white.png')}}">
+                         src="{{asset('individual/logo-white.png')}}">
                     <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">
                     </div>
                     <div class="-intro-x mt-5 text-lg text-white text-opacity-70 dark:text-slate-400">
