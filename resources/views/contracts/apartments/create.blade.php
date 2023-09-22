@@ -180,6 +180,7 @@
                                 <option value="18">18 месяцев</option>
                                 <option value="24">24 месяцев</option>
                                 <option value="30">30 месяцев</option>
+                                <option value="36">36 месяцев</option>
                             </select>
                         </div>
 
