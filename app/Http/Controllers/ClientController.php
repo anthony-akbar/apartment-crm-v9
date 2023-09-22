@@ -20,6 +20,7 @@ class ClientController extends Controller
         $data = $request->all();
         $data['birth'] = date("Y-m-d", strtotime($data['birth']));
         $data['givendate'] = date("Y-m-d", strtotime($data['givendate']));
+        $data['status'] = $data['status'] === null ? 1 : $data['status'];
         Client::create($data);
         return redirect()->route('clients');
     }
