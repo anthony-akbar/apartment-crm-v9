@@ -44,6 +44,8 @@ class AptContractController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        /*dump($data['currency']);
+        dd($data);*/
         $apartment = Apartment::find($data['apt_id']);
         $apartment->update([
             'price' => $data['price'],
@@ -53,24 +55,26 @@ class AptContractController extends Controller
             'currency'=>$data['currency'],
         ]);
         if($data['currency'] === 'KGS') {
+            dump('true');
             $contract = AptContract::create([
                 'apt_id' => $data['apt_id'],
                 'client_id' => $data['client_id'],
                 'price' => $data['price'] * $data['currency-value'],
                 'amount' => $data['amount'] * $data['currency-value'],
                 'paid' => 0,
-                'currency' => $data['currency'],
+                'currency' => 'KGS',
                 'debt' => $data['amount'] * $data['currency-value'],
                 'days_missed' => array_key_exists('schedule_charges_free', $data) ? $data['schedule_charges_free'] : 0,
             ]);
         }else {
+            dump('true USD');
             $contract = AptContract::create([
                 'apt_id' => $data['apt_id'],
                 'client_id' => $data['client_id'],
                 'price' => $data['price'],
                 'amount' => $data['amount'],
                 'paid' => 0,
-                'currency' => $data['currency'],
+                'currency' => 'USD',
                 'debt' => $data['amount'],
                 'days_missed' => array_key_exists('schedule_charges_free', $data) ? $data['schedule_charges_free'] : 0,
             ]);
@@ -108,7 +112,7 @@ class AptContractController extends Controller
             ]);
 
         }
-        return redirect()->route('contracts.apartments.show', $contract->id);
+        //return redirect()->route('contracts.apartments.show', $contract->id);
     }
 
     public function search(Request $request)
@@ -129,7 +133,7 @@ class AptContractController extends Controller
         $apt = $contract->apartment;
         $created_at = Carbon::parse($contract->created_at);
 
-        $templateFilePath = 'sample.docx';
+        $templateFilePath = 'individual/' . $contract->currency .'.docx';
         $templateProcessor = new TemplateProcessor($templateFilePath);
 
         $templateProcessor->setValue('date', $created_at->day . ' «' . $created_at->getTranslatedMonthName('Do MMMM') . '» ' . $created_at->year);
@@ -186,8 +190,8 @@ class AptContractController extends Controller
         $templateProcessor->setComplexBlock('schedule_table', $wordTable);
 
 
-        $newFilePath = $contract->id . '.docx';
-        $templateProcessor->saveAs('storage/contracts/' . $contract->id . '.docx');
+        $newFilePath = '№' . $contract->id . ' ' . $client->firstname . ' ' . $client->name . ' ' . $apt->floor . ' этаж ' . $apt->block . ' блок ' . $apt->square . 'м²'. '.docx';
+        $templateProcessor->saveAs('storage/contracts/№' . $contract->id . ' ' . $client->firstname . ' ' . $client->name . ' ' . $apt->floor . ' этаж ' . $apt->block . ' блок ' . $apt->square . 'м²'. '.docx');
         return redirect()->away(request()->root() . '/storage/contracts/' . $newFilePath);
 
     }

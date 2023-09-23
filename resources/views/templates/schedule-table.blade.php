@@ -3,7 +3,7 @@
     <tr>
         <th style="vertical-align: middle; text-align: center">№ п/п</th>
         <th style="vertical-align: middle; text-align: center">Дата внесения денежных средств</th>
-        <th style="vertical-align: middle; text-align: center">Сумма денежных средств, подлежащая внесению ({{ $currency === 'KGS' ? 'Сомах' : 'Долларах' }})</th>
+        <th style="vertical-align: middle; text-align: center">Сумма денежных средств, подлежащая внесению ({{ $currency === 'KGS' ? 'Сомах' : 'Долларах США' }})</th>
         <th style="vertical-align: middle; text-align: center">Оплачено</th>
     </tr>
     </thead>
