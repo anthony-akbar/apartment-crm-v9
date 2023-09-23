@@ -44,8 +44,6 @@ class AptContractController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        /*dump($data['currency']);
-        dd($data);*/
         $apartment = Apartment::find($data['apt_id']);
         $apartment->update([
             'price' => $data['price'],
@@ -55,7 +53,6 @@ class AptContractController extends Controller
             'currency'=>$data['currency'],
         ]);
         if($data['currency'] === 'KGS') {
-            dump('true');
             $contract = AptContract::create([
                 'apt_id' => $data['apt_id'],
                 'client_id' => $data['client_id'],
@@ -67,7 +64,6 @@ class AptContractController extends Controller
                 'days_missed' => array_key_exists('schedule_charges_free', $data) ? $data['schedule_charges_free'] : 0,
             ]);
         }else {
-            dump('true USD');
             $contract = AptContract::create([
                 'apt_id' => $data['apt_id'],
                 'client_id' => $data['client_id'],
