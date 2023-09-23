@@ -134,6 +134,7 @@ class AptContractController extends Controller
         $created_at = Carbon::parse($contract->created_at);
 
         $templateFilePath = 'individual/' . $contract->currency .'.docx';
+        dd($templateFilePath);
         $templateProcessor = new TemplateProcessor($templateFilePath);
 
         $templateProcessor->setValue('date', $created_at->day . ' «' . $created_at->getTranslatedMonthName('Do MMMM') . '» ' . $created_at->year);
