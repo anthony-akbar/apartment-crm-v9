@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use nikserg\Num2Str\Num2Str;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -130,6 +131,7 @@ class AptContractController extends Controller
         $created_at = Carbon::parse($contract->created_at);
 
         $templateFilePath = 'individual/' . $contract->currency .'.docx';
+        Settings::setTempDir(public_path());
         $templateProcessor = new TemplateProcessor($templateFilePath);
 
         $templateProcessor->setValue('date', $created_at->day . ' «' . $created_at->getTranslatedMonthName('Do MMMM') . '» ' . $created_at->year);
