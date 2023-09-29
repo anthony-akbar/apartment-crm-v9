@@ -108,7 +108,7 @@ class AptContractController extends Controller
             ]);
 
         }
-        //return redirect()->route('contracts.apartments.show', $contract->id);
+        return redirect()->route('contracts.apartments.show', $contract->id);
     }
 
     public function search(Request $request)
@@ -130,7 +130,6 @@ class AptContractController extends Controller
         $created_at = Carbon::parse($contract->created_at);
 
         $templateFilePath = 'individual/' . $contract->currency .'.docx';
-        dump($templateFilePath);
         $templateProcessor = new TemplateProcessor($templateFilePath);
 
         $templateProcessor->setValue('date', $created_at->day . ' «' . $created_at->getTranslatedMonthName('Do MMMM') . '» ' . $created_at->year);
