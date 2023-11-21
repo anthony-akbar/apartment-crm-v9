@@ -21,6 +21,7 @@ return new class extends Migration
             $table->float('amount_kgs', 10, 2);
             $table->float('amount_usd', 10, 2);
             $table->float('amount', 10, 2);
+            $table->string('description');
             $table->timestamps();
             $table->softDeletes();
         });

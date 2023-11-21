@@ -10,10 +10,32 @@
             <div class="mx-3">
                 <div class="py-2">
                     <div class="form-check form-switch mb-3">
-                        <input id="checkbox-switch-7" class="form-check-input" type="checkbox">
-                        <label class="form-check-label" for="checkbox-switch-7">Сомовый</label>
+
+                        <div class="grid grid-cols-2">
+                            <div class="grid-cols-1 pt-1 px-2">
+                                <label data-tw-merge for="created_at" class="inline-block mb-2">
+                                    Дата заключения
+                                </label>
+                                <input
+                                    data-tw-merge id="created_at"
+                                    type="text" data-single-mode="true" class="h-10 pt-1 disabled:bg-slate-100 disabled:cursor-not-allowed dark:disabled:bg-darkmode-800/50 dark:disabled:border-transparent
+                                    [&amp;amp;[readonly]]:bg-slate-100 [&amp;amp;[readonly]]:cursor-not-allowed [&amp;amp;[readonly]]:dark:bg-darkmode-800/50 [&amp;amp;[readonly]]:dark:border-transparent
+                                    transition duration-200 ease-in-out w-full text-sm border-slate-200 shadow-sm rounded-md placeholder:text-slate-400/90 focus:ring-4 focus:ring-primary focus:ring-opacity-20
+                                    focus:border-primary focus:border-opacity-40 dark:bg-darkmode-800 dark:border-transparent dark:focus:ring-slate-700 dark:focus:ring-opacity-50 dark:placeholder:text-slate-500/80
+                                    datepicker mx-auto block w-56 mx-auto block w-56 datepicker mx-auto block w-56 mx-auto block w-56"
+                                />
+                            </div>
+                            <div class="grid-cols-1 px-2">
+                                <input id="checkbox-switch-7" class="form-check-input h-10" type="checkbox">
+                                <label class="form-check-label" for="checkbox-switch-7">Сомовый</label>
+                                <div class="pt-2">
+                                <input id="currency-value" type="number" step="0.1" value="88" class="h-10 form-control" placeholder="Курс $">
+                                </div>
+                                </div>
+                        </div>
+
+
                     </div>
-                    <input id="currency-value" type="number" step="0.1" value="88" class="form-control" placeholder="Курс $">
                 </div>
             </div>
         </div>
@@ -77,6 +99,14 @@
                 <div class="flex items-center border-b border-slate-200/60 dark:border-darkmode-400 pb-5 mb-5">
                     <div class="font-medium text-base truncate mx-6">Квартира</div>
                     <div class="font-medium text-base truncate ml-auto">
+<div class="mt-2 overflow-visible">
+                        <select id="aptnum" class="tom-select w-full">
+                            @foreach($apartments as $apartment)
+                                @dump($apartment)
+                                <option value="{{ $apartment->id }}">№{{ $apartment->number }} {{ $apartment->square }}м² Блок {{ $apartment->block }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                         <input id="aptnum" name="apt_id" type="number" class="form-control" placeholder="№">
                     </div>
                 </div>
@@ -274,6 +304,7 @@
     </div>
         <input type="hidden" name="currency" id="currency-hidden">
         <input type="hidden" name="currency-value" id="currency-value-hidden" value="88">
+        <input type="hidden" name="created_at" id="created_at-hidden">
 
         <div class="flex intro-x justify-end flex-col md:flex-row gap-2 mt-5">
             <a type="button" class="btn py-3 border-slate-300 dark:border-darkmode-400 text-slate-500 w-full md:w-52">Cancel</a>
@@ -375,5 +406,8 @@
         $('#aptprice').keyup(onPriceChange)
         $('#currency-value').keyup(onPriceChange)
         $('#checkbox-switch-7').change(onPriceChange)
+        $('#created_at').change(() =>{
+            $('#created_at-hidden').val($('#created_at').val())
+        })
     </script>
 @endsection

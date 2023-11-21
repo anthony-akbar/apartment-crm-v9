@@ -3,14 +3,17 @@
 use App\Http\Controllers\ApartmentsController;
 use App\Http\Controllers\AptBookController;
 use App\Http\Controllers\AptContractController;
+use App\Http\Controllers\AutoController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DairyController;
 use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\ReportController;
 use App\Models\Client;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Nwidart\Modules\Facades\Module;
 
 // MAIN
 Route::group(['prefix' => '/', 'middleware'=> 'auth'], function () {
@@ -22,7 +25,6 @@ Route::group(['prefix' => '/', 'middleware'=> 'auth'], function () {
         Route::get('/', [ApartmentsController::class, 'index'])->name('apartments');
         Route::get('/search', [ApartmentsController::class, 'search'])->name('apartments.search');
         Route::get('/searchone', [ApartmentsController::class, 'searchOne'])->name('apartments.search.one');
-
     });
 
 // DAIRY
@@ -91,6 +93,12 @@ Route::group(['prefix' => '/', 'middleware'=> 'auth'], function () {
         });
     });
 
+    // AUTO
+
+    Route::group(['prefix' => 'auto'], function () {
+       Route::get('/', [AutoController::class, 'index'])->name('auto');
+    });
+
 // SETTINGS
     Route::group(['prefix' => 'settings'], function () {
         Route::get('/', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
@@ -109,12 +117,22 @@ Route::group(['prefix' => '/', 'middleware'=> 'auth'], function () {
         Route::group(['prefix' => 'info'], function () {
             Route::get('/', [\App\Http\Controllers\SettingsInfoController::class, 'index'])->name('settings.info');
         });
+
+        // REPORT
+        Route::group(['prefix' => 'report'], function () {
+            Route::get('/', [ReportController::class, 'index'])->name('settings.report');
+            Route::post('/store', [ReportController::class, 'store'])->name('settings.store');
+        });
     });
 
     Route::group(['prefix' => 'export'], function () {
         Route::get('/', [\App\Http\Controllers\ExportController::class, 'index'])->name('export');
         Route::get('/query', [\App\Http\Controllers\ExportController::class, 'query'])->name('export.query');
         Route::get('/export', [\App\Http\Controllers\ExportController::class, 'exportXls'])->name('export.export');
+    });
+
+    Route::group(['prefix' => 'report'], function () {
+        Route::get('/', [ReportController::class, 'dashboard'])->name('report.dashboard');
     });
 
 })->middleware(Authenticate::class);
@@ -126,6 +144,11 @@ Route::group(['prefix' => 'test'], function () {
     })->name('test.store');
     Route::get('/', function () {
 
+        $module = Module::find('Safe');
+        dd($module);
+
+
+        //return view('test');
         /*$spreadsheet = new Spreadsheet();
         $activeWorksheet = $spreadsheet->getActiveSheet();
         $activeWorksheet->setCellValue('A1', 'Hello World !');

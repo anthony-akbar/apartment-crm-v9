@@ -48,6 +48,7 @@
                 <th class="w-64 text-center whitespace-nowrap">Основание</th>
                 <th class="w-40 text-center whitespace-nowrap">Сумма</th>
                 <th class="w-44 text-center whitespace-nowrap">Дата оплаты</th>
+                <th class="w-44 text-center whitespace-nowrap">Примечания</th>
                 <th class="w-24 text-center whitespace-nowrap">Действия</th>
             </tr>
             </thead>
@@ -62,16 +63,19 @@
                             class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $payment->client->passportId }}</div>
                     </td>
                     <td class="w-64 text-center">
-                        {{ $payment->article->title }}
+                        {{ $payment->article->title }} за договор №{{ $payment->contract->id }}
                     </td>
                     <td class="w-40 text-center">
-                        {{ $payment->amount }}
+                        {{ $payment->amount }} {{ $payment->contract->currency }}
                         <i class="inline-block tooltip bg-black" style="height: 20px" title="{{ number_format($payment->amount_kgs, 0, '.', ' ') }} KGS,
                         {{ number_format($payment->amount_usd, 0, '.', ' ')  }} USD"
                            data-lucide="alert-circle"></i>
                     </td>
                     <td class="w-44 text-center">
                         {{ date("d.m.Y", strtotime($payment->created_at)) }}
+                    </td>
+                    <td class="w-40 text-center">
+                        {{ $payment->description }}
                     </td>
                     <td class="w-24 table-report__action">
                         <div class="flex justify-center items-center">

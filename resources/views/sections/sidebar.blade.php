@@ -214,6 +214,12 @@
             </a>
         </li>
         <li>
+            <a href="{{ route('auto') }}" class="side-menu side-menu{{ request()->is("dairy") ? "--active" : "" }}">
+                <div class="side-menu__icon"><i data-lucide="edit"></i></div>
+                <div class="side-menu__title">Авто</div>
+            </a>
+        </li>
+        <li>
             <a href="{{ route('clients') }}"
                class="side-menu side-menu{{ request()->is("clients") ? "--active" : "" }}">
                 <div class="side-menu__icon"><i data-lucide="users"></i></div>
@@ -239,6 +245,13 @@
                class="side-menu side-menu{{ request()->is("payments") || request()->is("payments/*") ? "--active" : "" }}">
                 <div class="side-menu__icon"><i data-lucide="dollar-sign"></i></div>
                 <div class="side-menu__title">Оплаты</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('report.dashboard') }}"
+               class="side-menu side-menu{{ request()->is("report") || request()->is("report/*") ? "--active" : "" }}">
+                <div class="side-menu__icon"><i data-lucide="dollar-sign"></i></div>
+                <div class="side-menu__title">Отчеты</div>
             </a>
         </li>
         <li>
@@ -341,6 +354,20 @@
                             </svg>
                         </div>
                         <div class="side-menu__title">О компании</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('settings.report') }}"
+                       class="side-menu side-menu{{ request()->is("settings") || request()->is('/settings/report') ? "--active" : "" }}">
+                        <div class="side-menu__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" icon-name="activity" data-lucide="activity"
+                                 class="lucide lucide-activity">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="side-menu__title">Отчёты</div>
                     </a>
                 </li>
             </ul>

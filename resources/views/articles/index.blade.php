@@ -22,7 +22,7 @@
                 <tr class="intro-x">
                     <td class="w-20 !py-4">{{ $key + 1 }}<a class="whitespace-nowrap"></a></td>
                     <td class="w-72">
-                        <a href="" class="underline decoration-dotted font-medium whitespace-nowrap">{{ $article->title }}</a>
+                        <a href="" class="underline decoration-dotted font-medium whitespace-nowrap">{{ $article->title }} </a>
                     </td>
                     <td class="w-32">
                         {{ $article->table }}

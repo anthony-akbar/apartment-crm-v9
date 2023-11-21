@@ -19,7 +19,8 @@
         "nwidart/laravel-modules": "9",
         "phpoffice/phpspreadsheet": "^1.29",
         "phpoffice/phpword": "^1.1",
-        "stichoza/google-translate-php": "^5.1"
+        "stichoza/google-translate-php": "^5.1",
+        "tcg/voyager": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

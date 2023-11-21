@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AptContract;
+use App\Models\Auto;
 use App\Models\Client;
 use App\Models\Payment;
 use App\Models\PaymentArticle;
@@ -10,6 +11,7 @@ use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use nikserg\Num2Str\Num2Str;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class PaymentsController extends Controller
@@ -36,15 +38,37 @@ class PaymentsController extends Controller
 
     public function store(Request $request) {
         $data = $request->all();
+        dd($data);
+        if(array_key_exists('auto', $data)){
 
-        Payment::create([
-           'client_id' => $data['client_id'],
-            'contract_id' => $data['contract_id'],
-            'article_id' => $data['article_id'],
-            'amount_kgs' => $data['amount_kgs'],
-            'amount_usd' => $data['amount_usd'],
-            'amount' => (int)$data['total']
-        ]);
+            Auto::create([
+                'make'=>$data['make'],
+                'model'=>$data['model'],
+                'year'=>$data['year'],
+                'amount'=>$data['amount'],
+                'description'=>$data['description'],
+            ]);
+            Payment::create([
+                'client_id' => $data['client_id'],
+                'contract_id' => $data['contract_id'],
+                'article_id' => $data['article_id'],
+                'amount_kgs' => $data['amount_kgs'],
+                'amount_usd' => $data['amount_usd'],
+                'amount' => (int)$data['total'],
+                'description'=>'Auto ' . $data['make'] . ' ' . $data['model']
+            ]);
+        }else{
+            Payment::create([
+                'client_id' => $data['client_id'],
+                'contract_id' => $data['contract_id'],
+                'article_id' => $data['article_id'],
+                'amount_kgs' => $data['amount_kgs'],
+                'amount_usd' => $data['amount_usd'],
+                'amount' => (int)$data['total']
+            ]);
+        }
+
+
 
         $total = (int)$data['total'];
         $article = PaymentArticle::find((int)$data['article_id']);
@@ -58,10 +82,9 @@ class PaymentsController extends Controller
                 $item->update([
                    'status'=> 'Оплачено',
                     'paid'=> $item->paid + ($item->amount - $item->paid),
-                    'date_to_pay'=> Carbon::now()->format('d.m.Y'),
+                    'date_to_pay'=> Carbon::now()->format('Y-m-d'),
                 ]);
                 $total = $total - ($item->amount - $item->paid);
-                dump($total);
             }
         }
         $unpaid = $schedule->where('status', 'Не оплачено');
@@ -70,28 +93,31 @@ class PaymentsController extends Controller
                 $item->update([
                     'status'=>'Оплачено',
                     'paid'=> $item->amount,
-                    'date_to_pay'=> Carbon::now()->format('d.m.Y'),
+                    'date_to_pay'=> Carbon::now()->format('Y-m-d'),
                 ]);
                 $total = $total - $item->amount;
             }else if($total < $item->amount){
                 $item->update([
                     'status'=>'Частичная оплата',
                     'paid'=> $total,
-                    'date_to_pay'=> Carbon::now()->format('d.m.Y'),
+                    'date_to_pay'=> Carbon::now()->format('Y-m-d'),
                 ]);
                 $total = 0;
                 break;
             }
         }
+        dump($article);
         if($article->table === 'apt_contracts'){
             $contract = AptContract::find($data['contract_id']);
+            dump($contract);
             $contract->update([
                 'paid'=> $contract->paid + (int)$data['total'],
                 'debt' => $contract->debt - (int)$data['total']
             ]);
+            dump($contract);
         }
 
-        return redirect()->route('payments');
+        //return redirect()->route('payments');
     }
 
     public function download($id) {
@@ -100,8 +126,8 @@ class PaymentsController extends Controller
         $contract = $payment->contract()->get()[0];
         $client = $payment->client()->get()[0];
         $article = $payment->article()->get()[0];
-
-        $templateFilePath = 'PaymentSample.docx';
+        Settings::setTempDir(public_path());
+        $templateFilePath = 'individual/paymentSample.docx';
         $templateProcessor = new TemplateProcessor($templateFilePath);
 
         $templateProcessor->setValue('id', $payment->id);

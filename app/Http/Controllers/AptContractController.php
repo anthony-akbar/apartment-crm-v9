@@ -38,13 +38,17 @@ class AptContractController extends Controller
             return view('contracts.apartments.create', compact('clients', 'client_id', 'apt_id'));
         }
         $clients = Client::all();
-        return view('contracts.apartments.create', compact('clients'));
+        $apartments = Apartment::all();
+        return view('contracts.apartments.create', compact('clients', 'apartments'));
     }
 
 
     public function store(Request $request)
     {
         $data = $request->all();
+
+        dd($data);
+
         $apartment = Apartment::find($data['apt_id']);
         $apartment->update([
             'price' => $data['price'],

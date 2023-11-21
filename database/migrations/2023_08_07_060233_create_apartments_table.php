@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('floor');
             $table->unsignedBigInteger('client_id')->nullable();
             $table->float('square', 10, 2);
-            $table->float('block', 10, 2);
+            $table->string('block');
             $table->float('price', 10, 2);
             $table->float('total', 10, 2);
             $table->string('currency')->default('USD');

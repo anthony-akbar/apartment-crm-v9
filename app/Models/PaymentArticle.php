@@ -12,7 +12,8 @@ class PaymentArticle extends Model
     use SoftDeletes;
 
     protected $fillable = [
-      'title',
-      'table'
+        'title',
+        'table',
+        'category_id',
     ];
 }
