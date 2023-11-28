@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\Dairies;
 use App\Models\Dairy;
+use App\Models\PaymentCategory;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -11,14 +12,8 @@ class DairyController extends Controller
 {
     public function index()
     {
-        $dairy_som = Dairy::where('currency', 'C')->orderBy('date', 'asc')->get();
-        $dairy_som_in = Dairy::where('currency', 'C')->where('details', 'Подочет')->get()->sum('payment');
-        $dairy_som_out = Dairy::where('currency', 'C')->where('details', '!=', 'Подочет')->get()->sum('payment');
-        $dairy_dollar = Dairy::where('currency', '$')->orderBy('date', 'asc')->get();
-        $dairy_dollar_in = Dairy::where('currency', '$')->where('details', 'Подочет')->get()->sum('payment');
-        $dairy_dollar_out = Dairy::where('currency', '$')->where('details', '!=', 'Подочет')->get()->sum('payment');
-
-        return view('dairy.index', compact('dairy_som', 'dairy_som_in', 'dairy_som_out', 'dairy_dollar', 'dairy_dollar_in', 'dairy_dollar_out'));
+        $categories = PaymentCategory::all();
+        return view('dairy.index', compact('categories'));
     }
 
     public function store(Request $request)

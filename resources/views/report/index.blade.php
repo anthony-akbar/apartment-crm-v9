@@ -5,6 +5,8 @@
 
     <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
 
+
+
         <!-- BEGIN: Modal Toggle -->
         <div class="text-center mr-2"><a href="javascript:;" data-tw-toggle="modal" data-tw-target="#add-article"
                                          class="btn btn-primary">Новая запись</a></div> <!-- END: Modal Toggle -->
@@ -149,6 +151,46 @@
             </div>
         </div>
         <div class="hidden md:block mx-auto text-slate-500">Showing 1 to 10 of 150 entries</div>
+
+        <div class="text-center mx-3">
+            <div class="dropdown inline-block" data-tw-placement="bottom-start">
+                <button class="dropdown-toggle btn btn-primary" aria-expanded="false" data-tw-toggle="dropdown">Фильтр<i data-lucide="chevron-down" class="w-4 h-4 ml-2"></i></button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-content">
+                        <div class="p-2">
+                            <div class="form-inline">
+                                <label for="horizontal-form-1" class="form-label">Категории</label>
+                                <select data-placeholder="Select your favorite actors" class="tom-select w-full">
+                                    <option value="all">Все</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-inline mt-3">
+                                <label for="horizontal-form-1" class="form-label">Валюта</label>
+                                <select data-placeholder="Select your favorite actors" class="tom-select w-full">
+                                        <option value="С">Сом</option>
+                                        <option value="$">$</option>
+                                </select>
+                            </div>
+
+                            <div class="form-inline mt-3">
+                                <label for="horizontal-form-1" class="form-label">Период</label>
+                                <input type="text" data-daterange="true" class="datepicker form-control w-56 block mx-auto">
+                            </div>
+
+                            <div class="flex items-center mt-3">
+                                <button data-dismiss="dropdown" class="btn btn-secondary w-32 ml-auto">Close</button>
+                                <button class="btn btn-primary w-32 ml-2">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
             <div class="w-56 relative text-slate-500">
                 <input type="text" class="form-control w-56 box pr-10" placeholder="Search...">
@@ -163,55 +205,57 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-12">
+        @foreach ($categories as $category)
+            <div class="col-span-12 md:col-span-6 lg:col-span-3 mt-6 mx-4">
+                <div class="intro-y block sm:flex items-center">
+                    <h2 class="text-lg font-medium truncate mr-5">
+                        {{ $category->title }}
+                    </h2>
+                    <div class="sm:ml-auto p-3 mt-3 sm:mt-0 box">
 
-    <div>
-        <div class="grid grid-cols-4">
-            @foreach ($categories as $category)
-                <div class="grid-cols-1 m-5 mt-6 overflow-scroll h-10">
-                    <div class="intro-y block sm:flex items-center">
-                        <h2 class="text-lg font-medium truncate mr-5">
-                            {{ $category->title }}
-                        </h2>
-                        <div class="sm:ml-auto p-3 mt-3 sm:mt-0 box">
-                            0$
-                        </div>
-                    </div>
-                    <div class="intro-y box p-5 mt-12 sm:mt-5 overflow-scroll">
-                        <div
-                            class="flex text-slate-500 border-b border-slate-200 dark:border-darkmode-300 border-dashed pb-3 mb-3">
-                            <div>Артикли</div>
-                            <div class="ml-auto">Сумма</div>
-                        </div>
-
-                        @foreach($category->articles as $article)
-                            <div class="flex items-center mb-5">
-                                <div class="flex items-center">
-                                    <div>{{ $article->title }}</div>
-                                </div>
-                                <div class="ml-auto">4.500</div>
-                            </div>
-                        @endforeach
-
-
-                        <button
-                            class="btn btn-outline-secondary w-full border-slate-300 dark:border-darkmode-300 border-dashed relative mb-0 justify-start mb-2">
-                            <span class="truncate mr-5">View Full Report</span>
-                            <span
-                                class="w-8 h-8 absolute flex justify-center items-center right-0 top-0 bottom-0 my-auto ml-auto mr-0.5">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                     stroke-linejoin="round"
-                                     icon-name="arrow-right" data-lucide="arrow-right"
-                                     class="lucide lucide-arrow-right w-4 h-4"><line x1="5" y1="12" x2="19"
-                                                                                     y2="12"></line><polyline
-                                        points="12 5 19 12 12 19"></polyline></svg>
-                            </span>
-                        </button>
                     </div>
                 </div>
-            @endforeach
-        </div>
+                <div class="intro-y box p-5 mt-12 sm:mt-5">
+                    <div
+                        class="flex text-slate-500 border-b border-slate-200 dark:border-darkmode-300 border-dashed pb-3 mb-3">
+                        <div>Артикли</div>
+                        <div class="ml-auto">Сумма</div>
+                    </div>
 
+                    @foreach($category->articles as $article)
+                        <div class="flex items-center mb-5">
+                            <div class="flex items-center">
+                                <div>{{ $article->title }}</div>
+                            </div>
+                            <div class="ml-auto">{{ $article->records->sum('payment') }}</div>
+                        </div>
+                    @endforeach
+
+
+                    {{--<button
+                        class="btn btn-outline-secondary w-full border-slate-300 dark:border-darkmode-300 border-dashed relative mb-0 justify-start mb-2">
+                        <span class="truncate mr-5">View Full Report</span>
+                        <span
+                            class="w-8 h-8 absolute flex justify-center items-center right-0 top-0 bottom-0 my-auto ml-auto mr-0.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 icon-name="arrow-right" data-lucide="arrow-right"
+                                 class="lucide lucide-arrow-right w-4 h-4"><line x1="5" y1="12" x2="19"
+                                                                                 y2="12"></line><polyline
+                                    points="12 5 19 12 12 19"></polyline></svg>
+                        </span>
+                    </button>--}}
+                </div>
+            </div>
+        @endforeach
     </div>
 
+@endsection
+
+@section('script')
+    <script>
+
+    </script>
 @endsection

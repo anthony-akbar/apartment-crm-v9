@@ -7,16 +7,17 @@
 
     <div class="grid grid-cols-12 gap-5 mt-5 pt-5">
 
-        @for($i=1; $i <= 95; $i++)
+        @foreach($parkings as $parking)
 
-        <a href="javascript:;" class="intro-y block">
-            <div style="{{ $i % 3 === 0 ? 'background-color: red; ' : ''}} {{ $i % 5 === 0 ? 'background-color: yellow; ' : '' }} {{ $i % 3 !== 0 && $i % 5 !== 0 ? 'background-color: green;' : '' }} {{ $i % 3 !== 0 && $i % 5 !== 0 ? "" : "background-image: url('car.png'); "}} width: 75px; height: 150px; background-size: cover" class="rounded-md relative zoom-in">
+            <a href="javascript:;" class="intro-y block">
+                <div style="{{ $parking->status === 3 ? 'background-color: red; ' : ''}} {{ $parking->status === 2 ? 'background-color: yellow; ' : '' }} {{ $parking->status === 1 ? 'background-color: green;' : '' }} {{ $parking->status === 3 ? "background-image: url('car.png'); " : ""}} width: 75px; height: 150px; background-size: cover" class="rounded-md relative zoom-in">
                 <span class="text-white font-medium" style="position: absolute; top: 79px; font-size: 24px; left: 35px; transform: translate(-50%, -50%)">
-                    {{$i}}
+                    {{$parking->id}}
                 </span>
-            </div>
-        </a>
+                </div>
+            </a>
 
-            @endfor
+        @endforeach
+
     </div>
 @endsection

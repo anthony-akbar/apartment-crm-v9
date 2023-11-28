@@ -234,7 +234,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('articles') }}"
+            <a href="{{ route('articles.index') }}"
                class="side-menu side-menu{{ request()->is("articles") || request()->is("articles/*") ? "--active" : "" }}">
                 <div class="side-menu__icon"><i data-lucide=""></i></div>
                 <div class="side-menu__title">Статьи</div>

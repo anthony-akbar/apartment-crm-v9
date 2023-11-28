@@ -16,4 +16,9 @@ class PaymentArticle extends Model
         'table',
         'category_id',
     ];
+
+    public function records()
+    {
+        return $this->hasMany(Dairy::class, 'article_id', 'id');
+    }
 }

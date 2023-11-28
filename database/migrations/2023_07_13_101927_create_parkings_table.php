@@ -15,6 +15,8 @@ class CreateParkingsTable extends Migration
     {
         Schema::create('parkings', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('status')->default('1');
             $table->timestamps();
         });
     }
