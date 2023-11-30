@@ -30,7 +30,9 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
         'edit' => 'apartments.edit',
         'update' => 'apartments.update',
         'store' => 'apartments.store',
-        'destroy' => 'apartments.delete',]]);
+        'destroy' => 'apartments.delete',
+        'update_all' => 'apartments.updateAll'
+        ]]);
     Route::group(['prefix' => 'apartments'], function () {
         Route::get('/search', [ApartmentsController::class, 'search'])->name('apartments.search');
         Route::get('/searchone', [ApartmentsController::class, 'searchOne'])->name('apartments.search.one');
