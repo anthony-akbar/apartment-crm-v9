@@ -3,17 +3,17 @@
 @section('content')
 
 
-    <div class="intro-y flex flex-col sm:flex-row items-center p-5">
-        <h2 class="text-lg font-medium mr-auto">Парковка</h2>
+    <div class="mt-3 intro-y flex flex-col sm:flex-row items-center p-5">
+        <h2 class="text-lg font-medium mr-auto">Коммерческое помещение</h2>
     </div>
 
     <div class="grid grid-cols-12 gap-5 mt-5 pt-5">
 
-        @foreach($i=[1,2,3,4,5,] as $parking)
+        @foreach($commercials as $commercial)
 
             <a href="javascript:;" class="intro-y block">
-                <div style="background-color: green; /*width: 75px; height: 150px;*/ background-size: cover" class="text-center pb-3 rounded-md relative zoom-in">
-
+                <div style="background-color: {{ $commercial->status === 1 ? "green" : "" }}{{ $commercial->status === 2 ? "yellow" : "" }}{{ $commercial->status === 3 ? "red" : "" }}; width: 140px;
+                /*height: 150px;*/ background-size: cover" class="text-center pb-3 rounded-md relative zoom-in">
                     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                          width="100%" height="100px"  viewBox="0 0 1000.000000 1080.000000"
                          preserveAspectRatio="xMidYMid meet">
@@ -93,9 +93,8 @@ l3 -88 -91 0 -90 0 0 83 c0 46 3 87 7 91 4 4 43 5 88 4 l80 -3 3 -87z m6140 0
 l3 -88 -91 0 -90 0 0 83 c0 46 3 87 7 91 4 4 43 5 88 4 l80 -3 3 -87z"/>
                         </g>
                     </svg>
-
                     <span class="font-medium" style="font-size: 24px;">
-                    {{$parking}}
+                    {{ $commercial->square }} М²
                 </span>
                 </div>
             </a>

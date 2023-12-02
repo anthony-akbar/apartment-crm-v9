@@ -68,7 +68,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="side-menu-light-dashboard-overview-3.html"
+                    <a href="{{ route('commercial.index') }}"
                        class="side-menu side-menu{{ request()->is("commercial") || request()->is('/commercial/*') ? "--active" : "" }}">
                         <div class="side-menu__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

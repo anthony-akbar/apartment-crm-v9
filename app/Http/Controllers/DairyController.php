@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Exports\Dairies;
 use App\Models\Dairy;
+use App\Models\PaymentArticle;
 use App\Models\PaymentCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -12,21 +14,40 @@ class DairyController extends Controller
 {
     public function index()
     {
+
         $categories = PaymentCategory::all();
-        return view('dairy.index', compact('categories'));
+        $articles = PaymentArticle::all();
+        $dairies = Dairy::where('created_at', ">=", Carbon::now()->startOfMonth()->toDateString())->where('created_at', "<=", Carbon::now()->endOfMonth()->toDateString())->get();
+
+        return view('dairy.index', compact('dairies','categories', 'articles'));
     }
 
     public function store(Request $request)
     {
 
         $data = $request->all();
-        $data['date'] = date("Y-m-d", strtotime($data['date']));
-        if (array_key_exists('details', $request->all())) {
-            Dairy::create($data);
-        } else {
-            $data['details'] = 'Подочет';
-            Dairy::create($data);
+        $data['date'] = Carbon::now()->format('Y-m-d');
+        //dd($data);
+        if($data['type'] === "newIncome") {
+            Dairy::create([
+                "article_id" => 24,
+                'date'=>$data['date'],
+                "amount"=>$data['incomeAmount'],
+                "currency"=>$data['incomeCurrency'],
+                "description" => $data['incomeDescription'],
+                "status"=>1,
+                ]);
+
+        }else if($data['type'] === "newOut"){
+            Dairy::create([
+                'date'=>$data['date'],
+               'article_id' => $data['outArticle'],
+                'amount'=>$data['outAmount'],
+                'currency'=> $data['outCurrency'],
+                'description' => $data['outDescription'],
+            ]);
         }
+
         return redirect(route('dairy'));
     }
 
@@ -44,6 +65,7 @@ class DairyController extends Controller
     public function search(Request $request)
     {
         $data = $request->all();
+        dd($data);
         $date = explode(' - ', $data['range']);
         foreach ($date as $key => $item) {
             $date[$key] = date('Y-m-d', strtotime($item));

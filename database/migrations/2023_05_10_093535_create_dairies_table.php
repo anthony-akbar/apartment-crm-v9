@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('dairies', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('article_id')->nullable();
             $table->date('date');
-            $table->string('representative')->default('Кассир');
-            $table->string('details');
-            $table->unsignedBigInteger('payment');
+            $table->float('amount');
             $table->string('currency');
             $table->text('description')->nullable();
+            $table->unsignedBigInteger('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

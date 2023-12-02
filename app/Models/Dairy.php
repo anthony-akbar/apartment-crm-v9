@@ -12,4 +12,8 @@ class Dairy extends Model
     use SoftDeletes;
 
     protected $guarded=[];
+
+    public function article() {
+        return $this->belongsTo(PaymentArticle::class, 'article_id', 'id')->get()[0];
+    }
 }

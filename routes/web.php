@@ -39,6 +39,13 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     });
 
 // DAIRY
+
+    Route::group(['prefix' => 'dairy'], function () {
+        Route::controller(DairyController::class)->group(function () {
+            Route::get('dairies-export', 'export')->name('dairies.export');
+            Route::get('/search', [DairyController::class, 'search'])->name('dairy.search');
+        });
+    });
     Route::resource('dairy', DairyController::class, ['names' => ['index' => 'dairy',
         'show' => 'dairy.show',
         'create' => 'dairy.create',
@@ -46,12 +53,6 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
         'update' => 'dairy.update',
         'store' => 'dairy.store',
         'destroy' => 'dairy.delete',]]);
-    Route::group(['prefix' => 'dairy'], function () {
-        Route::controller(DairyController::class)->group(function () {
-            Route::get('dairies-export', 'export')->name('dairies.export');
-            Route::get('/search', [DairyController::class, 'search'])->name('dairy.search');
-        });
-    });
 
 // PARKING
     Route::resource('parkings', ParkingController::class, ['names' => ['index' => 'parking',
