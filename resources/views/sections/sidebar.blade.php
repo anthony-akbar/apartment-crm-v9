@@ -130,7 +130,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="side-menu-light-dashboard-overview-3.html"
+                    <a href="{{ route('booking.commercial') }}"
                        class="side-menu side-menu{{ request()->is("booking/commercial") || request()->is('booking/commercial/*') ? "--active" : "" }}">
                         <div class="side-menu__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -214,8 +214,8 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('auto') }}" class="side-menu side-menu{{ request()->is("dairy") ? "--active" : "" }}">
-                <div class="side-menu__icon"><i data-lucide="edit"></i></div>
+            <a href="{{ route('auto') }}" class="side-menu side-menu{{ request()->is("auto") ? "--active" : "" }}">
+                <div class="side-menu__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-car-front"><path d="m21 8-2 2-1.5-3.7A2 2 0 0 0 15.646 5H8.4a2 2 0 0 0-1.903 1.257L5 10 3 8"/><path d="M7 14h.01"/><path d="M17 14h.01"/><rect width="18" height="8" x="3" y="10" rx="2"/><path d="M5 18v2"/><path d="M19 18v2"/></svg></div>
                 <div class="side-menu__title">Авто</div>
             </a>
         </li>
@@ -236,14 +236,14 @@
         <li>
             <a href="{{ route('articles.index') }}"
                class="side-menu side-menu{{ request()->is("articles") || request()->is("articles/*") ? "--active" : "" }}">
-                <div class="side-menu__icon"><i data-lucide=""></i></div>
+                <div class="side-menu__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17V7"/></svg></div>
                 <div class="side-menu__title">Статьи</div>
             </a>
         </li>
         <li>
             <a href="{{ route('payments') }}"
                class="side-menu side-menu{{ request()->is("payments") || request()->is("payments/*") ? "--active" : "" }}">
-                <div class="side-menu__icon"><i data-lucide="dollar-sign"></i></div>
+                <div class="side-menu__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-coins"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></div>
                 <div class="side-menu__title">Оплаты</div>
             </a>
         </li>
@@ -254,6 +254,7 @@
                 <div class="side-menu__title">Отчеты</div>
             </a>
         </li>
+        @can('view', auth()->user())
         <li>
             <a href="javascript:;.html"
                class="side-menu {{ request()->is("settings") || request()->is('settings/*')  ? "side-menu--active" : "" }}">
@@ -372,6 +373,7 @@
                 </li>
             </ul>
         </li>
+        @endcan
         {{--<li>
             <a href="side-menu-light-inbox.html" class="side-menu">
                 <div class="side-menu__icon"><i data-lucide="inbox"></i></div>

@@ -24,6 +24,10 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     Route::get('/search', [\App\Http\Controllers\DashboardController::class, 'search'])->name('main.search');
 
 // APARTMENTS
+    Route::group(['prefix' => 'apartments'], function () {
+        Route::get('/search', [ApartmentsController::class, 'search'])->name('apartments.search');
+        Route::get('/searchone', [ApartmentsController::class, 'searchOne'])->name('apartments.search.one');
+    });
     Route::resource('apartments', ApartmentsController::class, ['names' => ['index' => 'apartments',
         'show' => 'apartments.show',
         'create' => 'apartments.create',
@@ -32,11 +36,7 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
         'store' => 'apartments.store',
         'destroy' => 'apartments.delete',
         'update_all' => 'apartments.updateAll'
-        ]]);
-    Route::group(['prefix' => 'apartments'], function () {
-        Route::get('/search', [ApartmentsController::class, 'search'])->name('apartments.search');
-        Route::get('/searchone', [ApartmentsController::class, 'searchOne'])->name('apartments.search.one');
-    });
+    ]]);
 
 // DAIRY
 
@@ -55,6 +55,9 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
         'destroy' => 'dairy.delete',]]);
 
 // PARKING
+    Route::group(['prefix'=>'parkings'], function () {
+       Route::get('/search', [ParkingController::class, 'search'])->name('parkings.search');
+    });
     Route::resource('parkings', ParkingController::class, ['names' => ['index' => 'parking',
         'show' => 'parking.show',
         'create' => 'parking.create',
@@ -67,6 +70,10 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     Route::resource('commercial', CommercialController::class);
 
 // CLIENTS
+
+    Route::group(['prefix' => 'clients'], function () {
+        Route::get('/search', [ClientController::class, 'search'])->name('clients.search');
+    });
     Route::resource('clients', ClientController::class, ['names' => ['index' => 'clients',
         'show' => 'clients.show',
         'create' => 'clients.create',
@@ -74,10 +81,6 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
         'update' => 'clients.update',
         'store' => 'clients.store',
         'destroy' => 'clients.delete',]]);
-    Route::group(['prefix' => 'clients'], function () {
-        Route::get('/search', [ClientController::class, 'search'])->name('clients.search');
-    });
-
 // CONTRACTS
     Route::group(['prefix' => 'contracts'], function () {
         // APARTMENTS
@@ -107,8 +110,24 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
             Route::get('/', [AptBookController::class, 'index'])->name('bookings.apartments');
             Route::get('/create', [AptBookController::class, 'create'])->name('booking.apartments.create');
             Route::post('/store', [AptBookController::class, 'store'])->name('booking.apartments.store');
+            Route::post('/delete/{id}', [AptBookController::class, 'delete'])->name('booking.apartments.delete');
         });
+
+        Route::resource('commercial', \App\Http\Controllers\ComBookController::class, [
+            'names' => [
+                'index' => 'booking.commercial',
+                'show' => 'booking.commercial.show',
+                'create' => 'booking.commercial.create',
+                'edit' => 'booking.commercial.edit',
+                'update' => 'booking.commercial.update',
+                'store' => 'booking.commercial.store',
+                'destroy' => 'booking.commercial.delete',
+            ]
+        ]);
+
     });
+
+
 
 //ARTICLES
     Route::resource('articles', PaymentArticlesController::class);

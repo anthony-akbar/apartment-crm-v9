@@ -3,7 +3,7 @@
 @section('content')
 
     <h2 class="intro-y text-lg font-medium mx-5 my-10">Новая бронь</h2>
-    <form class="" method="POST" action="{{ route('booking.apartments.store') }}">
+    <form class="" method="POST" action="{{ route('booking.commercial.store') }}">
         @csrf
         @method('post')
         <div class="grid grid-cols-2">

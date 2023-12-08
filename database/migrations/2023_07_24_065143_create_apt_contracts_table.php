@@ -26,8 +26,8 @@ class CreateAptContractsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('client_id', 'apt_client_idx');
-            $table->foreign('client_id', 'apt_client_fk')->on('clients')->references('id');
+            /*$table->index('client_id', 'apt_client_idx');
+            $table->foreign('client_id', 'apt_client_fk')->on('clients')->references('id');*/
         });
     }
 

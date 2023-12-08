@@ -13,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dairies', function (Blueprint $table) {
+        Schema::create('com_books', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('article_id')->nullable();
-            $table->date('date');
-            $table->float('amount', 10);
-            $table->string('currency');
-            $table->text('description')->nullable();
-            $table->unsignedBigInteger('status')->default(1);
-            $table->timestamps();
+            $table->unsignedBigInteger('com_id');
+            $table->unsignedBigInteger('client_id');
+            $table->integer('status');
+            $table->date('until');
+            $table->float('paid', 10, 2)->nullable();
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dairies');
+        Schema::dropIfExists('com_books');
     }
 };

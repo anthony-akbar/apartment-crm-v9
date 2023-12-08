@@ -42,9 +42,15 @@ class AptBookController extends Controller
         return redirect()->route('bookings.apartments');
     }
 
-    public function delete(Request $request) {
+    public function delete($id) {
+        $data = AptBook::find($id);
 
-
+        $apartment = Apartment::find($data->apt_id);
+        $apartment->update([
+            'status'=>1
+        ]);
+        $data->delete();
+        return redirect()->route('bookings.apartments');
     }
 
 }

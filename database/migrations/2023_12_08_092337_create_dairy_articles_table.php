@@ -13,16 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dairies', function (Blueprint $table) {
+        Schema::create('dairy_articles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('article_id')->nullable();
-            $table->date('date');
-            $table->float('amount', 10);
-            $table->string('currency');
-            $table->text('description')->nullable();
-            $table->unsignedBigInteger('status')->default(1);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -33,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dairies');
+        Schema::dropIfExists('dairy_articles');
     }
 };

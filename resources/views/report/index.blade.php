@@ -212,7 +212,7 @@
                     <h2 class="text-lg font-medium truncate mr-5">
                         {{ $category->title }}
                     </h2>
-                    <div class="sm:ml-auto p-3 mt-3 sm:mt-0 box">
+                    <div id="category-summ-{{$category->id}}" class="sm:ml-auto p-3 mt-3 sm:mt-0 box">
 
                     </div>
                 </div>
@@ -228,7 +228,7 @@
                             <div class="flex items-center">
                                 <div>{{ $article->title }}</div>
                             </div>
-                            <div class="ml-auto">{{ $article->records->sum('payment') }}</div>
+                            <div id="article-summ-{{$category->id}}" class="ml-auto">{{ $article->records->sum('amount') }}</div>
                         </div>
                     @endforeach
 
@@ -257,5 +257,13 @@
 @section('script')
     <script>
 
+        function summCalculate(id) {
+            let categorySumm = $('#category-summ-' + id).val()
+            let artilceSumm = $('#artilce-summ-' + id)
+            console.log(articleSumm)
+        }
+        @foreach($categories as $category)
+            summCalculate({{ $category->id }})
+        @endforeach
     </script>
 @endsection

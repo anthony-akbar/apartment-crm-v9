@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('park_books', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('apt_id');
+            $table->unsignedBigInteger('client_id');
+            $table->integer('status');
+            $table->date('until');
+            $table->float('paid', 10, 2)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

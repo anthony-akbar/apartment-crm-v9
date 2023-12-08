@@ -8,26 +8,29 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function dashboard() {
-
-        return view('report.dashboard');
+    public function dashboard()
+    {
+        $categories = PaymentCategory::all();
+        return view('report.dashboard', compact('categories'));
     }
 
-    public function index() {
+    public function index()
+    {
 
         $categories = PaymentCategory::all();
         return view('report.index', compact('categories'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $data = $request->all();
 
-        if($data['type'] === 'newArticle') {
+        if ($data['type'] === 'newArticle') {
             PaymentArticle::create([
                 'title' => $data['article'],
                 'category_id' => $data['paymentCategory'],
             ]);
-        }else if($data['type'] === 'newCategory') {
+        } else if ($data['type'] === 'newCategory') {
             PaymentCategory::create([
                 'title' => $data['categoryTitle'],
             ]);
