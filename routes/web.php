@@ -18,12 +18,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Nwidart\Modules\Facades\Module;
 
-// MAIN
+// MAIN REMAINING
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('home');
     Route::get('/search', [\App\Http\Controllers\DashboardController::class, 'search'])->name('main.search');
 
-// APARTMENTS
+// APARTMENTS DONE (CHANGE MODAL)
     Route::group(['prefix' => 'apartments'], function () {
         Route::get('/search', [ApartmentsController::class, 'search'])->name('apartments.search');
         Route::get('/searchone', [ApartmentsController::class, 'searchOne'])->name('apartments.search.one');
@@ -38,8 +38,7 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
         'update_all' => 'apartments.updateAll'
     ]]);
 
-// DAIRY
-
+// DAIRY DONE
     Route::group(['prefix' => 'dairy'], function () {
         Route::controller(DairyController::class)->group(function () {
             Route::get('dairies-export', 'export')->name('dairies.export');
@@ -54,7 +53,7 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
         'store' => 'dairy.store',
         'destroy' => 'dairy.delete',]]);
 
-// PARKING
+// PARKING DONE
     Route::group(['prefix'=>'parkings'], function () {
        Route::get('/search', [ParkingController::class, 'search'])->name('parkings.search');
     });
@@ -66,11 +65,10 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
         'store' => 'parking.store',
         'destroy' => 'parking.delete',]]);
 
-    // COMMERCIAL
+    // COMMERCIAL DONE
     Route::resource('commercial', CommercialController::class);
 
-// CLIENTS
-
+// CLIENTS DONE
     Route::group(['prefix' => 'clients'], function () {
         Route::get('/search', [ClientController::class, 'search'])->name('clients.search');
     });
@@ -99,6 +97,13 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
             Route::get('/download/{id}', [AptContractController::class, 'download'])->name('contracts.apartments.download');
             Route::get('/search', [AptContractController::class, 'search'])->name('contracts.apartments.search');
         });
+
+        // PARKING
+
+
+        // COMMERCIAL
+
+
     });
 
 // BOOKINGS
@@ -113,6 +118,10 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
             Route::post('/delete/{id}', [AptBookController::class, 'delete'])->name('booking.apartments.delete');
         });
 
+
+        Route::group(['prefix' => 'commercial'], function () {
+            Route::get('/searchOne', [CommercialController::class, 'searchOne'])->name('commercial.search.one');
+        });
         Route::resource('commercial', \App\Http\Controllers\ComBookController::class, [
             'names' => [
                 'index' => 'booking.commercial',
@@ -124,6 +133,7 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
                 'destroy' => 'booking.commercial.delete',
             ]
         ]);
+
 
     });
 

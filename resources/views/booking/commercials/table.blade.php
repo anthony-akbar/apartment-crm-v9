@@ -24,16 +24,16 @@
                 <td class="text-center">
                     <div class="flex items-center justify-center whitespace-nowrap text-success">
                         <i class="px-1" data-lucide="check-square"></i>
-                        {{ $booking->status }}
+                        {{ $booking->status === 1 ? 'Активный' : '' }}
                     </div>
                 </td>
                 <td class="w-40 !py-4 whitespace-nowrap">{{ $booking->until !== null ? date("d.m.Y", strtotime($booking->until )) : '' }}</td>
                 <td>
-                    {{--<div class="whitespace-nowrap">№ {{ $booking->apartment->id }}</div>
-                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $booking->apartment->square }} м², {{ $booking->apartment->floor }} этаж, {{ $booking->apartment->block }} блок, {{ $booking->apartment->rooms }} {{ $booking->apartment->rooms === 1 ? 'комната' : 'комнат' }}</div>
-                --}}</td>
+                    <div class="whitespace-nowrap">№ {{ $booking->commercial->id }}</div>
+                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $booking->commercial->square }} м²</div>
+                </td>
                 <td class="text-center">
-                    {{ number_format($booking->paid, 0, '.', ' ') ?? '- - - -' }}
+                    {{ number_format($booking->paid, 0, '.', ' ') ?? '- - - -' }} $
                 </td>
                 <td class="table-report__action">
                     <div class="flex justify-center items-center">
@@ -60,8 +60,8 @@
                                 </div>
                             </div>
                             <div class="px-5 pb-8 text-center">
-                                <form method="post" action="{{ route('booking.apartments.delete', $booking->id ) }} ">
-                                    @method('post')
+                                <form method="post" action="{{ route('booking.commercial.delete', $booking->id ) }} ">
+                                    @method('delete')
                                     @csrf
                                     <a type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
                                     <button type="submit" class="btn btn-danger w-24">Delete</button>

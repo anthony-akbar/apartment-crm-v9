@@ -12,4 +12,12 @@ class CommercialController extends Controller
         $commercials = Commercial::all();
         return view('commercial.index', compact('commercials'));
     }
+
+    public function searchOne() {
+        if(request()->all()['data'] === null){
+            return null;
+        }
+        $commercial = Commercial::find(request()->all()['data']);
+        return $commercial->toArray();
+    }
 }

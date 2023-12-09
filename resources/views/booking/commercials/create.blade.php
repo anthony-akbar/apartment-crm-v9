@@ -60,19 +60,15 @@
             <div class="mx-3 grid-cols-1 intro-x">
                 <div class="box p-5 rounded-md">
                     <div class="flex items-center border-b border-slate-200/60 dark:border-darkmode-400 pb-5 mb-5">
-                        <div class="font-medium text-base truncate mx-6">Квартира</div>
+                        <div class="font-medium text-base truncate mx-6">Комерческое помещение</div>
                         <div class="font-medium text-base truncate ml-auto">
-                            <input id="aptnum" name="apt_id" type="number" class="form-control" placeholder="№">
+                            <input id="comnum" name="com_id" type="number" class="form-control" placeholder="№">
                         </div>
                     </div>
                     <div id="apt-details">
                         <div class="flex items-center">
                             <i class="px-1" data-lucide="maximize-2"></i>Полщадь:
                             <div id="square" class="ml-auto pr-10 text-right"> --</div>
-                        </div>
-                        <div class="flex items-center mt-3">
-                            <i class="px-1" data-lucide="layout"></i>Комнаты:
-                            <div id="rooms" class="ml-auto pr-10 text-right"> --</div>
                         </div>
                         <div class="flex items-center mt-3">
                             <i class="px-1" data-lucide="layers"></i>Этаж:
@@ -106,8 +102,8 @@
 
 
         <div class="flex intro-x justify-end flex-col md:flex-row gap-2 mt-5">
-            <a type="button" class="btn py-3 border-slate-300 dark:border-darkmode-400 text-slate-500 w-full md:w-52">Cancel</a>
-            <button type="submit" class="btn py-3 btn-primary w-full md:w-52">Save</button>
+            <a type="button" class="btn py-3 border-slate-300 dark:border-darkmode-400 text-slate-500 w-full md:w-52">Отмена</a>
+            <button type="submit" class="btn py-3 btn-primary w-full md:w-52">Сохранить</button>
         </div>
     </form>
 @endsection
@@ -116,34 +112,21 @@
 
     <script>
 
-        function scheduleCount() {
-            if ($('#schedule_amount').val() === '') {
-                let debt = parseInt($('#total_schedule').text()) - $('#first_payment').val()
-                let amount = debt / $('#schedule_status').val()
-
-                $('#schedule_amount').val(amount)
-                $('#schedule_last_month').val(amount)
-            } else {
-                let debt = parseInt($('#total_schedule').text()) - $('#first_payment').val() - (($('#schedule_status').val() - 1) * $('#schedule_amount').val())
-                $('#schedule_last_month').val(debt < 0 ? "NaN" : debt)
-
-            }
-
-            let debt = parseInt($('#total_schedule').text()) - $('#schedule_last_month').val() - $('#schedule_amount').val()
-        }
-
-        $('#aptnum').on('keyup', function () {
+        $('#comnum').on('keyup', function () {
             let id = $(this).val();
             $.ajax({
-                url: '{{ route('apartments.search.one') }}',
+                url: '{{ route('commercial.search.one') }}',
                 data: {
                     'data': id
                 },
                 type: 'GET',
                 success: function (data) {
-                    console.log(data);
+                    if(!data){
+                        $('#square').text('--')
+                        $('#floor').text('--')
+                        return;
+                    }
                     $('#square').text(data['square'])
-                    $('#rooms').text(data['rooms'])
                     $('#floor').text(data['floor'])
                 }
             })
@@ -158,7 +141,7 @@
 
         $('#client_id').change(function () {
             let id = $(this).val();
-            console.log(id);
+
             $.ajax({
                 url: '{{ route('clients.search') }}',
                 data: {
@@ -166,51 +149,25 @@
                 },
                 type: 'GET',
                 success: function (data) {
-                    console.log(data);
+
+                    if(!data){
+                        $('#passportId_show').text('- - - - - - - -')
+                        $('#pin_show').text('- - - - - - - -')
+                        $('#address_show').text('- - - - - - - -')
+                        $('#email_show').text('- - - - - - - -')
+                        $('#phone_show').text('- - - - - - - -')
+                        return;
+                    }
+
                     $('#passportId_show').text(data['passportId'])
                     $('#pin_show').text(data['pin'])
                     $('#address_show').text(data['address'])
                     $('#email_show').text(data['email'] !== null ? data['email'] : '- - - - - - - -')
                     $('#phone_show').text(data['phone'])
+
                 }
             })
         })
-
-        /*function previous(apt_id, client_id) {
-            console.log(apt_id, client_id)
-            if(apt_id !== null) {
-                $.ajax({
-                    url: '{{ route('contracts.apartments.search') }}',
-                    data: {
-                        'data': apt_id
-                    },
-                    type: 'GET',
-                    success: function (data) {
-                        console.log(data);
-                        $('#square').text(data['square'])
-                        $('#rooms').text(data['rooms'])
-                        $('#floor').text(data['floor'])
-                    }
-                })
-            }
-            if(client_id !== null) {
-                $.ajax({
-                    url: '{{ route('clients.search') }}',
-                    data: {
-                        'data': client_id
-                    },
-                    type: 'GET',
-                    success: function (data) {
-                        $('#passportId_show').text(data['passportId'])
-                        $('#pin_show').text(data['pin'])
-                        $('#address_show').text(data['address'])
-                        $('#email_show').text(data['email'] !== null ? data['email'] : '- - - - - - - -')
-                        $('#phone_show').text(data['phone'])
-                    }
-                })
-            }
-        }*/
-
 
     </script>
 @endsection

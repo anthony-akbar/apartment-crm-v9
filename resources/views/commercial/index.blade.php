@@ -128,31 +128,19 @@ l3 -88 -91 0 -90 0 0 83 c0 46 3 87 7 91 4 4 43 5 88 4 l80 -3 3 -87z"/>
                 </div> <!-- END: Modal Header --> <!-- BEGIN: Modal Body -->
                 <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
 
-
                     <div class="col-span-12 sm:col-span-6 px-3">
                         <img src="{{ URL::to('/commercial.svg') }}">
                     </div>
                     <div class="col-span-12 sm:col-span-6 px-5">
-                        <label for="modal-form-2" class="form-label">To</label>
-                        <input id="modal-form-2" type="text" class="form-control" placeholder="example@gmail.com">
-
-                        <label for="modal-form-3" class="form-label">Subject</label>
-                        <input id="modal-form-3" type="text" class="form-control" placeholder="Important Meeting">
-
-                        <label for="modal-form-4" class="form-label">Has the Words</label>
-                        <input id="modal-form-4" type="text" class="form-control" placeholder="Job, Work, Documentation">
-
-                        <label for="modal-form-5" class="form-label">Doesn't Have</label>
-                        <input id="modal-form-5" type="text" class="form-control" placeholder="Job, Work, Documentation">
-
-                        <label for="modal-form-6" class="form-label">Size</label>
-                        <select id="modal-form-6" class="form-select">
-                            <option>10</option>
-                            <option>25</option>
-                            <option>35</option>
-                            <option>50</option>
-                        </select>
-
+                        <label for="modal-form-2" class="form-label">№</label>
+                        <div>{{ $commercial->id }}</div>
+                        <label for="modal-form-3" class="form-label">Площадь</label>
+                        <div>{{ $commercial->square }} M²</div>
+                        @if(!empty($commercial->client()))
+                        <label for="modal-form-4" class="form-label">Звбронировано</label>
+                        @dd($commercial->client())
+                        <div>{{ $commercial->client()->firstame }} {{ $commercial->client()->name }}</div>
+                        @endif
                     </div>
                 </div> <!-- END: Modal Body --> <!-- BEGIN: Modal Footer -->
                 <div class="modal-footer">
