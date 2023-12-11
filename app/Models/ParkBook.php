@@ -12,4 +12,12 @@ class ParkBook extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function client() {
+        return $this->hasOne(Client::class, 'id', 'client_id')->get()[0];
+    }
+
+    public function parking() {
+        return $this->hasOne(Parking::class, 'id', 'park_id')->get()[0];
+    }
 }

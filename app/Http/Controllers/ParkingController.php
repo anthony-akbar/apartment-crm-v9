@@ -12,8 +12,16 @@ class ParkingController extends Controller
         return view('parking.index', compact('parkings'));
     }
 
-    public function search(Request $request) {
-        $parking = Parking::find($request->all()['data']);
-        return $parking->toArray();
+    public function search() {
+        if(request()->all()['data'] === null){
+            return null;
+        }
+        $parking = Parking::find(request()->all()['data']);
+        $data = $parking->toArray();
+        unset($data['client_id']);
+        if($parking->client_id !== null){
+            $data['client'] = $parking->client()[0]->toArray();
+        }
+        return $data;
     }
 }

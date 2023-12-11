@@ -7,6 +7,7 @@ use App\Http\Controllers\AutoController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CommercialController;
 use App\Http\Controllers\DairyController;
+use App\Http\Controllers\ParkBookController;
 use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\PaymentArticlesController;
 use App\Http\Controllers\PaymentsController;
@@ -66,6 +67,9 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
         'destroy' => 'parking.delete',]]);
 
     // COMMERCIAL DONE
+    Route::group(['prefix' => 'commercial'], function () {
+        Route::get('/searchOne', [CommercialController::class, 'searchOne'])->name('commercial.search.one');
+    });
     Route::resource('commercial', CommercialController::class);
 
 // CLIENTS DONE
@@ -118,10 +122,6 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
             Route::post('/delete/{id}', [AptBookController::class, 'delete'])->name('booking.apartments.delete');
         });
 
-
-        Route::group(['prefix' => 'commercial'], function () {
-            Route::get('/searchOne', [CommercialController::class, 'searchOne'])->name('commercial.search.one');
-        });
         Route::resource('commercial', \App\Http\Controllers\ComBookController::class, [
             'names' => [
                 'index' => 'booking.commercial',
@@ -134,6 +134,18 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
             ]
         ]);
 
+        // PARKINGS
+        Route::resource('parkings', ParkBookController::class, [
+            'names' => [
+                'index' => 'booking.parking',
+                'show' => 'booking.parking.show',
+                'create' => 'booking.parking.create',
+                'edit' => 'booking.parking.edit',
+                'update' => 'booking.parking.update',
+                'store' => 'booking.parking.store',
+                'destroy' => 'booking.parking.delete',
+            ]
+        ]);
 
     });
 

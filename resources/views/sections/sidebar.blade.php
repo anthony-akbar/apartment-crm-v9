@@ -116,8 +116,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href=""
-                       class="side-menu side-menu{{ request()->is("booking/parking") || request()->is('booking/parking/*') ? "--active" : "" }}">
+                    <a href="{{ route('booking.parking') }}"
+                       class="side-menu side-menu{{ request()->is("booking/parkings") || request()->is('booking/parkings/*') ? "--active" : "" }}">
                         <div class="side-menu__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

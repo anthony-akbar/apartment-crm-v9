@@ -1,17 +1,12 @@
 @extends('admin')
 
 @section('content')
-
-
     <div class="mt-3 intro-y flex flex-col sm:flex-row items-center p-5">
         <h2 class="text-lg font-medium mr-auto">Коммерческое помещение</h2>
     </div>
 
     <div class="grid grid-cols-12 gap-5 mt-5 pt-5">
-
         @foreach($commercials as $commercial)
-
-
             <a href="javascript:;" onclick="getInfo({{ $commercial->id }})" data-tw-toggle="modal"
                data-tw-target="#commercial-view" class="intro-y block">
                 <div style="background-color: {{ $commercial->status === 1 ? "green" : "" }}{{ $commercial->status === 2 ? "yellow" : "" }}{{ $commercial->status === 3 ? "red" : "" }}; width: 140px;
@@ -100,9 +95,7 @@ l3 -88 -91 0 -90 0 0 83 c0 46 3 87 7 91 4 4 43 5 88 4 l80 -3 3 -87z"/>
                 </span>
                 </div>
             </a>
-
         @endforeach
-
     </div>
 
     <!-- BEGIN: Modal Content -->
@@ -110,48 +103,30 @@ l3 -88 -91 0 -90 0 0 83 c0 46 3 87 7 91 4 4 43 5 88 4 l80 -3 3 -87z"/>
         <div class="modal-dialog modal-lg">
             <div class="modal-content"> <!-- BEGIN: Modal Header -->
                 <div class="modal-header">
-                    <h2 class="font-medium text-base mr-auto">Broadcast Message</h2>
-                    <button class="btn btn-outline-secondary hidden sm:flex">
-                        <i data-lucide="file" class="w-4 h-4 mr-2"></i> Download Docs
-                    </button>
-                    <div class="dropdown sm:hidden"><a class="dropdown-toggle w-5 h-5 block" href="javascript:;"
-                                                       aria-expanded="false" data-tw-toggle="dropdown"> <i
-                                data-lucide="more-horizontal" class="w-5 h-5 text-slate-500"></i> </a>
-                        <div class="dropdown-menu w-40">
-                            <ul class="dropdown-content">
-                                <li><a href="javascript:;" class="dropdown-item"> <i data-lucide="file"
-                                                                                     class="w-4 h-4 mr-2"></i> Download
-                                        Docs </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> <!-- END: Modal Header --> <!-- BEGIN: Modal Body -->
+                    <h2 class="font-medium text-base mr-auto">Коммерческое помещение № <span id="show-number"></span></h2>
+                </div> <!-- END: Modal Header -->
+                <!-- BEGIN: Modal Body -->
                 <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
-
                     <div class="col-span-12 sm:col-span-6 px-3">
                         <img src="{{ URL::to('/commercial.svg') }}">
                     </div>
-                    <div class="col-span-12 sm:col-span-6 px-5">
-                        <label for="modal-form-2" class="form-label">№</label>
-                        <div>{{ $commercial->id }}</div>
-                        <label for="modal-form-3" class="form-label">Площадь</label>
-                        <div>{{ $commercial->square }} M²</div>
-                        @if(!empty($commercial->client()))
-                        <label for="modal-form-4" class="form-label">Звбронировано</label>
-                        @dd($commercial->client())
-                        <div>{{ $commercial->client()->firstame }} {{ $commercial->client()->name }}</div>
-                        @endif
+                    <div class="col-span-12 sm:col-span-6 mt-5 px-5">
+                        <label class="form-label">№</label>
+                        <div id="number"> - - </div>
+                        <div class="mt-3">
+                            <label class="form-label">Площадь</label>
+                            <div><span id="square">- - -</span> M²</div>
+                        </div>
+                        <div class="mt-3" style="display: none" id="status-menu">
+                            <label id="status" class="form-label"></label>
+                            <div id="booked"> - - - -</div>
+                        </div>
                     </div>
-                </div> <!-- END: Modal Body --> <!-- BEGIN: Modal Footer -->
-                <div class="modal-footer">
-                    <button type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-20 mr-1">Cancel
-                    </button>
-                    <button type="button" class="btn btn-primary w-20">Send</button>
-                </div> <!-- END: Modal Footer --> </div>
+                </div> <!-- END: Modal Body -->
+            </div>
         </div>
-    </div> <!-- END: Modal Content -->
-
-
+    </div>
+    <!-- END: Modal Content -->
 @endsection
 
 @section('script')
@@ -160,13 +135,27 @@ l3 -88 -91 0 -90 0 0 83 c0 46 3 87 7 91 4 4 43 5 88 4 l80 -3 3 -87z"/>
         function getInfo(id) {
             $.ajax({
                 type: 'get',
-                url: '{{ route('parkings.search') }}',
+                url: '{{ route('commercial.search.one') }}',
                 data: {
                     'data': id
                 },
                 success: (data) => {
-                    $('#modal-form-2').val(data['id'])
+                    $('#show-number').text(data['id'])
+                    $('#number').text(data['id'])
+                    $('#square').text(data['square'])
                     console.log(data)
+                    if(data['client'] !== undefined){
+                        $('#status-menu').css('display', 'block')
+                        $('#booked').text(data['client']['firstname'] + ' ' + data['client']['name'])
+                        if(data['status'] === 2){
+                            $('#status').text('Забронировано')
+                        }else if(data['status'] === 3){
+                            $('#status').text('Продано')
+                        }
+                    }else{
+                        $('#status-menu').css('display', 'none')
+
+                    }
                 }
             })
         }

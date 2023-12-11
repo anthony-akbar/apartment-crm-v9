@@ -18,6 +18,11 @@ class CommercialController extends Controller
             return null;
         }
         $commercial = Commercial::find(request()->all()['data']);
-        return $commercial->toArray();
+        $data = $commercial->toArray();
+        unset($data['client_id']);
+        if($commercial->client_id !== null){
+            $data['client'] = $commercial->client()[0]->toArray();
+        }
+        return $data;
     }
 }
