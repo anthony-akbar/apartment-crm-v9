@@ -30,7 +30,7 @@
 <div class="flex overflow-hidden">
     @include('sections.sidebar')
     <div class="content">
-        <img class="backgroundimage" src="{{ asset('logo.png') }}">
+        <img class="backgroundimage" src="{{ asset('individual/logo.png') }}">
         @yield('content')
     </div>
 </div>
