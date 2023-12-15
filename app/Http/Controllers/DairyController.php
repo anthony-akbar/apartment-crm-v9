@@ -17,7 +17,7 @@ class DairyController extends Controller
 
         $categories = PaymentCategory::all();
         $articles = PaymentArticle::all();
-        $dairies = Dairy::where('created_at', ">=", Carbon::now()->startOfMonth()->toDateString())->where('created_at', "<=", Carbon::now()->endOfMonth()->toDateString())->get();
+        $dairies = Dairy::all();
 
         return view('dairy.index', compact('dairies','categories', 'articles'));
     }

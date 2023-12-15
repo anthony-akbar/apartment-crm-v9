@@ -14,6 +14,6 @@ class Dairy extends Model
     protected $guarded=[];
 
     public function article() {
-        return $this->belongsTo(PaymentArticle::class, 'article_id', 'id')->get()[0];
+        return $this->belongsTo(DairyArticles::class, 'article_id', 'id')->get()[0];
     }
 }

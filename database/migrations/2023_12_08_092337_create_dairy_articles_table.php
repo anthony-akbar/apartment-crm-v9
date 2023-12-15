@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('dairy_articles', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('category_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
