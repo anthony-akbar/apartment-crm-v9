@@ -17,6 +17,6 @@ class PaymentCategory extends Model
 
     public function articles()
     {
-        return $this->hasMany(DairyArticles::class, 'category_id', 'id');
+        return $this->hasMany(PaymentArticle::class, 'category_id', 'id');
     }
 }
