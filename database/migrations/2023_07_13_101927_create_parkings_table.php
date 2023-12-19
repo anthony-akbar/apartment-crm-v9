@@ -17,6 +17,7 @@ class CreateParkingsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('client_id')->nullable();
             $table->unsignedBigInteger('status')->default('1');
+            $table->string('floor')->default('-1');
             $table->timestamps();
         });
     }
