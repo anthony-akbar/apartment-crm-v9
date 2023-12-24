@@ -100,12 +100,6 @@
                     <div class="font-medium text-base truncate mx-6">Квартира</div>
                     <div class="font-medium text-base truncate ml-auto">
 <div class="mt-2 overflow-visible">
-                        <select id="aptnum" class="tom-select w-full">
-                            @foreach($apartments as $apartment)
-                                @dump($apartment)
-                                <option value="{{ $apartment->id }}">№{{ $apartment->number }} {{ $apartment->square }}м² Блок {{ $apartment->block }}</option>
-                            @endforeach
-                        </select>
                     </div>
                         <input id="aptnum" name="apt_id" type="number" class="form-control" placeholder="№">
                     </div>
