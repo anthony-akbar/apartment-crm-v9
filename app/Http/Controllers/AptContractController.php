@@ -121,7 +121,10 @@ class AptContractController extends Controller
         $data = $request->all()['data'];
         dd($data);
         $apt = AptContract::find($data);
-        return ['contract'=>$apt->toArray(),'apartment'=> $apt->apartment->toArray()];
+        return [
+            'contract'=>$apt->toArray(),
+            'apartment'=> $apt->apartment->toArray()
+        ];
     }
 
     /**

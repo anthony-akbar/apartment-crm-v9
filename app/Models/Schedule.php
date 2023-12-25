@@ -9,4 +9,8 @@ class Schedule extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function contract() {
+        return $this->belongsTo(AptContract::class, 'contract_id', 'id');
+    }
 }
