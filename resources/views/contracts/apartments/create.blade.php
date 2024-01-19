@@ -42,9 +42,8 @@
         </div>
 
     </div>
-    <form class="" action="{{ route('contracts.apartments.store') }}">
+    <form action="{{ route('contracts.apartments.store') }}" method="POST">
         @csrf
-        @method('post')
         <div class="grid grid-cols-2">
             <div class="mx-3 grid-cols-1 intro-x">
                 <div class="box p-5 rounded-md">
