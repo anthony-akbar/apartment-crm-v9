@@ -47,14 +47,13 @@ class AptContractController extends Controller
     {
         $data = $request->all();
 
-
         $apartment = Apartment::find($data['apt_id']);
         $apartment->update([
             'price' => $data['price'],
             'total' => $data['amount'],
             'status' => 3,
             'client_id' => $data['client_id'],
-            'currency'=>$data['currency'],
+            'currency'=>$data['currency']
         ]);
         if($data['currency'] === 'KGS') {
             $contract = AptContract::create([
@@ -82,8 +81,8 @@ class AptContractController extends Controller
 
         if (array_key_exists('schedule', $data)) {
                 Schedule::create([
-                    'date_to_pay' => Carbon::now()->format('d.m.Y'),
-                    'date_of_payment' => Carbon::now()->format('d.m.Y'),
+                    'date_to_pay' => Carbon::now()->format('Y-m-d'),
+                    'date_of_payment' => Carbon::now()->format('Y-m-d'),
                     'client_id' => $data['client_id'],
                     'contract_id' => $contract->id,
                     'amount' => $data['first_payment'] === null ? 0 : $data['first_payment'],

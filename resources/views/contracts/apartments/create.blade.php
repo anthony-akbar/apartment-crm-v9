@@ -16,8 +16,7 @@
                                 <label data-tw-merge for="created_at" class="inline-block mb-2">
                                     Дата заключения
                                 </label>
-                                <input
-                                    data-tw-merge id="created_at"
+                                <input data-tw-merge id="created_at"
                                     type="text" data-single-mode="true" class="h-10 pt-1 disabled:bg-slate-100 disabled:cursor-not-allowed dark:disabled:bg-darkmode-800/50 dark:disabled:border-transparent
                                     [&amp;amp;[readonly]]:bg-slate-100 [&amp;amp;[readonly]]:cursor-not-allowed [&amp;amp;[readonly]]:dark:bg-darkmode-800/50 [&amp;amp;[readonly]]:dark:border-transparent
                                     transition duration-200 ease-in-out w-full text-sm border-slate-200 shadow-sm rounded-md placeholder:text-slate-400/90 focus:ring-4 focus:ring-primary focus:ring-opacity-20
@@ -339,6 +338,10 @@
 @section('script')
 
     <script>
+        $('#created_at').change(() => {
+            $('#created_at-hidden').val($('#created_at').val())
+            console.log($('#created_at-hidden').val())
+        })
 
         // Clients logics JS
         function onClientChange() {
@@ -426,8 +429,6 @@
         $('#aptprice').keyup(onPriceChange)
         $('#currency-value').keyup(onPriceChange)
         $('#checkbox-switch-7').change(onPriceChange)
-        $('#created_at').change(() => {
-            $('#created_at-hidden').val($('#created_at').val())
-        })
+
     </script>
 @endsection
