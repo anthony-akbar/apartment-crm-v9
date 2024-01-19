@@ -47,7 +47,6 @@ class AptContractController extends Controller
     {
         $data = $request->all();
 
-        dd($data);
 
         $apartment = Apartment::find($data['apt_id']);
         $apartment->update([
