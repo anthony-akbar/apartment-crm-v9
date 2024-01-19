@@ -193,10 +193,15 @@ class AptContractController extends Controller
 
         $templateProcessor->setComplexBlock('schedule_table', $wordTable);
 
-
         $newFilePath = '№' . $contract->id . ' ' . $client->firstname . ' ' . $client->name . ' ' . $apt->floor . ' этаж ' . $apt->block . ' блок ' . $apt->square . 'м²'. '.docx';
+        header('Content-Type: application/octet-stream');
+        header("Content-Disposition: attachment; filename=" . $newFilePath);
+        $templateProcessor->saveAs('php://output');
+
+/*
+
         $templateProcessor->saveAs('storage/contracts/№' . $contract->id . ' ' . $client->firstname . ' ' . $client->name . ' ' . $apt->floor . ' этаж ' . $apt->block . ' блок ' . $apt->square . 'м²'. '.docx');
-        return redirect()->away(request()->root() . '/storage/contracts/' . $newFilePath);
+        return redirect()->away(request()->root() . '/storage/contracts/' . $newFilePath);*/
 
     }
 
