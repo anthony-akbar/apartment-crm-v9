@@ -17,6 +17,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 class AptContractController extends Controller
 {
+    public $data;
     public function index()
     {
         $aptContracts = AptContract::all();
@@ -123,6 +124,30 @@ class AptContractController extends Controller
             'contract'=>$apt->toArray(),
             'apartment'=> $apt->apartment->toArray()
         ];
+    }
+
+    public function find(Request $request) {
+        $this->data = $request->all()['data'];
+
+        $aptContracts = AptContract::whereHas('client', function ($query){
+            $query->where('name' , 'LIKE', '%' . $this->data . '%')->
+                orWhere('firstname', 'LIKE', '%' . $this->data . '%')->
+                orWhere('fathersname', 'LIKE', '%' . $this->data . '%')->
+                orWhere('passportId', 'LIKE', '%' . $this->data . '%')->
+                orWhere('phone', 'LIKE', '%' . $this->data . '%')->
+                orWhere('address', 'LIKE', '%' . $this->data . '%')->
+                orWhere('pin', 'LIKE', '%' . $this->data . '%');
+        })->orWhereHas('apartment', function ($query){
+                $query->where('square', 'LIKE', '%' . $this->data . '%')->
+                    orWhere('price', 'LIKE', '%' . $this->data . '%')->
+                    orWhere('amount', 'LIKE', '%' . $this->data . '%')->
+                    orWhere('block', 'LIKE', '%' . $this->data . '%')->
+                    orWhere('total', 'LIKE', '%' . $this->data . '%')->
+                    orWhere('currency', 'LIKE', '%' . $this->data . '%')->
+                    orWhere('rooms', 'LIKE', '%' . $this->data . '%')->
+                    orWhere('number', 'LIKE', '%' . $this->data . '%');
+            })->get();
+        return view('contracts.apartments.table', compact('aptContracts'))->render();
     }
 
     /**

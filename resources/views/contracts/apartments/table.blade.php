@@ -16,7 +16,8 @@
             <tr class="intro-x">
                 <td class="w-40 !py-4"><a class="whitespace-nowrap">{{ $contract->id }}</a></td>
                 <td class="w-40">
-                    <a href="{{ route('contracts.apartments.show', $contract->id) }}" class="underline decoration-dotted font-medium whitespace-nowrap">{{ $contract->client->firstname ?? '' }} {{ $contract->client->name ?? '' }} {{ $contract->client->fathersname ?? '' }}</a>
+                    <a href="{{ route('contracts.apartments.show', $contract->id) }}" class="underline decoration-dotted font-medium whitespace-nowrap">
+                        {{ $contract->client->firstname ?? '' }} {{ $contract->client->name ?? '' }} {{ $contract->client->fathersname ?? '' }}</a>
                     <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $contract->client->passportId }}</div>
                 </td>
                 <td class="text-center">

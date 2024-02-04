@@ -86,6 +86,11 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
 // CONTRACTS
     Route::group(['prefix' => 'contracts'], function () {
         // APARTMENTS
+        Route::group(['prefix' => 'apartment'], function () {
+            Route::get('/download/{id}', [AptContractController::class, 'download'])->name('contracts.apartments.download');
+            Route::get('/search', [AptContractController::class, 'search'])->name('contracts.apartments.search');
+            Route::get('/find', [AptContractController::class, 'find'])->name('contracts.apartments.find');
+        });
         Route::resource('apartment', AptContractController::class, [
             'names' => [
                 'index' => 'contracts.apartments',
@@ -97,10 +102,7 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
                 'destroy' => 'contracts.apartments.delete',
             ]
         ]);
-        Route::group(['prefix' => 'apartment'], function () {
-            Route::get('/download/{id}', [AptContractController::class, 'download'])->name('contracts.apartments.download');
-            Route::get('/search', [AptContractController::class, 'search'])->name('contracts.apartments.search');
-        });
+
 
         // PARKING
 
