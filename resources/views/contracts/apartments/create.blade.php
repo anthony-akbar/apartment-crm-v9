@@ -210,6 +210,7 @@
                                     <option value="6">6 месяцев</option>
                                     <option value="12">12 месяцев</option>
                                     <option value="18">18 месяцев</option>
+                                    <option value="20">20 месяцев</option>
                                     <option value="24">24 месяцев</option>
                                     <option value="30">30 месяцев</option>
                                     <option value="36">36 месяцев</option>
@@ -429,6 +430,21 @@
         $('#aptprice').keyup(onPriceChange)
         $('#currency-value').keyup(onPriceChange)
         $('#checkbox-switch-7').change(onPriceChange)
+
+        $('.dropdown-input').keyup(function () {
+            let id = $(this).val();
+            console.log(id);
+            $.ajax({
+                url: '{{ route('clients.searchOne') }}',
+                data: {
+                    'data': id
+                },
+                type: 'GET',
+                success: function (data) {
+                    $('#client_id').html(data)
+                }
+            })
+        })
 
     </script>
 @endsection

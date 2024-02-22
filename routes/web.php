@@ -75,6 +75,7 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
 // CLIENTS DONE
     Route::group(['prefix' => 'clients'], function () {
         Route::get('/search', [ClientController::class, 'search'])->name('clients.search');
+        Route::get('/searchOne', [ClientController::class, 'searchOne'])->name('clients.searchOne');
     });
     Route::resource('clients', ClientController::class, ['names' => ['index' => 'clients',
         'show' => 'clients.show',

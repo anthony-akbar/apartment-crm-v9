@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Business House | Admin</title>
     <link rel="stylesheet" href="{{ asset('dist/css/app.css') }}"/>
-    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link href="{{ asset('dist/css/bootstrapicons-iconpicker.css') }}" rel="stylesheet">
     @yield('styles')

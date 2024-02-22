@@ -3,17 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
     public function index() {
-        $clients = Client::paginate(10);
+        $clients = Client::all();
         return view('clients.index', compact('clients'));
     }
 
     public function create() {
         return view('clients.create');
+    }
+
+    public function edit($id) {
+        $client = Client::find($id)->toArray();
+        $client['birth'] = Carbon::parse($client['birth'])->format('d M. Y');
+        $client['givendate'] = Carbon::parse($client['givendate'])->format('d M. Y');
+        return view('clients.edit', compact('client'));
+    }
+
+    public function update() {
+        return response()->json(['message' => 'Item not found'], 404);
     }
 
     public function store(Request $request) {
@@ -40,5 +52,13 @@ class ClientController extends Controller
     {
         Client::destroy($id);
         return redirect()->route('clients');
+    }
+
+    public function searchOne(Request $request) {
+        $data = $request->all()['data'];
+        $clients = Client::where('firstname', 'LIKE','%' . $data . '%')->
+        orWhere('name', 'LIKE','%' . $data . '%')->
+        orWhere('fathersname', 'LIKE','%' . $data . '%')->get();
+        return view('contracts.apartments.clientsOption', compact('clients'))->render();
     }
 }
