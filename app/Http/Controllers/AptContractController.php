@@ -47,7 +47,6 @@ class AptContractController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
         $apartment = Apartment::find($data['apt_id']);
         $apartment->update([
             'price' => $data['price'],

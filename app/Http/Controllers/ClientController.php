@@ -56,9 +56,13 @@ class ClientController extends Controller
 
     public function searchOne(Request $request) {
         $data = $request->all()['data'];
-        $clients = Client::where('firstname', 'LIKE','%' . $data . '%')->
-        orWhere('name', 'LIKE','%' . $data . '%')->
-        orWhere('fathersname', 'LIKE','%' . $data . '%')->get();
-        return view('contracts.apartments.clientsOption', compact('clients'))->render();
+        if($data) {
+            $clients = Client::where('firstname', 'LIKE', '%' . $data . '%')->
+            orWhere('name', 'LIKE', '%' . $data . '%')->
+            orWhere('fathersname', 'LIKE', '%' . $data . '%')->get();
+        }else {
+            $clients = null;
+        }
+        return view('contracts.apartments.client-tooltip', compact('clients'))->render();
     }
 }

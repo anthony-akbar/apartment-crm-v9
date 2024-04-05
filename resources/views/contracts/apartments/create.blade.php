@@ -6,6 +6,7 @@
         <h2 class="text-lg font-medium mr-auto pl-5">
             Новый договор
         </h2>
+
         <div class="box w-auto ml-auto sm:ml-0">
             <div class="mx-3">
                 <div class="py-2">
@@ -17,7 +18,7 @@
                                     Дата заключения
                                 </label>
                                 <input data-tw-merge id="created_at"
-                                    type="text" data-single-mode="true" class="h-10 pt-1 disabled:bg-slate-100 disabled:cursor-not-allowed dark:disabled:bg-darkmode-800/50 dark:disabled:border-transparent
+                                       type="text" data-single-mode="true" class="h-10 pt-1 disabled:bg-slate-100 disabled:cursor-not-allowed dark:disabled:bg-darkmode-800/50 dark:disabled:border-transparent
                                     [&amp;amp;[readonly]]:bg-slate-100 [&amp;amp;[readonly]]:cursor-not-allowed [&amp;amp;[readonly]]:dark:bg-darkmode-800/50 [&amp;amp;[readonly]]:dark:border-transparent
                                     transition duration-200 ease-in-out w-full text-sm border-slate-200 shadow-sm rounded-md placeholder:text-slate-400/90 focus:ring-4 focus:ring-primary focus:ring-opacity-20
                                     focus:border-primary focus:border-opacity-40 dark:bg-darkmode-800 dark:border-transparent dark:focus:ring-slate-700 dark:focus:ring-opacity-50 dark:placeholder:text-slate-500/80
@@ -46,24 +47,42 @@
         <div class="grid grid-cols-2">
             <div class="mx-3 grid-cols-1 intro-x">
                 <div class="box p-5 rounded-md">
-                    <!-- BEGIN: Basic Select -->
-                    <div class="form-inline text-center">
-                        <label class="form-label"> Клиент</label>
-                        <div class="mt-2">
-                            <select name="client_id" id="client_id" data-placeholder="Select your favorite actors"
-                                    class="form-control tom-select w-full">
-                                @foreach($clients as $client)
-                                    <option value="{{ $client->id }}">{{ $client->firstname }} {{ $client->name }} <span
-                                            class="text-opacity-70">{{ $client->passportId }}</span></option>
-                                @endforeach
-                            </select>
+                    <div class="form-inline">
+                        <label for="client-id-show" class="form-label sm:w-20">Клиент</label>
+                        <!-- BEGIN: Search -->
+                        <div id="clients-search" class="intro-x relative mr-3 sm:mr-6">
+                            <div class="search hidden sm:block">
+                                <input id="client-search" type="text" class="search__input form-control" placeholder="Поиск...">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round" icon-name="search" data-lucide="search"
+                                     class="lucide lucide-search search__icon dark:text-slate-500">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </div>
+                            <a class="notification notification--light sm:hidden" href="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round" icon-name="search" data-lucide="search"
+                                     class="lucide lucide-search notification__icon dark:text-slate-500">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </a>
+                            <div class="search-result" style="max-height: 30vh">
+                                <div id="client-search-result__content">
+                                    <div class="search-result__content hidden"></div>
+                                </div>
+                            </div>
                         </div>
+                        <!-- END: Search -->
+                        <input id="client-id-show" type="text" disabled class="form-control" placeholder="Иванов Иван">
+                        <input id="client-id-hidden" name="client_id" type="number" class="hidden form-control" placeholder="">
                     </div>
-                    <!-- END: Basic Select -->
                     <div class="w-full border-t border-slate-200/60 dark:border-darkmode-400 mt-3"></div>
 
                     <div class="client-details">
-
                         <div class="grid grid-cols-2 mt-3">
                             <div class="grid-cols-1">
                                 <div class="w-2/4 flex-none">
@@ -339,14 +358,39 @@
 @section('script')
 
     <script>
+        $('#client-search').focus(function () {
+            $('#clients-search .search').removeClass('hidden')
+            $('#clients-search .search-result').addClass('show')
+        })
+        $('#client-search').blur(function () {
+            $('#clients-search .search').addClass('hidden')
+            $('#clients-search .search-result').removeClass('show')
+        })
+        $('#client-search').on('keyup', function () {
+            let pattern = $('#client-search').val()
+
+            $.ajax({
+                url: '{{ route('clients.searchOne') }}',
+                data: {
+                    'data': pattern
+                },
+                type: 'GET',
+                success: function (data) {
+                    console.log(data)
+                    let table = document.getElementById('client-search-result__content')
+                    table.innerHTML = data
+                }
+            })
+
+        })
+
         $('#created_at').change(() => {
             $('#created_at-hidden').val($('#created_at').val())
             console.log($('#created_at-hidden').val())
         })
 
         // Clients logics JS
-        function onClientChange() {
-            let id = $('#client_id').val();
+        function onClientChange(id) {
             $.ajax({
                 url: '{{ route('clients.search') }}',
                 data: {
@@ -359,6 +403,8 @@
                     $('#address_show').text(data['address'])
                     $('#email_show').text(data['email'] !== null ? data['email'] : '- - - - - - - -')
                     $('#phone_show').text(data['phone'])
+                    $('#client-id-hidden').val(data['id'])
+                    $('#client-id-show').val(data['firstname'] + ' ' + data['name'] + ' ' + data['fathersname'])
                 }
             })
         }
@@ -431,7 +477,7 @@
         $('#currency-value').keyup(onPriceChange)
         $('#checkbox-switch-7').change(onPriceChange)
 
-        $('.dropdown-input').keyup(function () {
+        $(document).ready(function () {
             let id = $(this).val();
             console.log(id);
             $.ajax({
@@ -441,9 +487,10 @@
                 },
                 type: 'GET',
                 success: function (data) {
-                    $('#client_id').html(data)
+                    $('#client_id-ts-dropdown').html(data)
                 }
             })
+            console.log($('#client_id-ts-dropdown').val())
         })
 
     </script>
