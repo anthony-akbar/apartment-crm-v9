@@ -30,20 +30,16 @@
                         <div class="intro-x mt-2 text-slate-400 xl:hidden text-center">
                         </div>
                         <div class="intro-x mt-8">
-                            <input type="email" name="email" class="intro-x login__input form-control py-3 px-4 block"
+                            <input type="email" name="email" class="intro-x {{ $errors->has('email') ? 'border-danger' : '' }} login__input form-control py-3 px-4 block"
                                    placeholder="Логин" required autocomplete="email" autofocus>
                             @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                            <div class="text-danger mt-2">{{ $message }}</div>
                             @enderror
                             <input type="password" name="password"
-                                   class="intro-x login__input form-control py-3 px-4 block mt-4"
+                                   class="intro-x login__input form-control {{ $errors->has('password') ? 'border-danger' : '' }} py-3 px-4 block mt-4"
                                    placeholder="Пароль" required autocomplete="current-password">
                             @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                            <div class="text-danger mt-2">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="intro-x mt-5 xl:mt-8 text-center xl:text-left">
@@ -58,5 +54,6 @@
             <!-- END: Login Form -->
         </div>
     </div>
+
 
 @endsection
