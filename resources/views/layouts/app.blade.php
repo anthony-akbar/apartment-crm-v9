@@ -9,7 +9,8 @@
 </head>
 <body class="login">
 @yield('content')
-<scripts src="{{asset('dist/js/app.js')}}"></scripts>
+<script src="{{asset('dist/js/app.js')}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @yield('scripts')
 </body>
 </html>
