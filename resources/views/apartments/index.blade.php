@@ -131,18 +131,17 @@
                                             </div>
                                             <div class="mt-2">
                                                 <select id="status-select"
-                                                        onchange="redirect(this, {{ $apartment->id }})"
                                                         class="tom-select w-full">
                                                     <option
-                                                        value="1" {{ $apartment->status === 1 ? 'selected="true"' : '' }}>
+                                                        value="1">
                                                         СВОБОДНО
                                                     </option>
                                                     <option
-                                                        value="2" {{ $apartment->status === 2 ? 'selected="true"' : '' }}>
+                                                        value="2">
                                                         БРОНЬ
                                                     </option>
                                                     <option
-                                                        value="3" {{ $apartment->status === 3 ? 'selected="true"' : '' }}>
+                                                        value="3">
                                                         ПРОДАНО
                                                     </option>
                                                 </select>
@@ -154,8 +153,8 @@
                                             </div>
                                             <div class="mt-1.5 flex items-center">
                                                 <div
-                                                    class="text-base">{{ $apartment->rooms }}
-                                                    комнат{{ $apartment->rooms === 1 ? 'а' : '' }}</div>
+                                                    class="text-base">
+                                                    комнат</div>
                                             </div>
                                             <div
                                                 class="text-left text-slate-500 text-xs mt-5">
@@ -163,7 +162,7 @@
                                             </div>
                                             <div class="mt-1.5 flex items-center">
                                                 <div
-                                                    class="text-base">{{ $apartment->block ?? '1' }}</div>
+                                                    class="text-base"></div>
                                             </div>
                                             <div
                                                 class="text-left text-slate-500 text-xs mt-5">
@@ -171,8 +170,8 @@
                                             </div>
                                             <div class="mt-1.5 flex items-center">
                                                 <div
-                                                    class="text-left text-base">{{ number_format($apartment->total ?? 0, 0, '.', ' ') }} {{ $apartment->currency }}</div>
-                                            </div>
+                                                    class="text-left text-base"></div>
+                                            </div>{{--
                                             @if($apartment->client !== null)
                                                 <div
                                                     class="text-left text-slate-500 text-xs mt-5">
@@ -180,9 +179,9 @@
                                                 </div>
                                                 <div class="mt-1.5 flex items-center">
                                                     <div
-                                                        class="text-left text-base">{{ $apartment->client->firstname . ' ' . $apartment->client->name ?? '- - - -' }}</div>
+                                                        class="text-left text-base"></div>
                                                 </div>
-                                            @endif
+                                            @endif--}}
                                         </div>
 
                                     </div>
