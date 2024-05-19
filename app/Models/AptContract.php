@@ -19,7 +19,8 @@ class AptContract extends Model
         'paid',
         'debt',
         'days_missed',
-        'currency'
+        'currency',
+        'created_at'
     ];
 
     public function client() {

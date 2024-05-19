@@ -105,11 +105,12 @@
                             <div class="grid-cols-1">
                                 <div class="w-full">
                                     <select name="article_id" id="article_id" class="form-control tom-select">
-                                        @foreach($articles as $article)
-                                            <option value="{{ $article->id }}">
-                                                {{ $article->title }}
-                                            </option>
-                                        @endforeach
+                                        <option value="1">Оплата за квартиру</option>
+                                        <option value="2">Полная оплата за квартиру</option>
+                                        <option value="3">Оплата за коммерческое помещение</option>
+                                        <option value="4">Полная оплата за комерческое помещение</option>
+                                        <option value="5">Оплата за парковочное место</option>
+                                        <option value="6">Полная оплата за парковочное место</option>
                                     </select>
                                 </div>
                                 <div class="mt-2 flex-none">

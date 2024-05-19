@@ -38,9 +38,8 @@ class PaymentsController extends Controller
 
     public function store(Request $request) {
         $data = $request->all();
-        dd($data);
-        if(array_key_exists('auto', $data)){
 
+        if(array_key_exists('auto', $data)){
             Auto::create([
                 'make'=>$data['make'],
                 'model'=>$data['model'],
@@ -62,8 +61,8 @@ class PaymentsController extends Controller
                 'client_id' => $data['client_id'],
                 'contract_id' => $data['contract_id'],
                 'article_id' => $data['article_id'],
-                'amount_kgs' => $data['amount_kgs'],
-                'amount_usd' => $data['amount_usd'],
+                'amount_kgs' => $data['amount_kgs'] ?? 0,
+                'amount_usd' => $data['amount_usd'] ?? 0,
                 'amount' => (int)$data['total']
             ]);
         }

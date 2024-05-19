@@ -47,6 +47,7 @@ class AptContractController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        //dd(Carbon::parse($data['created_at'])->format('Y-m-d H:i:s'));
         $apartment = Apartment::find($data['apt_id']);
         $apartment->update([
             'price' => $data['price'],
@@ -55,29 +56,33 @@ class AptContractController extends Controller
             'client_id' => $data['client_id'],
             'currency'=>$data['currency']
         ]);
-        if($data['currency'] === 'KGS') {
-            $contract = AptContract::create([
-                'apt_id' => $data['apt_id'],
-                'client_id' => $data['client_id'],
-                'price' => $data['price'] * $data['currency-value'],
-                'amount' => $data['amount'] * $data['currency-value'],
-                'paid' => 0,
-                'currency' => 'KGS',
-                'debt' => $data['amount'] * $data['currency-value'],
-                'days_missed' => array_key_exists('schedule_charges_free', $data) ? $data['schedule_charges_free'] : 0,
+
+        $contract = AptContract::create([
+            'apt_id' => $data['apt_id'],
+            'client_id' => $data['client_id'],
+            'price' => $data['price'] * $data['currency-value'],
+            'amount' => $data['amount'] * $data['currency-value'],
+            'paid' => 0,
+            'currency' => $data['currency'],
+            'debt' => $data['amount'] * $data['currency-value'],
+            'days_missed' => array_key_exists('schedule_charges_free', $data) ? $data['schedule_charges_free'] : 0,
+            'created_at' => Carbon::parse($data['created_at'])->format('Y-m-d H:i:s'),
             ]);
+
+        /*if($data['currency'] === 'KGS') {
+
         }else {
             $contract = AptContract::create([
                 'apt_id' => $data['apt_id'],
                 'client_id' => $data['client_id'],
                 'price' => $data['price'],
                 'amount' => $data['amount'],
-                'paid' => 0,
+                'paid' => $data['first_payment'] ?? 0,
                 'currency' => 'USD',
                 'debt' => $data['amount'],
                 'days_missed' => array_key_exists('schedule_charges_free', $data) ? $data['schedule_charges_free'] : 0,
             ]);
-        }
+        }*/
 
         if (array_key_exists('schedule', $data)) {
                 Schedule::create([

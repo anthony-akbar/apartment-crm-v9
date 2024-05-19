@@ -348,7 +348,7 @@
 
         <div class="flex intro-x justify-end flex-col md:flex-row gap-2 mt-5">
             <a type="button" class="btn py-3 border-slate-300 dark:border-darkmode-400 text-slate-500 w-full md:w-52">Cancel</a>
-            <button type="submit" class="btn py-3 btn-primary w-full md:w-52">Save</button>
+            <button onclick="created()" type="submit" class="btn py-3 btn-primary w-full md:w-52">Save</button>
         </div>
 
     </form>
@@ -383,11 +383,10 @@
             })
 
         })
-
-        $('#created_at').change(() => {
+        function created () {
             $('#created_at-hidden').val($('#created_at').val())
             console.log($('#created_at-hidden').val())
-        })
+        }
 
         // Clients logics JS
         function onClientChange(id) {
